@@ -36,7 +36,8 @@ NSExtensionItem *item = [NSExtensionItem xExtensionItemWithTitle:@"Apple"
                                                             tags:@[@"apple", @"ipad", @"ios"]
                                                         userInfo:@{ @"tumblr-custom-url": @"/ipad-air-2"}];
 
-UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[item] applicationActivities:nil];```
+UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[item] applicationActivities:nil];
+```
 
 ### Extensions
 
