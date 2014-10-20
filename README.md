@@ -42,10 +42,10 @@ UIActivityViewController *controller = [[UIActivityViewController alloc] initWit
 ### Extensions
 
 ```objc
-    [self.extensionContext.inputItems enumerateObjectsUsingBlock:^(NSExtensionItem *item, NSUInteger idx, BOOL *stop) {
-        NSString *title = item.xExtensionTitle;
-        NSString *contentText = item.xExtensionContentText;
-        NSArray *tags = item.xExtensionTags;
-        NSString *customTumblrURL = item.userInfo[@"tumblr-custom-url"];
-    }];
+[self.extensionContext.inputItems enumerateObjectsUsingBlock:^(NSExtensionItem *item, NSUInteger idx, BOOL *stop) {
+    NSString *title = item.xExtensionTitle;
+    NSString *contentText = item.xExtensionContentText;
+    NSArray *tags = item.xExtensionTags;
+    NSString *customTumblrURL = item.userInfo[@"tumblr-custom-url"];
+}];
 ```
