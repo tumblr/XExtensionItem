@@ -23,8 +23,8 @@ static NSString * const XExtensionItemParameterKeyTags = @"x-extension-item-tags
         return string ? [[NSAttributedString alloc] initWithString:string] : nil;
     };
     
-    return [self xExtensionItemWithAttributedTitle:nilSafeAttributedStringFromString(attributedTitle)
-                             attributedContentText:nilSafeAttributedStringFromString(attributedContentText)
+    return [self xExtensionItemWithAttributedTitle:nilSafeAttributedStringFromString(title)
+                             attributedContentText:nilSafeAttributedStringFromString(contentText)
                                        attachments:attachments
                                               tags:tags
                                           userInfo:userInfo];
