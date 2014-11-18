@@ -14,7 +14,7 @@ Rather than populating `activityItems` with multiple objects and losing support 
 
 ## Usage
 
-X-Extension-Item currently supports the following generic parameters (more information on each parameter can be found in the `XExtensionItemParameters` [header documentation](blob/master/XExtensionItem/XExtensionItemParameters.h)):
+X-Extension-Item currently supports the following generic parameters (more information on each parameter can be found in the `XExtensionItemParameters` [header documentation](XExtensionItem/XExtensionItemParameters.h)):
 
 * Tags
 * Source URL
