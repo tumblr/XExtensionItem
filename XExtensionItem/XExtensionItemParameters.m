@@ -1,6 +1,7 @@
 #import "XExtensionItemParameters.h"
 #import "XExtensionItemSourceApplication.h"
 
+static NSString * const XExtensionItemParameterKeyReservedPrefix = @"x-extension-item-";
 static NSString * const XExtensionItemParameterKeyMIMETypesToContentRepresentations = @"x-extension-item-mime-types-to-content-representations";
 static NSString * const XExtensionItemParameterKeySourceURL = @"x-extension-item-source-url";
 static NSString * const XExtensionItemParameterKeySourceApplicationName = @"x-extension-item-source-application-name";
@@ -8,10 +9,6 @@ static NSString * const XExtensionItemParameterKeySourceApplicationStoreURL = @"
 static NSString * const XExtensionItemParameterKeySourceApplicationIconURL = @"x-extension-item-source-application-icon-url";
 static NSString * const XExtensionItemParameterKeyTags = @"x-extension-item-tags";
 static NSString * const XExtensionItemParameterKeyThumbnailURL = @"x-extension-item-thumbnail-url";
-
-@interface XExtensionItemParameters()
-
-@end
 
 @implementation XExtensionItemParameters
 
@@ -53,7 +50,7 @@ static NSString * const XExtensionItemParameterKeyThumbnailURL = @"x-extension-i
     [[XExtensionItemSourceApplication alloc] initWithAppName:extensionItem.userInfo[XExtensionItemParameterKeySourceApplicationName]
                                                  appStoreURL:extensionItem.userInfo[XExtensionItemParameterKeySourceApplicationStoreURL]
                                                      iconURL:extensionItem.userInfo[XExtensionItemParameterKeySourceApplicationIconURL]];
-    
+
     return [[self alloc] initWithAttributedTitle:extensionItem.attributedTitle
                            attributedContentText:extensionItem.attributedContentText
                                      attachments:extensionItem.attachments
@@ -90,13 +87,72 @@ static NSString * const XExtensionItemParameterKeyThumbnailURL = @"x-extension-i
      populating the `userInfo` dictionary with the following keys:
      * `NSExtensionItemAttributedTitleKey`,
      * `NSExtensionItemAttributedContentTextKey`
-     * `NSExtensionItemAttributedAttachmentsKey`.
+     * `NSExtensionItemAttachmentsKey`.
      */
     item.attachments = self.attachments;
     item.attributedTitle = self.attributedTitle;
     item.attributedContentText = self.attributedContentText;
     
     return item;
+}
+
+#pragma mark - NSObject
+
+- (NSString *)description {
+    NSMutableString *mutableDescription = [[NSMutableString alloc] initWithFormat:@"%@ { attachments: %@",
+                                           [super description], self.attachments];
+
+    if (self.attributedTitle) {
+        [mutableDescription appendFormat:@", attributedTitle: %@", self.attributedTitle];
+    }
+
+    if (self.attributedContentText) {
+        [mutableDescription appendFormat:@", attributedContentText: %@", self.attributedContentText];
+    }
+
+    if (self.tags) {
+        [mutableDescription appendFormat:@", tags: %@", self.tags];
+    }
+
+    if (self.sourceURL) {
+        [mutableDescription appendFormat:@", sourceURL: %@", self.sourceURL];
+    }
+
+    if (self.thumbnailURL) {
+        [mutableDescription appendFormat:@", thumbnailURL: %@", self.thumbnailURL];
+    }
+
+    if (self.sourceApplication) {
+        [mutableDescription appendFormat:@", sourceApplication: %@", self.sourceApplication];
+    }
+
+    if (self.MIMETypesToContentRepresentations) {
+        [mutableDescription appendFormat:@", MIMETypesToContentRepresentations: %@", self.MIMETypesToContentRepresentations];
+    }
+
+    if (self.userInfo) {
+        [mutableDescription appendFormat:@", userInfo: %@", ({
+            NSMutableDictionary *mutableUserInfo = [self.userInfo mutableCopy];
+            
+            // Remove values used internally by `NSExtensionItem`
+            [@[NSExtensionItemAttributedTitleKey, NSExtensionItemAttributedContentTextKey, NSExtensionItemAttachmentsKey] enumerateObjectsUsingBlock:^(NSString *key, NSUInteger keyIndex, BOOL *stop) {
+                [mutableUserInfo removeObjectForKey:key];
+            }];
+            
+            // Remove values used internally by `XExtensionItemParameters`
+            [[self.userInfo allKeys] enumerateObjectsUsingBlock:^(id key, NSUInteger keyIndex, BOOL *stop) {
+                if ([key isKindOfClass:[NSString class]] && [key hasPrefix:XExtensionItemParameterKeyReservedPrefix]) {
+                    [mutableUserInfo removeObjectForKey:key];
+                }
+            }];
+            
+            [mutableUserInfo copy];
+        })];
+    }
+
+    [mutableDescription appendFormat:@" }"];
+    
+    return [mutableDescription copy];
 }
 
 @end

@@ -131,11 +131,22 @@
 + (instancetype)parametersFromExtensionItem:(NSExtensionItem *)extensionItem;
 
 /**
- *  Create an immutable `XExtensionItemParameters` instance. Documentation for the arguments can be found on each of 
+ *  Create an immutable `XExtensionItemParameters` instance. Documentation for the arguments can be found on each of
  *  this class’s properties.
  *
- *  Immutable `XExtensionItemParamters` instances can also be created by copying an `XExtensionItemMutableParameters` 
+ *  Immutable `XExtensionItemParamters` instances can also be created by copying an `XExtensionItemMutableParameters`
  *  instance.
+ *
+ *
+ *  @param attributedTitle                   (Optional) See `attributedTitle` property
+ *  @param attributedContentText             (Optional) See `attributedContentText` property
+ *  @param attachments                       (Optional) See `attachments` property
+ *  @param tags                              (Optional) See `tags` property
+ *  @param sourceURL                         (Optional) See `sourceURL` property
+ *  @param thumbnailURL                      (Optional) See `thumbnailURL` property
+ *  @param sourceApplication                 (Optional) See `sourceApplication` property
+ *  @param MIMETypesToContentRepresentations (Optional) See `MIMETypesToContentRepresentations` property
+ *  @param userInfo                          (Optional) See `userInfo` property
  */
 - (instancetype)initWithAttributedTitle:(NSAttributedString *)attributedTitle
                   attributedContentText:(NSAttributedString *)attributedContentText

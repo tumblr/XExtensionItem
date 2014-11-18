@@ -21,14 +21,16 @@
 @property (nonatomic, readonly) NSURL *iconURL;
 
 /**
- *  See this class’s properties for argument documentation.
+ *  @param appName     (Optional) See `appName` property
+ *  @param appStoreURL (Optional) See `appStoreURL` property
+ *  @param iconURL     (Optional) See `iconURL` property
  */
 - (instancetype)initWithAppName:(NSString *)appName appStoreURL:(NSURL *)appStoreURL iconURL:(NSURL *)iconURL NS_DESIGNATED_INITIALIZER;
 
 /**
- *  @param bundle      Bundle where the human-readable, localized bundle name should be retrieved from.
- *  @param appStoreURL See `appStoreURL` property
- *  @param iconURL     See `iconURL` property
+ *  @param bundle      (Optional) Bundle where the human-readable, localized bundle name should be retrieved from.
+ *  @param appStoreURL (Optional) See `appStoreURL` property
+ *  @param iconURL     (Optional) See `iconURL` property
  */
 - (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle appStoreURL:(NSURL *)appStoreURL iconURL:(NSURL *)iconURL;
 

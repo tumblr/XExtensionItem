@@ -24,6 +24,30 @@
 
 #pragma mark - NSObject
 
+- (NSString *)description {
+    NSMutableString *mutableDescription = [[NSMutableString alloc] initWithString:[super description]];
+    
+    NSMutableArray *descriptionComponents = [[NSMutableArray alloc] init];
+
+    if (self.appName) {
+        [descriptionComponents addObject:[NSString stringWithFormat:@"appName: %@", self.appName]];
+    }
+    
+    if (self.appStoreURL) {
+        [descriptionComponents addObject:[NSString stringWithFormat:@"appStoreURL: %@", self.appStoreURL]];
+    }
+    
+    if (self.iconURL) {
+        [descriptionComponents addObject:[NSString stringWithFormat:@"iconURL: %@", self.iconURL]];
+    }
+    
+    if ([descriptionComponents count] > 0) {
+        [mutableDescription appendFormat:@"{ %@ }", [descriptionComponents componentsJoinedByString:@", "]];
+    }
+    
+    return [mutableDescription copy];
+}
+
 - (BOOL)isEqual:(id)object {
     if (object == self) {
         return YES;
