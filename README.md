@@ -14,6 +14,8 @@ Rather than populating `activityItems` with multiple objects and losing support 
 
 ## Usage
 
+### Generic parameters
+
 X-Extension-Item currently supports the following generic parameters (more information on each parameter can be found in the `XExtensionItemParameters` [header documentation](XExtensionItem/XExtensionItemParameters.h)):
 
 * Tags
@@ -25,6 +27,10 @@ X-Extension-Item currently supports the following generic parameters (more infor
     * Icon URL
 * MIME types mapped to alternative content representations
 
+If you have an idea for a parameter that would be broadly useful (e.g. not specific to a specific share extension or service), please create an [issue](/issues) or open a [pull request](/pulls).
+
+### Custom parameters
+
 Extension developers can also publicize support for custom parameters that apps can pass in a “user info” dictionary. For example, the Tumblr extension might allow an app to pass in a custom URL for a post by populating a user info dictionary like:
 
 ```objc
@@ -33,7 +39,9 @@ Extension developers can also publicize support for custom parameters that apps 
 
 Custom parameter keys should *not* start with `x-extension-item-`, as parameters with this prefix are reserved for use by this library internally.
 
-### Apps
+### Examples
+
+#### Applications
 
 Application developers can use an `XExtensionItemParameters` object when presenting a `UIActivityViewController`:
 
@@ -48,7 +56,7 @@ UIActivityViewController *controller = [[UIActivityViewController alloc] initWit
                                                                          applicationActivities:nil];
 ```
 
-### Extensions
+#### Extensions
 
 Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItemParameters` 
 objects:
