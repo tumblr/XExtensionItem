@@ -1,0 +1,17 @@
+{
+  "name": "XExtensionItem",
+  "version": "0.1.0",
+  "summary": "Easier sharing between iOS applications and share extensions.",
+  "authors" : { 
+    "Bryan Irace": "bryan@irace.me"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "frameworks": [
+    "Foundation", 
+    "UIKit"
+  ],
+  "source_files": "XExtensionItem/**/*.{h,m}"
+}
