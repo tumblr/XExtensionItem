@@ -10,13 +10,20 @@ Currently, share extensions have an [unfortunate limitation](https://github.com/
 * The application displays a `UIActivityViewController` and puts both an `NSURL` and `NSString` in its activity items array.
 * Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr would but Instapaper would not.
 
-Rather than populating `activityItems` with multiple objects and losing support for inflexible extensions, its best to use a single `NSExtensionItem` with metadata added to it. X-Extension-Item makes this easy by providing an API that provides type-safe access to generic metadata parameters that applications and extensions can populate without needing to worry about the implementation details of the app or extension on the other side of the handshake.
+Rather than populating `activityItems` with multiple objects and losing support for inflexible extensions, its best to use a single `NSExtensionItem` with metadata added to it. X-Extension-Item makes this easy by exposing an API that provides type-safe access to generic metadata parameters that applications and extensions can populate without needing to worry about the implementation details of the app or extension on the other side of the handshake.
 
 ## Usage
 
-X-Extension-Item currently supports the following generic parameters:
+X-Extension-Item currently supports the following generic parameters (more information on each parameter can be found in the `XExtensionItemParameters` [header documentation](blob/master/XExtensionItem/XExtensionItemParameters.h)):
 
 * Tags
+* Source URL
+* Thumbnail URL
+* Source application
+    * Name
+    * App store URL
+    * Icon URL
+* MIME types mapped to alternative content representations
 
 Extension developers can also publicize support for custom parameters that apps can pass in a “user info” dictionary. For example, the Tumblr extension might allow an app to pass in a custom URL for a post by populating a user info dictionary like:
 
@@ -24,28 +31,34 @@ Extension developers can also publicize support for custom parameters that apps 
 @{ @"tumblr-custom-url": @"/post/123/best-post-ever" }
 ```
 
-Custom parameter keys should *not* start with `x-extension-item`, as parameters with this prefix are reserved for use by this library internally.
+Custom parameter keys should *not* start with `x-extension-item-`, as parameters with this prefix are reserved for use by this library internally.
 
 ### Apps
 
-```objc
-NSExtensionItem *item = [NSExtensionItem xExtensionItemWithTitle:@"Apple"
-                                                     contentText:@"iPad Air 2. Change is in the air"
-                                                     attachments:@[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://apple.com"]
-                                                                                         typeIdentifier:(__bridge NSString *)kUTTypeURL]]
-                                                            tags:@[@"apple", @"ipad", @"ios"]
-                                                        userInfo:@{ @"tumblr-custom-url": @"/ipad-air-2"}];
+Application developers can use an `XExtensionItemParameters` object when presenting a `UIActivityViewController`:
 
-UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[item] applicationActivities:nil];
+```objc
+XExtensionItemMutableParameters *parameters = [[XExtensionItemMutableParameters alloc] init];
+parameters.attachments = @[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://apple.com"]
+                                                 typeIdentifier:(__bridge NSString *)kUTTypeURL]];
+parameters.attributedTitle = [[NSAttributedString alloc] initWithString:@"Apple"];
+parameters.attributedContentText = [[NSAttributedString alloc] initWithString:@"iPad Air 2. Change is in the air"];
+
+UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[parameters extensionItemRepresentation]
+                                                                         applicationActivities:nil];
 ```
 
 ### Extensions
 
+Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItemParameters` 
+objects:
+
 ```objc
 [self.extensionContext.inputItems enumerateObjectsUsingBlock:^(NSExtensionItem *item, NSUInteger idx, BOOL *stop) {
-    NSString *title = item.xExtensionTitle;
-    NSString *contentText = item.xExtensionContentText;
-    NSArray *tags = item.xExtensionTags;
-    NSString *customTumblrURL = item.userInfo[@"tumblr-custom-url"];
+    XExtensionItemParameters *parameters = [XExtensionItemParameters parametersFromExtensionItem:item];
+    NSAttributedString *title = parameters.attributedTitle;
+    NSAttributedString *contentText = parameters.attributedContentText;
+    NSArray *tags = parameters.tags;
+    NSString *customTumblrURL = parameters.userInfo[@"tumblr-custom-url"];
 }];
 ```

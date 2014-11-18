@@ -42,7 +42,7 @@
  *
  *  ## Extension developers
  *
- *  Convert incoming `NSExtensionItem` instance retrieved from an extension context into `XExtensionItemParameters` 
+ *  Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItemParameters` 
  *  objects:
  *
  *  ```objc
