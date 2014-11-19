@@ -2,7 +2,12 @@
 
 XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a `UIActivityViewController`.
 
+We’d love your [thoughts](/issues) on how XExtensionItem could better achieve its goal of allowing apps to provide generically useful metadata parameters to share extensions. This library’s value comes from how useful it is for *all* apps and extensions. Having been developed by a single contributor thus far, your feedback will be hugely beneficial to me.
+
+:warn::warn::warn: ***XExtensionItem is very much a rough work in progress. We very much want to incorporate feedback from both app and extension developers, but I’d hesitate to ship any code that depends on it until 1.0 is released, signifying that the API has stabilized.*** :warn::warn::warn:
+
 * [Why](#why)
+* [Getting started](#getting-started)
 * [Usage](#usage)
     * [Generic parameters](#generic-parameters)
     * [Custom parameters](#custom-parameters)
@@ -22,6 +27,10 @@ Currently, share extensions have an [unfortunate limitation](https://github.com/
 * Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr would be displayed in the activity controller but Instapaper would not.
 
 Rather than populating `activityItems` with multiple objects and losing support for inflexible extensions, its best to use a single `NSExtensionItem` with metadata added to it. XExtensionItem makes this easy by exposing an API that provides type-safe access to generic metadata parameters that applications and extensions can populate without needing to worry about the implementation details of the app or extension on the other side of the handshake.
+
+## Getting started
+
+XExtensionItem will be available via [CocoaPods](http://cocoapods.org) once it gets closer to 1.0 (since who knows, maybe the [name will change](https://github.com/tumblr/XExtensionItem/issues/2) before then).
 
 ## Usage
 
