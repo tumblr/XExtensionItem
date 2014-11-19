@@ -6,7 +6,7 @@ We’d love your [thoughts](/issues) on how XExtensionItem could better achieve 
 
 :warning::warning::warning: ***XExtensionItem is very much a rough work in progress. We’d love to incorporate feedback from app and extension developers alike, but I’d warn against ship any code that depends on it until 1.0 is released, signifying that the API has stabilized.*** :warning::warning::warning:
 
-* [Why](#why)
+* [Why?](#why)
 * [Getting started](#getting-started)
 * [Usage](#usage)
     * [Generic parameters](#generic-parameters)
