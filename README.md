@@ -2,6 +2,17 @@
 
 XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a `UIActivityViewController`.
 
+* [Why](#why)
+* [Usage](#usage)
+    * [Generic parameters](#generic-parameters)
+    * [Custom parameters](#custom-parameters)
+    * [Examples](#examples)
+        * [Applications](#applications)
+        * [Extensions](#extensions)
+* [Apps that use XExtensionItem](#apps-that-use-xextensionitem)
+* [Contact](#contact)
+* [License](#license)
+
 ## Why?
 
 Currently, share extensions have an [unfortunate limitation](https://github.com/tumblr/ios-extension-issues/issues/5) which causes only applications that explicitly accept *all* provided activity item types to show up in a `UIActivityViewController`. This makes it difficult to share multiple pieces of data without causing extensions that aren’t as flexible with their allowed inputs to not show up at all. Consider the following example:
@@ -70,6 +81,10 @@ objects:
     NSString *customTumblrURL = parameters.userInfo[@"tumblr-custom-url"];
 }];
 ```
+
+## Apps that use XExtensionItem
+
+Please create a [pull request](/pulls) or [let us know](#contact) if you're using XExtensionItem in either your application or your extension.
 
 ## Contact
 
