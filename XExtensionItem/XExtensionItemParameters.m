@@ -8,7 +8,7 @@ static NSString * const XExtensionItemParameterKeySourceApplicationName = @"x-ex
 static NSString * const XExtensionItemParameterKeySourceApplicationStoreURL = @"x-extension-item-source-application-store-url";
 static NSString * const XExtensionItemParameterKeySourceApplicationIconURL = @"x-extension-item-source-application-icon-url";
 static NSString * const XExtensionItemParameterKeyTags = @"x-extension-item-tags";
-static NSString * const XExtensionItemParameterKeyThumbnailURL = @"x-extension-item-thumbnail-url";
+static NSString * const XExtensionItemParameterKeyImageURL = @"x-extension-item-image-url";
 
 @implementation XExtensionItemParameters
 
@@ -29,7 +29,7 @@ static NSString * const XExtensionItemParameterKeyThumbnailURL = @"x-extension-i
         _attachments = [attachments copy];
         _tags = [tags copy];
         _sourceURL = [sourceURL copy];
-        _thumbnailURL = [thumbnailURL copy];
+        _imageURL = [thumbnailURL copy];
         _sourceApplication = sourceApplication;
         _MIMETypesToContentRepresentations = [MIMETypesToContentRepresentations copy];
         _userInfo = [userInfo copy];
@@ -46,19 +46,38 @@ static NSString * const XExtensionItemParameterKeyThumbnailURL = @"x-extension-i
 #pragma mark - NSExtensionItem conversion
 
 + (instancetype)parametersFromExtensionItem:(NSExtensionItem *)extensionItem {
+    id (^typeSafeUserInfoValue)(NSString *, Class) = ^NSString *(NSString *key, Class class) {
+        id value = extensionItem.userInfo[key];
+        
+        if ([value isKindOfClass:class]) {
+            return value;
+        }
+        else {
+            return nil;
+        }
+    };
+    
+    NSString *(^typeSafeUserInfoString)(NSString *) = ^NSString *(NSString *key) {
+        return typeSafeUserInfoValue(key, [NSString class]);
+    };
+    
+    NSURL *(^typeSafeUserInfoURL)(NSString *) = ^NSURL *(NSString *key) {
+        return typeSafeUserInfoValue(key, [NSURL class]);
+    };
+    
     XExtensionItemSourceApplication *sourceApplication =
-    [[XExtensionItemSourceApplication alloc] initWithAppName:extensionItem.userInfo[XExtensionItemParameterKeySourceApplicationName]
-                                                 appStoreURL:extensionItem.userInfo[XExtensionItemParameterKeySourceApplicationStoreURL]
-                                                     iconURL:extensionItem.userInfo[XExtensionItemParameterKeySourceApplicationIconURL]];
+    [[XExtensionItemSourceApplication alloc] initWithAppName:typeSafeUserInfoString(extensionItem.userInfo[XExtensionItemParameterKeySourceApplicationName])
+                                                 appStoreURL:typeSafeUserInfoURL(extensionItem.userInfo[XExtensionItemParameterKeySourceApplicationStoreURL])
+                                                     iconURL:typeSafeUserInfoURL(extensionItem.userInfo[XExtensionItemParameterKeySourceApplicationIconURL])];
 
     return [[self alloc] initWithAttributedTitle:extensionItem.attributedTitle
                            attributedContentText:extensionItem.attributedContentText
                                      attachments:extensionItem.attachments
-                                            tags:extensionItem.userInfo[XExtensionItemParameterKeyTags]
-                                       sourceURL:extensionItem.userInfo[XExtensionItemParameterKeySourceURL]
-                                    thumbnailURL:extensionItem.userInfo[XExtensionItemParameterKeyThumbnailURL]
+                                            tags:typeSafeUserInfoValue(extensionItem.userInfo[XExtensionItemParameterKeyTags], [NSArray class])
+                                       sourceURL:typeSafeUserInfoURL(extensionItem.userInfo[XExtensionItemParameterKeySourceURL])
+                                    thumbnailURL:typeSafeUserInfoURL(extensionItem.userInfo[XExtensionItemParameterKeyImageURL])
                                sourceApplication:sourceApplication
-               MIMETypesToContentRepresentations:extensionItem.userInfo[XExtensionItemParameterKeyMIMETypesToContentRepresentations]
+               MIMETypesToContentRepresentations:typeSafeUserInfoValue(extensionItem.userInfo[XExtensionItemParameterKeyMIMETypesToContentRepresentations], [NSDictionary class])
                                         userInfo:extensionItem.userInfo];
 }
 
@@ -76,7 +95,7 @@ static NSString * const XExtensionItemParameterKeyThumbnailURL = @"x-extension-i
         [mutableUserInfo setValue:self.sourceApplication.iconURL forKey:XExtensionItemParameterKeySourceApplicationIconURL];
         
         [mutableUserInfo setValue:self.sourceURL forKey:XExtensionItemParameterKeySourceURL];
-        [mutableUserInfo setValue:self.thumbnailURL forKey:XExtensionItemParameterKeyThumbnailURL];
+        [mutableUserInfo setValue:self.imageURL forKey:XExtensionItemParameterKeyImageURL];
         [mutableUserInfo setValue:self.MIMETypesToContentRepresentations forKey:XExtensionItemParameterKeyMIMETypesToContentRepresentations];
         
         [mutableUserInfo copy];
@@ -118,8 +137,8 @@ static NSString * const XExtensionItemParameterKeyThumbnailURL = @"x-extension-i
         [mutableDescription appendFormat:@", sourceURL: %@", self.sourceURL];
     }
 
-    if (self.thumbnailURL) {
-        [mutableDescription appendFormat:@", thumbnailURL: %@", self.thumbnailURL];
+    if (self.imageURL) {
+        [mutableDescription appendFormat:@", thumbnailURL: %@", self.imageURL];
     }
 
     if (self.sourceApplication) {

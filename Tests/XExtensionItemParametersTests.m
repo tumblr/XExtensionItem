@@ -64,13 +64,13 @@
     XCTAssertEqualObjects(inputParams.sourceURL, outputParams.sourceURL);
 }
 
-- (void)testThumbnailURL {
+- (void)testImageURL {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.thumbnailURL = [NSURL URLWithString:@"http://tumblr.com/image.png"];
+    inputParams.imageURL = [NSURL URLWithString:@"http://tumblr.com/image.png"];
     
     XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
     
-    XCTAssertEqualObjects(inputParams.thumbnailURL, outputParams.thumbnailURL);
+    XCTAssertEqualObjects(inputParams.imageURL, outputParams.imageURL);
 }
 
 - (void)testSourceApplication {
@@ -100,6 +100,31 @@
     XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
     
     XCTAssertEqualObjects(inputParams.userInfo, outputParams.userInfo);
+}
+
+- (void)testTypeSafety {
+    // Try to break things by intentionally using the wrong types for these keys.
+    
+    NSExtensionItem *item = [[NSExtensionItem alloc] init];
+    item.userInfo = @{
+        @"x-extension-item-mime-types-to-content-representations": @[],
+        @"x-extension-item-source-url": @"",
+        @"x-extension-item-source-application-name": @[],
+        @"x-extension-item-source-application-store-url": @"",
+        @"x-extension-item-source-application-icon-url": @"",
+        @"x-extension-item-tags": @{},
+        @"x-extension-item-image-url": @""
+    };
+    
+    // Call methods that would only exist on the correct object types
+    
+    XExtensionItemParameters *params = [XExtensionItemParameters parametersFromExtensionItem:item];
+    XCTAssertNoThrow([params.MIMETypesToContentRepresentations allKeys]);
+    XCTAssertNoThrow([params.sourceURL absoluteString]);
+    XCTAssertNoThrow([params.sourceApplication.appName stringByAppendingString:@""]);
+    XCTAssertNoThrow([params.sourceApplication.appStoreURL absoluteString]);
+    XCTAssertNoThrow([params.sourceApplication.iconURL absoluteString]);
+    XCTAssertNoThrow([params.imageURL absoluteString]);
 }
 
 @end

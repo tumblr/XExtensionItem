@@ -42,7 +42,7 @@
  *
  *  ## Extension developers
  *
- *  Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItemParameters` 
+ *  Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItemParameters`
  *  objects:
  *
  *  ```objc
@@ -90,11 +90,11 @@
 @property (nonatomic, readonly) NSURL *sourceURL;
 
 /**
- *  An optional URL specifying a thumbnail image for the attachment data. If the attachment is an image, this may be the 
- *  URL to a smaller version, or if the attachment is a URL, it could be the same image that would be provided via Open 
- *  Graph meta tags.
+ *  An optional URL specifying a image for the attachment data. If the attachment is an image, this may be the URL to a 
+ *  smaller version, or if the attachment is a URL, it could be the same image that would be provided via Open Graph 
+ *  meta tags.
  */
-@property (nonatomic, readonly) NSURL *thumbnailURL;
+@property (nonatomic, readonly) NSURL *imageURL;
 
 /**
  *  An optional object specifying information about the application that is sharing this extension item.

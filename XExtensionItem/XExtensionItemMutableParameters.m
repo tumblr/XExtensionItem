@@ -8,7 +8,7 @@
 @synthesize attachments;
 @synthesize tags;
 @synthesize sourceURL;
-@synthesize thumbnailURL;
+@synthesize imageURL;
 @synthesize sourceApplication;
 @synthesize MIMETypesToContentRepresentations;
 @synthesize userInfo;
@@ -21,7 +21,7 @@
                                                                       attachments:self.attachments
                                                                              tags:self.tags
                                                                         sourceURL:self.sourceURL
-                                                                     thumbnailURL:self.thumbnailURL
+                                                                     thumbnailURL:self.imageURL
                                                                 sourceApplication:self.sourceApplication
                                                 MIMETypesToContentRepresentations:self.MIMETypesToContentRepresentations
                                                                          userInfo:self.userInfo];

@@ -18,7 +18,7 @@ X-Extension-Item currently supports the following generic parameters (more infor
 
 * Tags
 * Source URL
-* Thumbnail URL
+* Image URL
 * Source application
     * Name
     * App store URL
