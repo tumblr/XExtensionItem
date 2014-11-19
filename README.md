@@ -4,7 +4,7 @@ XExtensionItem is a tiny library allowing for easier sharing of structured data 
 
 We’d love your [thoughts](/issues) on how XExtensionItem could better achieve its goal of allowing apps to provide generically useful metadata parameters to share extensions. This library’s value comes from how useful it is for *all* apps and extensions. Having been developed by a single contributor thus far, your feedback will be hugely beneficial to me.
 
-:warn::warn::warn: ***XExtensionItem is very much a rough work in progress. We very much want to incorporate feedback from both app and extension developers, but I’d hesitate to ship any code that depends on it until 1.0 is released, signifying that the API has stabilized.*** :warn::warn::warn:
+:warning::warning::warning: ***XExtensionItem is very much a rough work in progress. We very much want to incorporate feedback from both app and extension developers, but I’d hesitate to ship any code that depends on it until 1.0 is released, signifying that the API has stabilized.*** :warning::warning::warning:
 
 * [Why](#why)
 * [Getting started](#getting-started)
