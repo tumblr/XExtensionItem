@@ -73,7 +73,7 @@ objects:
 
 ## Contact
 
-* [Bryan Irace](bryan@tumblr.com)
+[Bryan Irace](bryan@tumblr.com)
 
 ## License
 
