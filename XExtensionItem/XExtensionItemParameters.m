@@ -98,7 +98,7 @@ static NSString * const XExtensionItemParameterKeyImageURL = @"x-extension-item-
         [mutableUserInfo setValue:self.imageURL forKey:XExtensionItemParameterKeyImageURL];
         [mutableUserInfo setValue:self.MIMETypesToContentRepresentations forKey:XExtensionItemParameterKeyMIMETypesToContentRepresentations];
         
-        [mutableUserInfo copy];
+        mutableUserInfo;
     });
     
     /*

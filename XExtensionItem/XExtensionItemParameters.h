@@ -9,9 +9,9 @@
  *
  *  B) Extension developers who want to consume different types of data that a share extension may pass to them.
  *
- *  App developers with numerous types of data to share may be inclined to add instances of classes like `NSURL`, 
- *  `NSString`, or `UIImage` to their `UIActivityViewController`s' extension item arrays. This is problematic because 
- *  only extensions that explicitly accept *all* of the provided item types will be displayed in the controller. 
+ *  @discussion App developers with numerous types of data to share may be inclined to add instances of classes like 
+ *  `NSURL`, `NSString`, or `UIImage` to their `UIActivityViewController`s' extension item arrays. This is problematic 
+ *  because only extensions that explicitly accept *all* of the provided item types will be displayed in the controller. 
  
  *  A better way to provide extensions with as much data as possible is to configure `UIActivityViewController` with a
  *  single `NSExtensionItem` instance, with metadata added to its `userInfo` dictionary. This can be done manually, but
@@ -110,6 +110,10 @@
  *  For example, an application may include an `NSURL` in its extension item’s attachments array. It may then augment 
  *  that URL with a textual summary in the `attributedContentText` field and an HTML representation in this dictionary, 
  *  keyed off of the “text/html” MIME type string.
+ *
+ *  ```objc
+ *  parameters.MIMETypesToContentRepresentations = @{ @"text/html": @"<p>HTML</p> };
+ *  ```
  */
 @property (nonatomic, readonly) NSDictionary *MIMETypesToContentRepresentations;
 
