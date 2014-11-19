@@ -66,7 +66,7 @@
     NSUInteger hash = 17;
     hash += self.appName.hash;
     hash += self.appStoreURL.hash;
-    hash += self.iconURL.hash ;
+    hash += self.iconURL.hash;
     
     return hash * 39;
 }
