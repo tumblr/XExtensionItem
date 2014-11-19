@@ -1,11 +1,3 @@
-//
-//  XExtensionItemParametersTests.m
-//  Tests
-//
-//  Created by Bryan Irace on 11/18/14.
-//  Copyright (c) 2014 Bryan Irace. All rights reserved.
-//
-
 @import MobileCoreServices;
 @import UIKit;
 @import XCTest;
