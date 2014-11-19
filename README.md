@@ -19,7 +19,7 @@ Currently, share extensions have an [unfortunate limitation](https://github.com/
 
 * A developer wants their app’s users to be able to share a URL as well as some text to go along with it (perhaps the title of the page, or an excerpt from it). An extension for a read later service like Instapaper might only save the URL, but one for a social network like Tumblr or Twitter could incorporate both.
 * The application displays a `UIActivityViewController` and puts both an `NSURL` and `NSString` in its activity items array.
-* Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr would but Instapaper would not.
+* Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr would be displayed in the activity controller but Instapaper would not.
 
 Rather than populating `activityItems` with multiple objects and losing support for inflexible extensions, its best to use a single `NSExtensionItem` with metadata added to it. XExtensionItem makes this easy by exposing an API that provides type-safe access to generic metadata parameters that applications and extensions can populate without needing to worry about the implementation details of the app or extension on the other side of the handshake.
 
