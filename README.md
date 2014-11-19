@@ -48,6 +48,8 @@ Extension developers can also publicize support for custom parameters that apps 
 @{ @"tumblr-custom-url": @"/post/123/best-post-ever" }
 ```
 
+Have a look at the [apps that use XExtensionItem](#apps-that-use-xextensionitem) section for a list of some of the custom parameters that we know about.
+
 Custom parameter keys should *not* start with `x-extension-item-`, as parameters with this prefix are reserved for use by this library internally.
 
 ### Examples
