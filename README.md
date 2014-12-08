@@ -42,11 +42,12 @@ XExtensionItem currently supports the following generic parameters (more informa
 * Tags
 * Source URL
 * Image URL
+* Location
 * Source application
     * Name
-    * App store URL
+    * App store ID
     * Icon URL
-* MIME types mapped to alternative content representations
+* UTIs mapped to alternative content representations
 
 If you have an idea for a parameter that would be broadly useful (e.g. not specific to a specific share extension or service), please create an [issue](/issues) or open a [pull request](/pulls).
 
