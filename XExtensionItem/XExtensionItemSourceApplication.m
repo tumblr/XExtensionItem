@@ -90,7 +90,7 @@ static NSString * const ParameterKeySourceApplicationIconURL = @"x-extension-ite
     hash += self.appName.hash;
     hash += self.appStoreID.hash;
     hash += self.iconURL.hash ;
-    
+
     return hash * 39;
 }
 
