@@ -1,11 +1,3 @@
-//
-//  AppDelegate.m
-//  XExtensionItemExample
-//
-//  Created by Bryan Irace on 12/8/14.
-//  Copyright (c) 2014 Bryan Irace. All rights reserved.
-//
-
 #import "AppDelegate.h"
 #import "ViewController.h"
 

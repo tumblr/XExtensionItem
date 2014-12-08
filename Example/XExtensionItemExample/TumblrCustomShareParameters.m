@@ -1,11 +1,3 @@
-//
-//  TumblrCustomShareParameters.m
-//  XExtensionItemExample
-//
-//  Created by Bryan Irace on 12/8/14.
-//  Copyright (c) 2014 Bryan Irace. All rights reserved.
-//
-
 #import "TumblrCustomShareParameters.h"
 
 static NSString * const CustomURLSlugParameterKey = @"tumblr-custom-url-slug";

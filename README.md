@@ -35,6 +35,8 @@ XExtensionItem will be available via [CocoaPods](http://cocoapods.org) once it g
 
 ## Usage
 
+This repository includes a [sample project](https://github.com/tumblr/XExtensionItem/tree/master/Example) which may be help explain how the library is to be used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemExample/ViewController.m#L31) get [passed through to the extension](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemShareExtensionExample/ShareViewController.m#L18).
+
 ### Generic parameters
 
 XExtensionItem currently supports the following generic parameters (more information on each parameter can be found in the `XExtensionItemParameters` [header documentation](XExtensionItem/XExtensionItemParameters.h)):
