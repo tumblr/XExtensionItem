@@ -11,6 +11,7 @@
 		9369F86D19F5BD2E0045FCF5 /* XExtensionItemParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 9369F86C19F5BD2E0045FCF5 /* XExtensionItemParameters.m */; };
 		939954C51A1BB4740032F123 /* XExtensionItemParametersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 939954C41A1BB4740032F123 /* XExtensionItemParametersTests.m */; };
 		939954C61A1BB4740032F123 /* libXExtensionItem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9369F84B19F593820045FCF5 /* libXExtensionItem.a */; };
+		93E1046E1A2FADD000C8D9A7 /* XExtensionItemTypeSafeDictionaryValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E1046D1A2FADD000C8D9A7 /* XExtensionItemTypeSafeDictionaryValues.m */; };
 		93F9A4F11A1BADE20003EBE2 /* XExtensionItemMutableParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F9A4F01A1BADE20003EBE2 /* XExtensionItemMutableParameters.m */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,9 @@
 		939954C01A1BB4740032F123 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		939954C31A1BB4740032F123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		939954C41A1BB4740032F123 /* XExtensionItemParametersTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemParametersTests.m; sourceTree = "<group>"; };
+		93E1046B1A2FAB9A00C8D9A7 /* XExtensionItemDictionarySerializing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XExtensionItemDictionarySerializing.h; sourceTree = "<group>"; };
+		93E1046C1A2FADD000C8D9A7 /* XExtensionItemTypeSafeDictionaryValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XExtensionItemTypeSafeDictionaryValues.h; sourceTree = "<group>"; };
+		93E1046D1A2FADD000C8D9A7 /* XExtensionItemTypeSafeDictionaryValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemTypeSafeDictionaryValues.m; sourceTree = "<group>"; };
 		93F9A4EF1A1BADE20003EBE2 /* XExtensionItemMutableParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XExtensionItemMutableParameters.h; sourceTree = "<group>"; };
 		93F9A4F01A1BADE20003EBE2 /* XExtensionItemMutableParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemMutableParameters.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,12 +93,15 @@
 		9369F84D19F593820045FCF5 /* XExtensionItem */ = {
 			isa = PBXGroup;
 			children = (
+				93E1046B1A2FAB9A00C8D9A7 /* XExtensionItemDictionarySerializing.h */,
 				93F9A4EF1A1BADE20003EBE2 /* XExtensionItemMutableParameters.h */,
 				93F9A4F01A1BADE20003EBE2 /* XExtensionItemMutableParameters.m */,
 				9369F86B19F5BD2E0045FCF5 /* XExtensionItemParameters.h */,
 				9369F86C19F5BD2E0045FCF5 /* XExtensionItemParameters.m */,
 				9369F86819F5B9710045FCF5 /* XExtensionItemSourceApplication.h */,
 				9369F86919F5B9710045FCF5 /* XExtensionItemSourceApplication.m */,
+				93E1046C1A2FADD000C8D9A7 /* XExtensionItemTypeSafeDictionaryValues.h */,
+				93E1046D1A2FADD000C8D9A7 /* XExtensionItemTypeSafeDictionaryValues.m */,
 			);
 			path = XExtensionItem;
 			sourceTree = "<group>";
@@ -206,6 +213,7 @@
 			files = (
 				9369F86D19F5BD2E0045FCF5 /* XExtensionItemParameters.m in Sources */,
 				93F9A4F11A1BADE20003EBE2 /* XExtensionItemMutableParameters.m in Sources */,
+				93E1046E1A2FADD000C8D9A7 /* XExtensionItemTypeSafeDictionaryValues.m in Sources */,
 				9369F86A19F5B9710045FCF5 /* XExtensionItemSourceApplication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

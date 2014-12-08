@@ -9,9 +9,18 @@
 @synthesize tags;
 @synthesize sourceURL;
 @synthesize imageURL;
+@synthesize location;
 @synthesize sourceApplication;
-@synthesize MIMETypesToContentRepresentations;
+@synthesize UTIsToContentRepresentations;
 @synthesize userInfo;
+
+- (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable {
+    self.userInfo = ({
+        NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] initWithDictionary:self.userInfo];
+        [mutableUserInfo addEntriesFromDictionary:dictionarySerializable.dictionaryRepresentation];
+        mutableUserInfo;
+    });
+}
 
 #pragma mark - NSCopying
 
@@ -21,9 +30,10 @@
                                                                       attachments:self.attachments
                                                                              tags:self.tags
                                                                         sourceURL:self.sourceURL
-                                                                     thumbnailURL:self.imageURL
+                                                                         imageURL:self.imageURL
+                                                                         location:self.location
                                                                 sourceApplication:self.sourceApplication
-                                                MIMETypesToContentRepresentations:self.MIMETypesToContentRepresentations
+                                                     UTIsToContentRepresentations:self.UTIsToContentRepresentations
                                                                          userInfo:self.userInfo];
 }
 

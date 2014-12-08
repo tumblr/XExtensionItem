@@ -4,6 +4,12 @@
 #import "XExtensionItemMutableParameters.h"
 #import "XExtensionItemSourceApplication.h"
 
+@interface CustomParameters : NSObject <XExtensionItemDictionarySerializing>
+
+@property (nonatomic) NSString *customParameter;
+
+@end
+
 @interface XExtensionItemParametersTests : XCTestCase
 
 @end
@@ -65,10 +71,19 @@
     XCTAssertEqualObjects(inputParams.imageURL, outputParams.imageURL);
 }
 
+- (void)testLocation {
+    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
+    inputParams.location = [[CLLocation alloc] initWithLatitude:100 longitude:50];
+    
+    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    
+    XCTAssertEqual([inputParams.location distanceFromLocation:outputParams.location], 0);
+}
+
 - (void)testSourceApplication {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppName:@"Tumblr"
-                                                                                 appStoreURL:[NSURL URLWithString:@"http://appstore.com/tumblr"]
+                                                                                  appStoreID:@(12345)
                                                                                      iconURL:[NSURL URLWithString:@"http://tumblr.com/logo.png"]];
     
     XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
@@ -76,47 +91,120 @@
     XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
 }
 
-- (void)testMIMETypesToContentRepresentations {
+- (void)testUTIsToContentRepresentations {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.MIMETypesToContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
+    inputParams.UTIsToContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
     
     XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
     
-    XCTAssertEqualObjects(inputParams.MIMETypesToContentRepresentations, outputParams.MIMETypesToContentRepresentations);
+    XCTAssertEqualObjects(inputParams.UTIsToContentRepresentations, outputParams.UTIsToContentRepresentations);
 }
 
 - (void)testUserInfo {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
+    inputParams.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     inputParams.userInfo = @{ @"foo": @"bar" };
     
     XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
     
-    XCTAssertEqualObjects(inputParams.userInfo, outputParams.userInfo);
+    // Output params user info dictionary should be a superset of input params user info dictionary
+    
+    [inputParams.userInfo enumerateKeysAndObjectsUsingBlock:^(id inputKey, id inputValue, BOOL *stop) {
+        XCTAssertEqualObjects(outputParams.userInfo[inputKey], inputValue);
+    }];
+}
+
+- (void)testAddEntriesToUserInfo {
+    CustomParameters *inputCustomParameters = [[CustomParameters alloc] init];
+    inputCustomParameters.customParameter = @"Value";
+    
+    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
+    [inputParams addEntriesToUserInfo:inputCustomParameters];
+
+    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    
+    CustomParameters *outputCustomParameters = [[CustomParameters alloc] initWithDictionary:outputParams.userInfo];
+    
+    XCTAssertEqualObjects(inputCustomParameters, outputCustomParameters);
 }
 
 - (void)testTypeSafety {
-    // Try to break things by intentionally using the wrong types for these keys.
+    /*
+     Try to break things by intentionally using the wrong types for these keys, then calling methods that would only 
+     exist on the correct object types
+     */
     
     NSExtensionItem *item = [[NSExtensionItem alloc] init];
     item.userInfo = @{
-        @"x-extension-item-mime-types-to-content-representations": @[],
-        @"x-extension-item-source-url": @"",
-        @"x-extension-item-source-application-name": @[],
-        @"x-extension-item-source-application-store-url": @"",
-        @"x-extension-item-source-application-icon-url": @"",
-        @"x-extension-item-tags": @{},
-        @"x-extension-item-image-url": @""
+        @"x-extension-item": @[],
     };
     
-    // Call methods that would only exist on the correct object types
-    
     XExtensionItemParameters *params = [XExtensionItemParameters parametersFromExtensionItem:item];
-    XCTAssertNoThrow([params.MIMETypesToContentRepresentations allKeys]);
+    
+    item = [[NSExtensionItem alloc] init];
+    item.userInfo = @{
+        @"x-extension-item": @{
+            @"utis-to-content-representations": @"",
+            @"source-url": @"",
+            @"tags": @{},
+            @"image-url": @"",
+            @"location": @"",
+        },
+        @"x-extension-item-source-application-name": @[],
+        @"x-extension-item-source-application-store-id": @[],
+        @"x-extension-item-source-application-icon-url": @"",
+    };
+    
+    params = [XExtensionItemParameters parametersFromExtensionItem:item];
+    XCTAssertNoThrow([params.UTIsToContentRepresentations allKeys]);
     XCTAssertNoThrow([params.sourceURL absoluteString]);
-    XCTAssertNoThrow([params.sourceApplication.appName stringByAppendingString:@""]);
-    XCTAssertNoThrow([params.sourceApplication.appStoreURL absoluteString]);
-    XCTAssertNoThrow([params.sourceApplication.iconURL absoluteString]);
     XCTAssertNoThrow([params.imageURL absoluteString]);
+    XCTAssertNoThrow(params.location.timestamp);
+    XCTAssertNoThrow([params.sourceApplication.appName stringByAppendingString:@""]);
+    XCTAssertNoThrow(params.sourceApplication.appStoreID);
+    XCTAssertNoThrow([params.sourceApplication.iconURL absoluteString]);
+}
+
+@end
+
+@implementation CustomParameters
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    if (self = [super init]) {
+        _customParameter = [dictionary valueForKey:[[self class] customParameterKey]];
+    }
+    
+    return self;
+}
+
+- (instancetype)init {
+    return [self initWithDictionary:nil];
+}
+
+#pragma mark - XExtensionItemDictionarySerializing
+
+- (NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    [mutableDictionary setValue:self.customParameter forKey:[[self class] customParameterKey]];
+    return [mutableDictionary copy];
+}
+
+#pragma mark - Equality
+
+- (BOOL)isEqual:(id)object {
+    return [object isKindOfClass:[self class]] && [self.customParameter isEqualToString:((CustomParameters *)object).customParameter];
+}
+
+- (NSUInteger)hash {
+    NSUInteger hash = 17;
+    hash += self.customParameter.hash;
+    return hash * 39;
+}
+
+#pragma mark - Private
+
++ (NSString *)customParameterKey {
+    return @"customParameterKey";
 }
 
 @end

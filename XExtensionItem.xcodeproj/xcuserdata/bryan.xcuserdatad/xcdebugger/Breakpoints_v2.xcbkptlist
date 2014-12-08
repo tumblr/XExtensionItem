@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "XExtensionItem/XExtensionItemSourceApplication.m"
-            timestampString = "438101551.833651"
+            filePath = "XExtensionItem/XExtensionItemParameters.m"
+            timestampString = "439760749.284549"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "-isEqual:"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "+parametersFromExtensionItem:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

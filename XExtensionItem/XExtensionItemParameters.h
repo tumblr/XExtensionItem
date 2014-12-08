@@ -1,3 +1,4 @@
+@import CoreLocation;
 @import Foundation;
 @class XExtensionItemSourceApplication;
 
@@ -9,17 +10,17 @@
  *
  *  B) Extension developers who want to consume different types of data that a share extension may pass to them.
  *
- *  @discussion App developers with numerous types of data to share may be inclined to add instances of classes like 
+ *  @discussion App developers with numerous types of data to share may be inclined to add instances of classes like
  *  `NSURL`, `NSString`, or `UIImage` to their `UIActivityViewController`s' extension item arrays. This is problematic 
- *  because only extensions that explicitly accept *all* of the provided item types will be displayed in the controller. 
+ *  because only extensions that explicitly accept *all* of the provided item types will be displayed in the controller.
  
  *  A better way to provide extensions with as much data as possible is to configure `UIActivityViewController` with a
  *  single `NSExtensionItem` instance, with metadata added to its `userInfo` dictionary. This can be done manually, but
  *  `XExtensionItemParameters` aids this process by:
  *
  *  A) Providing accessors for broadly useful metadata, such as tags, a source URL, and different representations of the
- *     content being shared (keyed off of MIME type). Apps and extensions should be able to output and input these 
- *     values without knowing the implementation details of the app/extension on the other side of the handshake.
+ *     content being shared (keyed off of UTI). Apps and extensions should be able to output and input these values 
+ *     without knowing the implementation details of the app/extension on the other side of the handshake.
  *
  *  B) Making it easier to use the `NSExtensionItem` API. The `userInfo` dictionary actually backs the rest of an
  *     extension item's properties, which can lead to subtle bugs if `NSExtensionItem` setters are called in the wrong 
@@ -55,7 +56,7 @@
  *  }];
  *  ```
  */
-@interface XExtensionItemParameters : NSObject
+@interface XExtensionItemParameters : NSObject <NSMutableCopying>
 
 /**
  *  An optional title for the item.
@@ -97,6 +98,11 @@
 @property (nonatomic, readonly) NSURL *imageURL;
 
 /**
+ *  An optional location.
+ */
+@property (nonatomic, readonly) CLLocation *location;
+
+/**
  *  An optional object specifying information about the application that is sharing this extension item.
  *
  *  @see `XExtensionItemSourceApplication`
@@ -104,18 +110,18 @@
 @property (nonatomic, readonly) XExtensionItemSourceApplication *sourceApplication;
 
 /**
- *  An optional dictionary mapping MIME type strings (e.g. “text/html”) to representations of the attachment content in 
- *  those MIME types.
+ *  An optional dictionary mapping UTI strings (e.g. “public.html”) to representations of the attachment content in
+ *  those formats.
  *
  *  For example, an application may include an `NSURL` in its extension item’s attachments array. It may then augment 
  *  that URL with a textual summary in the `attributedContentText` field and an HTML representation in this dictionary, 
- *  keyed off of the “text/html” MIME type string.
+ *  keyed off of the “public.html” UTI string.
  *
  *  ```objc
- *  parameters.MIMETypesToContentRepresentations = @{ @"text/html": @"<p>HTML</p> };
+ *  parameters.UTITypesToContentRepresentations = @{ @"public.html": @"<p>HTML</p>" };
  *  ```
  */
-@property (nonatomic, readonly) NSDictionary *MIMETypesToContentRepresentations;
+@property (nonatomic, readonly) NSDictionary *UTIsToContentRepresentations;
 
 /**
  *  An optional dictionary of keys and values. Individual applications can add advertise whatever custom parameters they
@@ -147,9 +153,10 @@
  *  @param attachments                       (Optional) See `attachments` property
  *  @param tags                              (Optional) See `tags` property
  *  @param sourceURL                         (Optional) See `sourceURL` property
- *  @param thumbnailURL                      (Optional) See `thumbnailURL` property
+ *  @param imageURL                          (Optional) See `imageURL` property
+ *  @param location                          (Optional) See `location` property
  *  @param sourceApplication                 (Optional) See `sourceApplication` property
- *  @param MIMETypesToContentRepresentations (Optional) See `MIMETypesToContentRepresentations` property
+ *  @param UTIsToContentRepresentations      (Optional) See `UTIsToContentRepresentations` property
  *  @param userInfo                          (Optional) See `userInfo` property
  */
 - (instancetype)initWithAttributedTitle:(NSAttributedString *)attributedTitle
@@ -157,9 +164,10 @@
                             attachments:(NSArray *)attachments
                                    tags:(NSArray *)tags
                               sourceURL:(NSURL *)sourceURL
-                           thumbnailURL:(NSURL *)thumbnailURL
+                               imageURL:(NSURL *)imageURL
+                               location:(CLLocation *)location
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
-      MIMETypesToContentRepresentations:(NSDictionary *)MIMETypesToContentRepresentations
+           UTIsToContentRepresentations:(NSDictionary *)UTIsToContentRepresentations
                                userInfo:(NSDictionary *)userInfo NS_DESIGNATED_INITIALIZER;
 
 /**
