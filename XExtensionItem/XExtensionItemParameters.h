@@ -131,6 +131,13 @@
  */
 @property (nonatomic, readonly) NSDictionary *userInfo;
 
+#pragma mark - NSExtensionItem conversion
+
+/**
+ *  For use in applications: convert an `XExtensionItemParameters` instance into an `NSExtensionItem`.
+ */
+@property (nonatomic, readonly) NSExtensionItem *extensionItemRepresentation;
+
 /**
  *  For use in share extensions: convert an incoming `NSExtensionItem` into an `XExtensionItemParameters` instance.
  *
@@ -139,6 +146,8 @@
  *  @return `XExtensionItemParameters` populated with values from the extension item.
  */
 + (instancetype)parametersFromExtensionItem:(NSExtensionItem *)extensionItem;
+
+#pragma mark - Initialization
 
 /**
  *  Create an immutable `XExtensionItemParameters` instance. Documentation for the arguments can be found on each of
@@ -169,12 +178,5 @@
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
            UTIsToContentRepresentations:(NSDictionary *)UTIsToContentRepresentations
                                userInfo:(NSDictionary *)userInfo NS_DESIGNATED_INITIALIZER;
-
-/**
- *  For use in applications: convert an `XExtensionItemParameters` instance into an `NSExtensionItem`.
- *
- *  @return `NSExtensionItem` populated with values from the parameters object.
- */
-- (NSExtensionItem *)extensionItemRepresentation;
 
 @end

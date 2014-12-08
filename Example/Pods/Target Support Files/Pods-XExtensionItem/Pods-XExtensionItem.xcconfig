@@ -1,0 +1,1 @@
+PODS_XEXTENSIONITEM_OTHER_LDFLAGS = -framework "CoreLocation" -framework "Foundation" -framework "UIKit"
