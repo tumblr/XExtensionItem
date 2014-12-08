@@ -11,6 +11,7 @@ We’d love your [thoughts](/issues) on how XExtensionItem could better achieve 
 * [Usage](#usage)
     * [Generic parameters](#generic-parameters)
     * [Custom parameters](#custom-parameters)
+        * [Custom parameter classes](#custom-parameter-classes)
     * [Examples](#examples)
         * [Applications](#applications)
         * [Extensions](#extensions)
@@ -61,7 +62,7 @@ Custom parameter keys *should* be name-spaced and *should not* start with `x-ext
 
 Have a look at the [apps that use XExtensionItem](#apps-that-use-xextensionitem) section for a list of the supported custom parameters that we know about.
 
-#### Custom parameter objects
+#### Custom parameter classes
 
 Extension developers can provide concrete implementations of classes that conform to `XExtensionItemDictionarySerializing` to make it even easier for application developers to add support for their custom parameters.
 
