@@ -8,10 +8,10 @@
   "platforms": {
     "ios": "8.0"
   },
-  "requires_arc": true,
   "frameworks": [
     "Foundation", 
-    "UIKit"
+    "UIKit",
+    "CoreLocation"
   ],
   "source_files": "XExtensionItem/**/*.{h,m}"
 }
