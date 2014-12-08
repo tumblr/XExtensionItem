@@ -1,5 +1,5 @@
 #import "XExtensionItemParameters.h"
-#import "XExtensionItemDictionarySerializing.h"
+@protocol XExtensionItemDictionarySerializing;
 
 /**
  *  Mutable `XExtensionItemParameters` variant.

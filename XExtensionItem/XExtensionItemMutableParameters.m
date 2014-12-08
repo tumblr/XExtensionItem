@@ -1,3 +1,4 @@
+#import "XExtensionItemDictionarySerializing.h"
 #import "XExtensionItemMutableParameters.h"
 #import "XExtensionItemParameters.h"
 
