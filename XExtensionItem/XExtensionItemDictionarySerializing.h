@@ -12,7 +12,7 @@
  *
  *  ```objc
  *  XExtensionItemMutableParameters *mutableParameters = …;
- *  mutableParameters addEntriesToUserInfo:({
+ *  [mutableParameters addEntriesToUserInfo:({
  *    [[TumblrExtensionItemParameters alloc] initWithCustomURLSlug:@"new-years-resolutions"];
  *  })];
  *  ```

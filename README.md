@@ -51,15 +51,29 @@ If you have an idea for a parameter that would be broadly useful (e.g. not speci
 
 ### Custom parameters
 
-Extension developers can also publicize support for custom parameters that apps can pass in a “user info” dictionary. For example, the Tumblr extension might allow an app to pass in a custom URL for a post by populating a user info dictionary like:
+Extension developers can also publicize support for custom parameters that apps can pass in an extension item’s “user info” dictionary. For example, the Tumblr extension might allow an app to pass in a custom URL using a user info dictionary that looks as follows:
 
 ```objc
 @{ @"tumblr-custom-url": @"/post/123/best-post-ever" }
 ```
 
-Have a look at the [apps that use XExtensionItem](#apps-that-use-xextensionitem) section for a list of some of the custom parameters that we know about.
+Custom parameter keys *should* be name-spaced and *should not* start with `x-extension-item-`, as parameters with this prefix are reserved for use by this library internally.
 
-Custom parameter keys should *not* start with `x-extension-item-`, as parameters with this prefix are reserved for use by this library internally.
+Have a look at the [apps that use XExtensionItem](#apps-that-use-xextensionitem) section for a list of the supported custom parameters that we know about.
+
+#### Custom parameter objects
+
+Extension developers can provide concrete implementations of classes that conform to `XExtensionItemDictionarySerializing` to make it even easier for application developers to add support for their custom parameters.
+
+```objc
+// Provided by Tumblr. Allows app developers to avoid hardcoding key names
+TumblrExtensionItemParameters *tumblrParams = [[TumblrExtensionItemParameters alloc] initWithCustomURLSlug:@"new-years-resolutions"];
+
+XExtensionItemMutableParameters *mutableParameters = …;
+[mutableParameters addEntriesToUserInfo:tumblrParams];
+```
+
+We’ll likely include custom parameter classes in this repository in the future, made available in the form of CocoaPods [subspecs](http://guides.cocoapods.org/syntax/podspec.html#group_subspecs).
 
 ### Examples
 
