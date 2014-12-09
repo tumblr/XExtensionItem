@@ -131,7 +131,7 @@ Please see [CONTRIBUTING.md](https://github.com/tumblr/XExtensionItem/blob/maste
 
 ## Contact
 
-[Bryan Irace](bryan@tumblr.com)
+[Bryan Irace](mailto:bryan@tumblr.com)
 
 ## License
 
