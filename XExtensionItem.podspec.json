@@ -5,13 +5,21 @@
   "authors" : { 
     "Bryan Irace": "bryan@irace.me"
   },
+  "license": {
+    "type": "Apache 2.0",
+    "file": "LICENSE"
+  },
   "platforms": {
     "ios": "8.0"
   },
+  "source": {
+    "git": "https://github.com/tumblr/XExtensionItem.git",
+    "tag": "0.1.0"
+  },
+  "source_files": "XExtensionItem/**/*.{h,m}",
   "frameworks": [
     "Foundation", 
     "UIKit",
     "CoreLocation"
-  ],
-  "source_files": "XExtensionItem/**/*.{h,m}"
+  ]
 }
