@@ -19,14 +19,12 @@
 /**
  *  @param appName     (Optional) See `appName` property
  *  @param appStoreURL (Optional) See `appStoreURL` property
- *  @param iconURL     (Optional) See `iconURL` property
  */
 - (instancetype)initWithAppName:(NSString *)appName appStoreID:(NSNumber *)appStoreID NS_DESIGNATED_INITIALIZER;
 
 /**
  *  @param bundle      (Optional) Bundle where the human-readable, localized bundle name should be retrieved from.
  *  @param appStoreURL (Optional) See `appStoreURL` property
- *  @param iconURL     (Optional) See `iconURL` property
  */
 - (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle appStoreID:(NSNumber *)appStoreID;
 
