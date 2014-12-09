@@ -1,6 +1,6 @@
 #import "CustomParameters.h"
 
-static NSString * const CustomParameterKey = @"CustomParameterKey"
+static NSString * const CustomParameterKey = @"CustomParameterKey";
 
 @implementation CustomParameters
 
