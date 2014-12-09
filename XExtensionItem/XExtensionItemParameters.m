@@ -22,7 +22,7 @@ static NSString * const ParameterKeyTags = @"tags";
                                imageURL:(NSURL *)imageURL
                                location:(CLLocation *)location
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
-      UTIsToContentRepresentations:(NSDictionary *)UTIsToContentRepresentations
+           UTIsToContentRepresentations:(NSDictionary *)UTIsToContentRepresentations
                                userInfo:(NSDictionary *)userInfo {
     if (self = [super init]) {
         _attributedTitle = [attributedTitle copy];
@@ -166,7 +166,7 @@ static NSString * const ParameterKeyTags = @"tags";
                 [mutableUserInfo removeObjectForKey:key];
             }];
             
-            // Remove values used internally by `Parameters`
+            // Remove values used internally by this class
             [mutableUserInfo removeObjectForKey:ParameterKeyXExtensionItem];
             
             [mutableUserInfo copy];
