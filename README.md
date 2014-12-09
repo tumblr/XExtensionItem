@@ -70,17 +70,17 @@ Extension developers can provide concrete implementations of classes that confor
 
 ```objc
 // Provided by Tumblr. Allows app developers to avoid hardcoding key names
-TumblrExtensionItemParameters *tumblrParams = [[TumblrExtensionItemParameters alloc] initWithCustomURLSlug:@"new-years-resolutions"];
+TumblrExtensionItemParameters *tumblrParameters = [[TumblrExtensionItemParameters alloc] initWithCustomURLSlug:@"new-years-resolutions"];
 
 XExtensionItemMutableParameters *mutableParameters = …;
-[mutableParameters addEntriesToUserInfo:tumblrParams];
+[mutableParameters addEntriesToUserInfo:tumblrParameters];
 ```
 
 We’ll likely include custom parameter classes in this repository in the future, made available in the form of CocoaPods [subspecs](http://guides.cocoapods.org/syntax/podspec.html#group_subspecs).
 
 ### Examples
 
-This repository includes a [sample project](https://github.com/tumblr/XExtensionItem/tree/master/Example) which may be help explain how the library is to be used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemExample/ViewController.m#L31) get [passed through to the extension](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemShareExtensionExample/ShareViewController.m#L18).
+This repository includes a [sample project](https://github.com/tumblr/XExtensionItem/tree/master/Example) which may be help explain how the library is to be used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemExample/ViewController.m#L23) get [passed through to the extension](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemShareExtensionExample/ShareViewController.m#L10).
 
 Here’s a [hypothetical example](https://github.com/tumblr/XExtensionItem/wiki/Hypothetical-Tumblr-XExtensionItem-integration-documentation) of how XExtensionItem’s parameters could map to values that the Tumblr iOS share extension would consume.
 
