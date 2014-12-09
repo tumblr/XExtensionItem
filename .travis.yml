@@ -1,3 +1,4 @@
 language: objective-c
 xcode_project: XExtensionItem.xcodeproj
 xcode_scheme: Tests
+xcode_sdk: iphonesimulator
