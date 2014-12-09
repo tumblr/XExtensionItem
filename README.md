@@ -69,10 +69,10 @@ Extension developers can provide concrete implementations of classes that confor
 
 ```objc
 // Provided by Tumblr. Allows app developers to avoid hardcoding key names
-TumblrExtensionItemParameters *tumblrParams = [[TumblrExtensionItemParameters alloc] initWithCustomURLSlug:@"new-years-resolutions"];
+TumblrExtensionItemParameters *tumblrParameters = [[TumblrExtensionItemParameters alloc] initWithCustomURLSlug:@"new-years-resolutions"];
 
 XExtensionItemMutableParameters *mutableParameters = …;
-[mutableParameters addEntriesToUserInfo:tumblrParams];
+[mutableParameters addEntriesToUserInfo:tumblrParameters];
 ```
 
 We’ll likely include custom parameter classes in this repository in the future, made available in the form of CocoaPods [subspecs](http://guides.cocoapods.org/syntax/podspec.html#group_subspecs).
