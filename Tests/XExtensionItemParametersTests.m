@@ -83,8 +83,7 @@
 - (void)testSourceApplication {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppName:@"Tumblr"
-                                                                                  appStoreID:@(12345)
-                                                                                     iconURL:[NSURL URLWithString:@"http://tumblr.com/logo.png"]];
+                                                                                  appStoreID:@(12345)];
     
     XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
     
@@ -149,10 +148,9 @@
             @"tags": @{},
             @"image-url": @"",
             @"location": @"",
-        },
-        @"x-extension-item-source-application-name": @[],
-        @"x-extension-item-source-application-store-id": @[],
-        @"x-extension-item-source-application-icon-url": @"",
+            @"source-application-name": @[],
+            @"source-application-store-id": @[]
+        }
     };
     
     params = [XExtensionItemParameters parametersFromExtensionItem:item];
@@ -162,7 +160,6 @@
     XCTAssertNoThrow(params.location.timestamp);
     XCTAssertNoThrow([params.sourceApplication.appName stringByAppendingString:@""]);
     XCTAssertNoThrow(params.sourceApplication.appStoreID);
-    XCTAssertNoThrow([params.sourceApplication.iconURL absoluteString]);
 }
 
 @end

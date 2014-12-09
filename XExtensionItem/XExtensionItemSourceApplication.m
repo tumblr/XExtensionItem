@@ -1,30 +1,28 @@
 #import "XExtensionItemSourceApplication.h"
 #import "XExtensionItemTypeSafeDictionaryValues.h"
 
-static NSString * const ParameterKeySourceApplicationName = @"x-extension-item-source-application-name";
-static NSString * const ParameterKeySourceApplicationStoreID = @"x-extension-item-source-application-store-id";
-static NSString * const ParameterKeySourceApplicationIconURL = @"x-extension-item-source-application-icon-url";
+static NSString * const ParameterKeySourceApplicationName = @"source-application-name";
+static NSString * const ParameterKeySourceApplicationStoreID = @"source-application-store-id";
 
 @implementation XExtensionItemSourceApplication
 
 #pragma mark - Initialization
 
-- (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle appStoreID:(NSNumber *)appStoreID iconURL:(NSURL *)iconURL {
-    return [self initWithAppName:bundle.infoDictionary[(NSString *)kCFBundleNameKey] appStoreID:appStoreID iconURL:iconURL];
+- (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle appStoreID:(NSNumber *)appStoreID {
+    return [self initWithAppName:bundle.infoDictionary[(NSString *)kCFBundleNameKey] appStoreID:appStoreID];
 }
 
-- (instancetype)initWithAppName:(NSString *)appName appStoreID:(NSNumber *)appStoreID iconURL:(NSURL *)iconURL {
+- (instancetype)initWithAppName:(NSString *)appName appStoreID:(NSNumber *)appStoreID {
     if (self = [super init]) {
         _appName = [appName copy];
         _appStoreID = [appStoreID copy];
-        _iconURL = [iconURL copy];
     }
     
     return self;
 }
 
 - (instancetype)init {
-    return [self initWithAppName:nil appStoreID:nil iconURL:nil];
+    return [self initWithAppName:nil appStoreID:nil];
 }
 
 #pragma mark - XExtensionItemDictionarySerializing
@@ -33,15 +31,13 @@ static NSString * const ParameterKeySourceApplicationIconURL = @"x-extension-ite
     XExtensionItemTypeSafeDictionaryValues *dictionaryValues = [[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:dictionary];
     
     return [self initWithAppName:[dictionaryValues stringForKey:ParameterKeySourceApplicationName]
-                      appStoreID:[dictionaryValues numberForKey:ParameterKeySourceApplicationStoreID]
-                         iconURL:[dictionaryValues URLForKey:ParameterKeySourceApplicationIconURL]];
+                      appStoreID:[dictionaryValues numberForKey:ParameterKeySourceApplicationStoreID]];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
     [mutableParameters setValue:self.appName forKey:ParameterKeySourceApplicationName];
     [mutableParameters setValue:self.appStoreID forKey:ParameterKeySourceApplicationStoreID];
-    [mutableParameters setValue:self.iconURL forKey:ParameterKeySourceApplicationIconURL];
     return [mutableParameters copy];
 }
 
@@ -58,10 +54,6 @@ static NSString * const ParameterKeySourceApplicationIconURL = @"x-extension-ite
     
     if (self.appStoreID) {
         [descriptionComponents addObject:[NSString stringWithFormat:@"appStoreID: %@", self.appStoreID]];
-    }
-    
-    if (self.iconURL) {
-        [descriptionComponents addObject:[NSString stringWithFormat:@"iconURL: %@", self.iconURL]];
     }
     
     if ([descriptionComponents count] > 0) {
@@ -82,14 +74,13 @@ static NSString * const ParameterKeySourceApplicationIconURL = @"x-extension-ite
     
     XExtensionItemSourceApplication *other = (XExtensionItemSourceApplication *)object;
     
-    return [self.appName isEqual:other.appName] && [self.appStoreID isEqual:other.appStoreID] && [self.iconURL isEqual:other.iconURL];
+    return [self.appName isEqual:other.appName] && [self.appStoreID isEqual:other.appStoreID];
 }
 
 - (NSUInteger)hash {
     NSUInteger hash = 17;
     hash += self.appName.hash;
     hash += self.appStoreID.hash;
-    hash += self.iconURL.hash ;
 
     return hash * 39;
 }
@@ -97,7 +88,7 @@ static NSString * const ParameterKeySourceApplicationIconURL = @"x-extension-ite
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    return [[XExtensionItemSourceApplication allocWithZone:zone] initWithAppName:self.appName appStoreID:self.appStoreID iconURL:self.iconURL];
+    return [[XExtensionItemSourceApplication allocWithZone:zone] initWithAppName:self.appName appStoreID:self.appStoreID];
 }
 
 @end
