@@ -1,10 +1,12 @@
 #import "CustomParameters.h"
 
+static NSString * const CustomParameterKey = @"CustomParameterKey"
+
 @implementation CustomParameters
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     if (self = [super init]) {
-        _customParameter = [dictionary valueForKey:[[self class] customParameterKey]];
+        _customParameter = [dictionary valueForKey:CustomParameterKey];
     }
     
     return self;
@@ -18,7 +20,7 @@
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
-    [mutableDictionary setValue:self.customParameter forKey:[[self class] customParameterKey]];
+    [mutableDictionary setValue:self.customParameter forKey:CustomParameterKey];
     return [mutableDictionary copy];
 }
 
@@ -32,12 +34,6 @@
     NSUInteger hash = 17;
     hash += self.customParameter.hash;
     return hash * 39;
-}
-
-#pragma mark - Private
-
-+ (NSString *)customParameterKey {
-    return @"customParameterKey";
 }
 
 @end
