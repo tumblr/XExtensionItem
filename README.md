@@ -1,6 +1,6 @@
 # XExtensionItem
 
-XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a `UIActivityViewController`.
+XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a [`UIActivityViewController`](https://developer.apple.com/library/ios/documentation/Uikit/reference/UIActivityViewController_Class/index.html).
 
 We’d love your [thoughts](/issues) on how XExtensionItem could better allow apps to provide generically useful metadata parameters to share extensions. This library’s value comes from how useful it is for *all* apps and extensions. Having been developed by a single contributor thus far, your feedback will be hugely beneficial to me.
 
