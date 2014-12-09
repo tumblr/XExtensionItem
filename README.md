@@ -112,13 +112,13 @@ Convert incoming `NSExtensionItem` instances retrieved from an extension context
 objects:
 
 ```objc
-[self.extensionContext.inputItems enumerateObjectsUsingBlock:^(NSExtensionItem *item, NSUInteger idx, BOOL *stop) {
+for (NSExtensionItem *item in self.extensionContext.inputItems) {
     XExtensionItemParameters *parameters = [XExtensionItemParameters parametersFromExtensionItem:item];
     NSAttributedString *title = parameters.attributedTitle;
     NSAttributedString *contentText = parameters.attributedContentText;
     NSArray *tags = parameters.tags;
     NSString *customTumblrURL = parameters.userInfo[@"tumblr-custom-url"];
-}];
+}
 ```
 
 ## Apps that use XExtensionItem

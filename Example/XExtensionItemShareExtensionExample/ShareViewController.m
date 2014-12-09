@@ -7,16 +7,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.extensionContext.inputItems enumerateObjectsUsingBlock:^(NSExtensionItem *item, NSUInteger itemIndex, BOOL *stop) {
+    for (NSExtensionItem *item in self.extensionContext.inputItems) {
         XExtensionItemParameters *parameters = [XExtensionItemParameters parametersFromExtensionItem:item];
         
-        [parameters.attachments enumerateObjectsUsingBlock:^(NSItemProvider *itemProvider, NSUInteger attachmentIndex, BOOL *stop) {
-            [itemProvider.registeredTypeIdentifiers enumerateObjectsUsingBlock:^(NSString *typeIdentifier, NSUInteger typeIndex, BOOL *stop) {
+        for (NSItemProvider *itemProvider in parameters.attachments) {
+            for (NSString *typeIdentifier in itemProvider.registeredTypeIdentifiers) {
                 [itemProvider loadItemForTypeIdentifier:typeIdentifier options:nil completionHandler:^(id<NSSecureCoding> item, NSError *error) {
                     NSLog(@"Attachment item: %@", item);
                 }];
-            }];
-        }];
+            }
+        }
         
         NSLog(@"XExtensionItemParamters: %@", parameters);
         
@@ -28,7 +28,7 @@
         
         TumblrCustomShareParameters *tumblrParameters = [[TumblrCustomShareParameters alloc] initWithDictionary:parameters.userInfo];
         NSLog(@"Tumblr custom URL slug: %@", tumblrParameters.customURLSlug);
-    }];
+    }
 }
 
 - (BOOL)isContentValid {

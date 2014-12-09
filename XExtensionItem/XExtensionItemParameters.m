@@ -161,10 +161,9 @@ static NSString * const ParameterKeyTags = @"tags";
         [mutableDescription appendFormat:@", userInfo: %@", ({
             NSMutableDictionary *mutableUserInfo = [self.userInfo mutableCopy];
             
-            // Remove values used internally by `NSExtensionItem`
-            [@[NSExtensionItemAttributedTitleKey, NSExtensionItemAttributedContentTextKey, NSExtensionItemAttachmentsKey] enumerateObjectsUsingBlock:^(NSString *key, NSUInteger keyIndex, BOOL *stop) {
+            for (NSString *key in @[NSExtensionItemAttributedTitleKey, NSExtensionItemAttributedContentTextKey, NSExtensionItemAttachmentsKey]) {
                 [mutableUserInfo removeObjectForKey:key];
-            }];
+            }
             
             // Remove values used internally by this class
             [mutableUserInfo removeObjectForKey:ParameterKeyXExtensionItem];
