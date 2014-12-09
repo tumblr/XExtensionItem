@@ -39,7 +39,7 @@ Rather than populating `activityItems` with multiple objects and losing support 
 
 ## Getting started
 
-XExtensionItem is be available via [CocoaPods](http://cocoapods.org).
+XExtensionItem is available via [CocoaPods](http://cocoapods.org).
 
 ```
 pod 'XExtensionItem'
