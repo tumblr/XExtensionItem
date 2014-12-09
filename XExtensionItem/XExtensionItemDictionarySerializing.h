@@ -1,4 +1,4 @@
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 /**
  *  A protocol for objects that can be converted to and from dictionaries.

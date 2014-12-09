@@ -1,4 +1,4 @@
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 /**
  *  Helper class for extracting type-safe values out of an `NSDictionary`.

@@ -1,5 +1,5 @@
-@import CoreLocation;
-@import Foundation;
+#import <CoreLocation/CoreLocation.h>
+#import <Foundation/Foundation.h>
 @class XExtensionItemSourceApplication;
 
 /**

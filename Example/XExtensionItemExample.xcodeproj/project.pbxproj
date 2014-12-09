@@ -20,6 +20,7 @@
 		93CFFD9B1A36582B009E8F3A /* thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = 93CFFD9A1A36582B009E8F3A /* thumbnail.png */; };
 		93CFFD9E1A3659F6009E8F3A /* TumblrCustomShareParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CFFD9D1A3659F6009E8F3A /* TumblrCustomShareParameters.m */; };
 		93CFFD9F1A365CDF009E8F3A /* TumblrCustomShareParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CFFD9D1A3659F6009E8F3A /* TumblrCustomShareParameters.m */; };
+		93F852551A3792D000B36271 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F852541A3792D000B36271 /* MobileCoreServices.framework */; };
 		BDF37BDF28A9B7B324770E4E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0A5BD989C53AE5D100FE31 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		93CFFD9A1A36582B009E8F3A /* thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbnail.png; sourceTree = "<group>"; };
 		93CFFD9C1A3659F6009E8F3A /* TumblrCustomShareParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TumblrCustomShareParameters.h; sourceTree = "<group>"; };
 		93CFFD9D1A3659F6009E8F3A /* TumblrCustomShareParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TumblrCustomShareParameters.m; sourceTree = "<group>"; };
+		93F852541A3792D000B36271 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		C2007B9280B339C349AEE364 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		EF9C239453A4EA2E98601102 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93F852551A3792D000B36271 /* MobileCoreServices.framework in Frameworks */,
 				BDF37BDF28A9B7B324770E4E /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,6 +97,7 @@
 		32CE96205555CA8395B68837 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93F852541A3792D000B36271 /* MobileCoreServices.framework */,
 				8A0A5BD989C53AE5D100FE31 /* libPods.a */,
 			);
 			name = Frameworks;
