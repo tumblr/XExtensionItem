@@ -16,6 +16,7 @@ We’d love your [thoughts](/issues) on how XExtensionItem could better allow ap
         * [Applications](#applications)
         * [Extensions](#extensions)
 * [Apps that use XExtensionItem](#apps-that-use-xextensionitem)
+* [Contributing](#contributing)
 * [Contact](#contact)
 * [License](#license)
 
@@ -116,6 +117,10 @@ objects:
 ## Apps that use XExtensionItem
 
 Please create a [pull request](/pulls) or [let us know](#contact) if you're using XExtensionItem in either your application or your extension.
+
+## Contributing
+
+Please see [CONTRIBUTING.md](https://github.com/tumblr/XExtensionItem/blob/master/CONTRIBUTING.md) for information on how to help out.
 
 ## Contact
 
