@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		93224ACC1A374871001ADB90 /* XExtensionItemTypeSafeDictionaryValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93224ACB1A374871001ADB90 /* XExtensionItemTypeSafeDictionaryValuesTests.m */; };
+		9368377B1A37B5A700917E6A /* CustomParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368377A1A37B5A700917E6A /* CustomParameters.m */; };
 		9369F86A19F5B9710045FCF5 /* XExtensionItemSourceApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 9369F86919F5B9710045FCF5 /* XExtensionItemSourceApplication.m */; };
 		9369F86D19F5BD2E0045FCF5 /* XExtensionItemParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 9369F86C19F5BD2E0045FCF5 /* XExtensionItemParameters.m */; };
 		939954C51A1BB4740032F123 /* XExtensionItemParametersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 939954C41A1BB4740032F123 /* XExtensionItemParametersTests.m */; };
@@ -40,6 +41,8 @@
 
 /* Begin PBXFileReference section */
 		93224ACB1A374871001ADB90 /* XExtensionItemTypeSafeDictionaryValuesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemTypeSafeDictionaryValuesTests.m; sourceTree = "<group>"; };
+		936837791A37B5A700917E6A /* CustomParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomParameters.h; sourceTree = "<group>"; };
+		9368377A1A37B5A700917E6A /* CustomParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomParameters.m; sourceTree = "<group>"; };
 		9369F84B19F593820045FCF5 /* libXExtensionItem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libXExtensionItem.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9369F86819F5B9710045FCF5 /* XExtensionItemSourceApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XExtensionItemSourceApplication.h; sourceTree = "<group>"; };
 		9369F86919F5B9710045FCF5 /* XExtensionItemSourceApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemSourceApplication.m; sourceTree = "<group>"; };
@@ -74,6 +77,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9368377C1A37B5AC00917E6A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				936837791A37B5A700917E6A /* CustomParameters.h */,
+				9368377A1A37B5A700917E6A /* CustomParameters.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		9369F84219F593820045FCF5 = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +123,7 @@
 		939954C11A1BB4740032F123 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				9368377C1A37B5AC00917E6A /* Helpers */,
 				939954C41A1BB4740032F123 /* XExtensionItemParametersTests.m */,
 				93224ACB1A374871001ADB90 /* XExtensionItemTypeSafeDictionaryValuesTests.m */,
 				939954C21A1BB4740032F123 /* Supporting Files */,
@@ -225,6 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9368377B1A37B5A700917E6A /* CustomParameters.m in Sources */,
 				93224ACC1A374871001ADB90 /* XExtensionItemTypeSafeDictionaryValuesTests.m in Sources */,
 				939954C51A1BB4740032F123 /* XExtensionItemParametersTests.m in Sources */,
 			);
