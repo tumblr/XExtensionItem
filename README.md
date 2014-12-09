@@ -2,7 +2,7 @@
 
 # XExtensionItem
 
-[![Build Status](https://travis-ci.org/tumblr/XExtensionItem.svg?style=flat)](https://travis-ci.org/tumblr/XExtensionItem)
+[![Build Status](https://img.shields.io/travis/tumblr/XExtensionItem.svg?style=flat)](https://travis-ci.org/tumblr/XExtensionItem)
 [![Version](http://img.shields.io/cocoapods/v/XExtensionItem.svg?style=flat)](http://cocoapods.org/?q=XExtensionItem)
 [![Platform](http://img.shields.io/cocoapods/p/XExtensionItem.svg?style=flat)]()
 [![License](http://img.shields.io/cocoapods/l/XExtensionItem.svg?style=flat)](https://github.com/tumblr/XExtensionItem/blob/master/LICENSE)
