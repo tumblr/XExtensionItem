@@ -2,10 +2,10 @@
 
 # XExtensionItem
 
-[![Build Status](https://travis-ci.org/tumblr/XExtensionItem.svg)](https://travis-ci.org/tumblr/XExtensionItem)
-[![Version](http://img.shields.io/cocoapods/v/XExtensionItem.svg)](http://cocoapods.org/?q=XExtensionItem)
-[![Platform](http://img.shields.io/cocoapods/p/XExtensionItem.svg)]()
-[![License](http://img.shields.io/cocoapods/l/XExtensionItem.svg)](https://github.com/tumblr/XExtensionItem/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/tumblr/XExtensionItem.svg?style=flat)](https://travis-ci.org/tumblr/XExtensionItem)
+[![Version](http://img.shields.io/cocoapods/v/XExtensionItem.svg?style=flat)](http://cocoapods.org/?q=XExtensionItem)
+[![Platform](http://img.shields.io/cocoapods/p/XExtensionItem.svg?style=flat)]()
+[![License](http://img.shields.io/cocoapods/l/XExtensionItem.svg?style=flat)](https://github.com/tumblr/XExtensionItem/blob/master/LICENSE)
 
 XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a [`UIActivityViewController`](https://developer.apple.com/library/ios/documentation/Uikit/reference/UIActivityViewController_Class/index.html).
 
