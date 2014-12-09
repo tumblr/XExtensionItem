@@ -39,7 +39,13 @@ Rather than populating `activityItems` with multiple objects and losing support 
 
 ## Getting started
 
-XExtensionItem will be available via [CocoaPods](http://cocoapods.org) once it gets closer to 1.0 (since who knows, maybe the [name will change](https://github.com/tumblr/XExtensionItem/issues/2) before then).
+XExtensionItem is be available via [CocoaPods](http://cocoapods.org).
+
+```
+pod 'XExtensionItem'
+```
+
+Documentation can also be found at [CocoaDocs](http://cocoadocs.org/docsets/XExtensionItem).
 
 ## Usage
 
