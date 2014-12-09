@@ -2,10 +2,10 @@
 
 # XExtensionItem
 
-[![Build Status](https://travis-ci.org/tumblr/XExtensionItem.svg)](https://travis-ci.org/tumblr/XExtensionItem)
-[![Version](http://img.shields.io/cocoapods/v/XExtensionItem.svg)](http://cocoapods.org/?q=XExtensionItem)
-[![Platform](http://img.shields.io/cocoapods/p/XExtensionItem.svg)]()
-[![License](http://img.shields.io/cocoapods/l/XExtensionItem.svg)](https://github.com/tumblr/XExtensionItem/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/tumblr/XExtensionItem.svg?style=flat)](https://travis-ci.org/tumblr/XExtensionItem)
+[![Version](http://img.shields.io/cocoapods/v/XExtensionItem.svg?style=flat)](http://cocoapods.org/?q=XExtensionItem)
+[![Platform](http://img.shields.io/cocoapods/p/XExtensionItem.svg?style=flat)]()
+[![License](http://img.shields.io/cocoapods/l/XExtensionItem.svg?style=flat)](https://github.com/tumblr/XExtensionItem/blob/master/LICENSE)
 
 XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a [`UIActivityViewController`](https://developer.apple.com/library/ios/documentation/Uikit/reference/UIActivityViewController_Class/index.html).
 
@@ -39,7 +39,13 @@ Rather than populating `activityItems` with multiple objects and losing support 
 
 ## Getting started
 
-XExtensionItem will be available via [CocoaPods](http://cocoapods.org) once it gets closer to 1.0 (since who knows, maybe the [name will change](https://github.com/tumblr/XExtensionItem/issues/2) before then).
+XExtensionItem is available via [CocoaPods](http://cocoapods.org).
+
+```
+pod 'XExtensionItem'
+```
+
+Documentation can also be found at [CocoaDocs](http://cocoadocs.org/docsets/XExtensionItem).
 
 ## Usage
 
@@ -87,7 +93,7 @@ We’ll likely include custom parameter classes in this repository in the future
 
 ### Examples
 
-This repository includes a [sample project](https://github.com/tumblr/XExtensionItem/tree/master/Example) which may be help explain how the library is to be used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemExample/ViewController.m#L23) get [passed through to the extension](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemShareExtensionExample/ShareViewController.m#L10).
+This repository includes a [sample project](https://github.com/tumblr/XExtensionItem/tree/master/Example) which may help explain how the library is to be used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemExample/ViewController.m#L23) get [passed through to the extension](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemShareExtensionExample/ShareViewController.m#L10).
 
 Here’s a [hypothetical example](https://github.com/tumblr/XExtensionItem/wiki/Hypothetical-Tumblr-XExtensionItem-integration-documentation) of how XExtensionItem’s parameters could map to values that the Tumblr iOS share extension would consume.
 
