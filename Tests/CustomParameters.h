@@ -7,6 +7,6 @@
  */
 @interface CustomParameters : NSObject <XExtensionItemDictionarySerializing>
 
-@property (nonatomic) NSString *customParameter;
+@property (nonatomic, copy) NSString *customParameter;
 
 @end
