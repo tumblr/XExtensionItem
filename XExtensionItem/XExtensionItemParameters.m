@@ -179,7 +179,7 @@ static NSString * const ParameterKeyTags = @"tags";
 
 #pragma mark - NSCopying
 
-- (id)copy {
+- (id)copyWithZone:(NSZone *)zone {
     return self;
 }
 
