@@ -107,7 +107,7 @@ parameters.attachments = @[[[NSItemProvider alloc] initWithItem:[NSURL URLWithSt
 parameters.attributedTitle = [[NSAttributedString alloc] initWithString:@"Apple"];
 parameters.attributedContentText = [[NSAttributedString alloc] initWithString:@"iPad Air 2. Change is in the air"];
 
-UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[parameters extensionItemRepresentation]
+UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[parameters.extensionItemRepresentation]
                                                                          applicationActivities:nil];
 ```
 
@@ -118,7 +118,7 @@ objects:
 
 ```objc
 for (NSExtensionItem *item in self.extensionContext.inputItems) {
-    XExtensionItemParameters *parameters = [XExtensionItemParameters parametersFromExtensionItem:item];
+    XExtensionItemParameters *parameters = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
     NSAttributedString *title = parameters.attributedTitle;
     NSAttributedString *contentText = parameters.attributedContentText;
     NSArray *tags = parameters.tags;
