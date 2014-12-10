@@ -56,7 +56,7 @@
  }
  ```
  */
-@interface XExtensionItemParameters : NSObject <NSMutableCopying>
+@interface XExtensionItemParameters : NSObject <NSCopying, NSMutableCopying>
 
 /**
  An optional title for the item.

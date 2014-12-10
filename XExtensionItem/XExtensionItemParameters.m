@@ -177,6 +177,12 @@ static NSString * const ParameterKeyTags = @"tags";
     return [mutableDescription copy];
 }
 
+#pragma mark - NSCopying
+
+- (id)copy {
+    return self;
+}
+
 #pragma mark - NSMutableCopying
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
