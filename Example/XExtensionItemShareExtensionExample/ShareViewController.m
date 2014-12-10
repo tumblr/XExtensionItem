@@ -8,7 +8,7 @@
     [super viewDidLoad];
     
     for (NSExtensionItem *item in self.extensionContext.inputItems) {
-        XExtensionItemParameters *parameters = [XExtensionItemParameters parametersFromExtensionItem:item];
+        XExtensionItemParameters *parameters = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
         
         for (NSItemProvider *itemProvider in parameters.attachments) {
             for (NSString *typeIdentifier in itemProvider.registeredTypeIdentifiers) {

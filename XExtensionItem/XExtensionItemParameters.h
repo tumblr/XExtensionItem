@@ -138,6 +138,8 @@
  */
 @property (nonatomic, readonly) NSExtensionItem *extensionItemRepresentation;
 
+#pragma mark - Initialization
+
 /**
  *  For use in share extensions: convert an incoming `NSExtensionItem` into an `XExtensionItemParameters` instance.
  *
@@ -145,17 +147,14 @@
  *
  *  @return `XExtensionItemParameters` populated with values from the extension item.
  */
-+ (instancetype)parametersFromExtensionItem:(NSExtensionItem *)extensionItem;
-
-#pragma mark - Initialization
+- (instancetype)initWithExtensionItem:(NSExtensionItem *)extensionItem;
 
 /**
- *  Create an immutable `XExtensionItemParameters` instance. Documentation for the arguments can be found on each of
- *  this class’s properties.
+ *  For use in applications: create an immutable `XExtensionItemParameters` instance. Documentation for the arguments 
+ *  can be found on each of this class’s properties.
  *
- *  Immutable `XExtensionItemParamters` instances can also be created by copying an `XExtensionItemMutableParameters`
+ *  Immutable `XExtensionItemParameters` instances can also be created by copying an `XExtensionItemMutableParameters`
  *  instance.
- *
  *
  *  @param attributedTitle                   (Optional) See `attributedTitle` property
  *  @param attributedContentText             (Optional) See `attributedContentText` property

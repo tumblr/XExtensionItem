@@ -14,7 +14,7 @@
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.attributedTitle = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     XCTAssertEqualObjects(inputParams.attributedTitle.string, outputParams.attributedTitle.string);
 }
@@ -23,7 +23,7 @@
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.attributedContentText = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     XCTAssertEqual(inputParams.attributedContentText.hash, outputParams.attributedContentText.hash);
 }
@@ -33,7 +33,7 @@
     inputParams.attachments = @[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://apple.com"]
                                                       typeIdentifier:(__bridge NSString *)kUTTypeURL]];
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     XCTAssertEqualObjects(inputParams.attachments, outputParams.attachments);
 }
@@ -42,7 +42,7 @@
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.tags = @[@"foo", @"bar", @"baz"];
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     XCTAssertEqualObjects(inputParams.tags, outputParams.tags);
 }
@@ -51,7 +51,7 @@
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     XCTAssertEqualObjects(inputParams.sourceURL, outputParams.sourceURL);
 }
@@ -60,7 +60,7 @@
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.imageURL = [NSURL URLWithString:@"http://tumblr.com/image.png"];
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     XCTAssertEqualObjects(inputParams.imageURL, outputParams.imageURL);
 }
@@ -69,7 +69,7 @@
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.location = [[CLLocation alloc] initWithLatitude:100 longitude:50];
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     XCTAssertEqual([inputParams.location distanceFromLocation:outputParams.location], 0);
 }
@@ -79,7 +79,7 @@
     inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppName:@"Tumblr"
                                                                                   appStoreID:@(12345)];
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
 }
@@ -88,7 +88,7 @@
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.UTIsToContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     XCTAssertEqualObjects(inputParams.UTIsToContentRepresentations, outputParams.UTIsToContentRepresentations);
 }
@@ -98,7 +98,7 @@
     inputParams.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     inputParams.userInfo = @{ @"foo": @"bar" };
     
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     // Output params user info dictionary should be a superset of input params user info dictionary
     
@@ -114,7 +114,7 @@
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     [inputParams addEntriesToUserInfo:inputCustomParameters];
 
-    XExtensionItemParameters *outputParams = [XExtensionItemParameters parametersFromExtensionItem:[inputParams extensionItemRepresentation]];
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
     CustomParameters *outputCustomParameters = [[CustomParameters alloc] initWithDictionary:outputParams.userInfo];
     
@@ -132,7 +132,7 @@
         @"x-extension-item": @[],
     };
     
-    XExtensionItemParameters *params = [XExtensionItemParameters parametersFromExtensionItem:item];
+    XExtensionItemParameters *params = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
     
     item = [[NSExtensionItem alloc] init];
     item.userInfo = @{
@@ -147,7 +147,7 @@
         }
     };
     
-    params = [XExtensionItemParameters parametersFromExtensionItem:item];
+    params = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
     XCTAssertNoThrow([params.UTIsToContentRepresentations allKeys]);
     XCTAssertNoThrow([params.sourceURL absoluteString]);
     XCTAssertNoThrow([params.imageURL absoluteString]);

@@ -55,7 +55,7 @@ static NSString * const ParameterKeyTags = @"tags";
 
 #pragma mark - NSExtensionItem conversion
 
-+ (instancetype)parametersFromExtensionItem:(NSExtensionItem *)extensionItem {
+- (instancetype)initWithExtensionItem:(NSExtensionItem *)extensionItem {
     NSDictionary *parameterDictionary = [[[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:extensionItem.userInfo]
                                          dictionaryForKey:ParameterKeyXExtensionItem];
     
@@ -63,25 +63,25 @@ static NSString * const ParameterKeyTags = @"tags";
 
     XExtensionItemSourceApplication *sourceApplication = [[XExtensionItemSourceApplication alloc] initWithDictionary:parameterDictionary];
     
-    return [[self alloc] initWithAttributedTitle:extensionItem.attributedTitle
-                           attributedContentText:extensionItem.attributedContentText
-                                     attachments:extensionItem.attachments
-                                            tags:[parameters arrayForKey:ParameterKeyTags]
-                                       sourceURL:[parameters URLForKey:ParameterKeySourceURL]
-                                        imageURL:[parameters URLForKey:ParameterKeyImageURL]
-                                        location:^CLLocation *{
-                                            NSData *data = [parameters dataForKey:ParameterKeyLocation];
-                                            
-                                            if (data) {
-                                                return [NSKeyedUnarchiver unarchiveObjectWithData:data];
-                                            }
-                                            else {
-                                                return nil;
-                                            }
-                                        }()
-                               sourceApplication:sourceApplication
-                    UTIsToContentRepresentations:[parameters dictionaryForKey:ParameterKeyUTIsToContentRepresentations]
-                                        userInfo:extensionItem.userInfo];
+    return [self initWithAttributedTitle:extensionItem.attributedTitle
+                   attributedContentText:extensionItem.attributedContentText
+                             attachments:extensionItem.attachments
+                                    tags:[parameters arrayForKey:ParameterKeyTags]
+                               sourceURL:[parameters URLForKey:ParameterKeySourceURL]
+                                imageURL:[parameters URLForKey:ParameterKeyImageURL]
+                                location:^CLLocation *{
+                                    NSData *data = [parameters dataForKey:ParameterKeyLocation];
+                                    
+                                    if (data) {
+                                        return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                                    }
+                                    else {
+                                        return nil;
+                                    }
+                                }()
+                       sourceApplication:sourceApplication
+            UTIsToContentRepresentations:[parameters dictionaryForKey:ParameterKeyUTIsToContentRepresentations]
+                                userInfo:extensionItem.userInfo];
 }
 
 - (NSExtensionItem *)extensionItemRepresentation {
