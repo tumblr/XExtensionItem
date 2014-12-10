@@ -60,7 +60,6 @@ XExtensionItem currently supports the following generic parameters (more informa
 * Source application
     * Name
     * App store ID
-    * Icon URL
 * UTIs mapped to alternative content representations
 
 If you have an idea for a parameter that would be broadly useful (e.g. not specific to a specific share extension or service), please create an [issue](https://github.com/tumblr/XExtensionItem/issues) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
