@@ -2,9 +2,9 @@
 @protocol XExtensionItemDictionarySerializing;
 
 /**
- *  Mutable `XExtensionItemParameters` variant.
- *
- *  @see `XExtensionItemParameters`
+ Mutable `XExtensionItemParameters` variant.
+ 
+ @see `XExtensionItemParameters`
  */
 @interface XExtensionItemMutableParameters : XExtensionItemParameters <NSCopying>
 
@@ -20,9 +20,9 @@
 @property (nonatomic, copy) NSDictionary *userInfo;
 
 /**
- *  Add entries from a dictionary-serializable custom object to this paramter object’s `userInfo` dictionary.
- *
- *  @param dictionarySerializable Object whose entries should be added to this paramter object’s `userInfo` dictionary.
+ Add entries from a dictionary-serializable custom object to this paramter object’s `userInfo` dictionary.
+ 
+ @param dictionarySerializable Object whose entries should be added to this paramter object’s `userInfo` dictionary.
  */
 - (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable;
 
