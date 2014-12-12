@@ -1,11 +1,3 @@
-//
-//  XExtensionItemTypeSafeDictionaryValues.m
-//  XExtensionItem
-//
-//  Created by Bryan Irace on 12/3/14.
-//  Copyright (c) 2014 Bryan Irace. All rights reserved.
-//
-
 #import "XExtensionItemTypeSafeDictionaryValues.h"
 
 @interface XExtensionItemTypeSafeDictionaryValues()
