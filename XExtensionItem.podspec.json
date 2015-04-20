@@ -21,7 +21,6 @@
   "source_files": "XExtensionItem/**/*.{h,m}",
   "frameworks": [
     "Foundation", 
-    "UIKit",
-    "CoreLocation"
+    "UIKit"
   ]
 }
