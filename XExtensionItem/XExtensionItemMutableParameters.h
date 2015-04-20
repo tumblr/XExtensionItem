@@ -14,7 +14,6 @@
 @property (nonatomic, copy) NSArray *tags;
 @property (nonatomic, copy) NSURL *sourceURL;
 @property (nonatomic, copy) NSURL *imageURL;
-@property (nonatomic, copy) CLLocation *location;
 @property (nonatomic, copy) XExtensionItemSourceApplication *sourceApplication;
 @property (nonatomic, copy) NSDictionary *typeIdentifiersToContentRepresentations;
 @property (nonatomic, copy) NSDictionary *userInfo;

@@ -65,15 +65,6 @@
     XCTAssertEqualObjects(inputParams.imageURL, outputParams.imageURL);
 }
 
-- (void)testLocation {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.location = [[CLLocation alloc] initWithLatitude:100 longitude:50];
-    
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
-    
-    XCTAssertEqual([inputParams.location distanceFromLocation:outputParams.location], 0);
-}
-
 - (void)testSourceApplication {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppName:@"Tumblr"
@@ -151,7 +142,6 @@
     XCTAssertNoThrow([params.typeIdentifiersToContentRepresentations allKeys]);
     XCTAssertNoThrow([params.sourceURL absoluteString]);
     XCTAssertNoThrow([params.imageURL absoluteString]);
-    XCTAssertNoThrow(params.location.timestamp);
     XCTAssertNoThrow([params.sourceApplication.appName stringByAppendingString:@""]);
     XCTAssertNoThrow(params.sourceApplication.appStoreID);
 }

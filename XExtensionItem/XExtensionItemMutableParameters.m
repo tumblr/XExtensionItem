@@ -10,7 +10,6 @@
 @synthesize tags;
 @synthesize sourceURL;
 @synthesize imageURL;
-@synthesize location;
 @synthesize sourceApplication;
 @synthesize typeIdentifiersToContentRepresentations;
 @synthesize userInfo;
@@ -32,7 +31,6 @@
                                                                              tags:self.tags
                                                                         sourceURL:self.sourceURL
                                                                          imageURL:self.imageURL
-                                                                         location:self.location
                                                                 sourceApplication:self.sourceApplication
                                                      typeIdentifiersToContentRepresentations:self.typeIdentifiersToContentRepresentations
                                                                          userInfo:self.userInfo];
