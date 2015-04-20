@@ -110,18 +110,18 @@
 @property (nonatomic, readonly) XExtensionItemSourceApplication *sourceApplication;
 
 /**
- An optional dictionary mapping UTI strings (e.g. “public.html”) to representations of the attachment content in
- those formats.
+ An optional dictionary mapping type identifier strings (e.g. “public.html”) to representations of the attachment 
+ content in those formats.
  
  For example, an application may include an `NSURL` in its extension item’s attachments array. It may then augment 
  that URL with a textual summary in the `attributedContentText` field and an HTML representation in this dictionary, 
  keyed off of the “public.html” UTI string.
  
  ```objc
- parameters.UTITypesToContentRepresentations = @{ @"public.html": @"<p>HTML</p>" };
+ parameters.typeIdentifiersToContentRepresentations = @{ @"public.html": @"<p>HTML</p>" };
  ```
  */
-@property (nonatomic, readonly) NSDictionary *UTIsToContentRepresentations;
+@property (nonatomic, readonly) NSDictionary *typeIdentifiersToContentRepresentations;
 
 /**
  An optional dictionary of keys and values. Individual applications can add advertise whatever custom parameters they
@@ -150,22 +150,22 @@
 - (instancetype)initWithExtensionItem:(NSExtensionItem *)extensionItem;
 
 /**
- For use in applications: create an immutable `XExtensionItemParameters` instance. Documentation for the arguments 
+ For use in applications: create an immutable `XExtensionItemParameters` instance. Documentation for the arguments
  can be found on each of this class’s properties.
  
  Immutable `XExtensionItemParameters` instances can also be created by copying an `XExtensionItemMutableParameters`
  instance.
  
- @param attributedTitle                   (Optional) See `attributedTitle` property
- @param attributedContentText             (Optional) See `attributedContentText` property
- @param attachments                       (Optional) See `attachments` property
- @param tags                              (Optional) See `tags` property
- @param sourceURL                         (Optional) See `sourceURL` property
- @param imageURL                          (Optional) See `imageURL` property
- @param location                          (Optional) See `location` property
- @param sourceApplication                 (Optional) See `sourceApplication` property
- @param UTIsToContentRepresentations      (Optional) See `UTIsToContentRepresentations` property
- @param userInfo                          (Optional) See `userInfo` property
+ @param attributedTitle                            (Optional) See `attributedTitle` property
+ @param attributedContentText                      (Optional) See `attributedContentText` property
+ @param attachments                                (Optional) See `attachments` property
+ @param tags                                       (Optional) See `tags` property
+ @param sourceURL                                  (Optional) See `sourceURL` property
+ @param imageURL                                   (Optional) See `imageURL` property
+ @param location                                   (Optional) See `location` property
+ @param sourceApplication                          (Optional) See `sourceApplication` property
+ @param typeIdentifiersToContentRepresentations    (Optional) See `typeIdentifiersToContentRepresentations` property
+ @param userInfo                                   (Optional) See `userInfo` property
  */
 - (instancetype)initWithAttributedTitle:(NSAttributedString *)attributedTitle
                   attributedContentText:(NSAttributedString *)attributedContentText
@@ -175,7 +175,7 @@
                                imageURL:(NSURL *)imageURL
                                location:(CLLocation *)location
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
-           UTIsToContentRepresentations:(NSDictionary *)UTIsToContentRepresentations
+typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContentRepresentations
                                userInfo:(NSDictionary *)userInfo NS_DESIGNATED_INITIALIZER;
 
 @end

@@ -6,7 +6,7 @@
 static NSString * const ParameterKeyXExtensionItem = @"x-extension-item";
 static NSString * const ParameterKeyImageURL = @"image-url";
 static NSString * const ParameterKeyLocation = @"location";
-static NSString * const ParameterKeyUTIsToContentRepresentations = @"utis-to-content-representations";
+static NSString * const ParameterKeyTypeIdentifiersToContentRepresentations = @"type-identifiers-to-content-representations";
 static NSString * const ParameterKeySourceURL = @"source-url";
 static NSString * const ParameterKeyTags = @"tags";
 
@@ -22,7 +22,7 @@ static NSString * const ParameterKeyTags = @"tags";
                                imageURL:(NSURL *)imageURL
                                location:(CLLocation *)location
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
-           UTIsToContentRepresentations:(NSDictionary *)UTIsToContentRepresentations
+typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContentRepresentations
                                userInfo:(NSDictionary *)userInfo {
     if (self = [super init]) {
         _attributedTitle = [attributedTitle copy];
@@ -33,7 +33,7 @@ static NSString * const ParameterKeyTags = @"tags";
         _imageURL = [imageURL copy];
         _location = [location copy];
         _sourceApplication = sourceApplication;
-        _UTIsToContentRepresentations = [UTIsToContentRepresentations copy];
+        _typeIdentifiersToContentRepresentations = [typeIdentifiersToContentRepresentations copy];
         _userInfo = [userInfo copy];
     }
     
@@ -49,7 +49,7 @@ static NSString * const ParameterKeyTags = @"tags";
                                 imageURL:nil
                                 location:nil
                        sourceApplication:nil
-            UTIsToContentRepresentations:nil
+            typeIdentifiersToContentRepresentations:nil
                                 userInfo:nil];
 }
 
@@ -80,7 +80,7 @@ static NSString * const ParameterKeyTags = @"tags";
                                     }
                                 }()
                        sourceApplication:sourceApplication
-            UTIsToContentRepresentations:[parameters dictionaryForKey:ParameterKeyUTIsToContentRepresentations]
+            typeIdentifiersToContentRepresentations:[parameters dictionaryForKey:ParameterKeyTypeIdentifiersToContentRepresentations]
                                 userInfo:extensionItem.userInfo];
 }
 
@@ -94,7 +94,7 @@ static NSString * const ParameterKeyTags = @"tags";
         [mutableParameters setValue:self.tags forKey:ParameterKeyTags];
         [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
         [mutableParameters setValue:self.imageURL forKey:ParameterKeyImageURL];
-        [mutableParameters setValue:self.UTIsToContentRepresentations forKey:ParameterKeyUTIsToContentRepresentations];
+        [mutableParameters setValue:self.typeIdentifiersToContentRepresentations forKey:ParameterKeyTypeIdentifiersToContentRepresentations];
         [mutableParameters setValue:[NSKeyedArchiver archivedDataWithRootObject:self.location] forKey:ParameterKeyLocation];
         [mutableParameters addEntriesFromDictionary:self.sourceApplication.dictionaryRepresentation];
         
@@ -153,8 +153,8 @@ static NSString * const ParameterKeyTags = @"tags";
         [mutableDescription appendFormat:@", sourceApplication: %@", self.sourceApplication];
     }
     
-    if (self.UTIsToContentRepresentations) {
-        [mutableDescription appendFormat:@", UTIsToContentRepresentations: %@", self.UTIsToContentRepresentations];
+    if (self.typeIdentifiersToContentRepresentations) {
+        [mutableDescription appendFormat:@", TypeIdentifiersToContentRepresentations: %@", self.typeIdentifiersToContentRepresentations];
     }
     
     if (self.userInfo) {
@@ -194,7 +194,7 @@ static NSString * const ParameterKeyTags = @"tags";
                                                                    imageURL:self.imageURL
                                                                    location:self.location
                                                           sourceApplication:self.sourceApplication
-                                               UTIsToContentRepresentations:self.UTIsToContentRepresentations
+                                               typeIdentifiersToContentRepresentations:self.typeIdentifiersToContentRepresentations
                                                                    userInfo:self.userInfo];
 }
 

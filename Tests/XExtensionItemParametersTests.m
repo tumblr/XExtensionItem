@@ -84,13 +84,13 @@
     XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
 }
 
-- (void)testUTIsToContentRepresentations {
+- (void)testTypeIdentifiersToContentRepresentations {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.UTIsToContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
+    inputParams.typeIdentifiersToContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
     
     XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
-    XCTAssertEqualObjects(inputParams.UTIsToContentRepresentations, outputParams.UTIsToContentRepresentations);
+    XCTAssertEqualObjects(inputParams.typeIdentifiersToContentRepresentations, outputParams.typeIdentifiersToContentRepresentations);
 }
 
 - (void)testUserInfo {
@@ -137,7 +137,7 @@
     item = [[NSExtensionItem alloc] init];
     item.userInfo = @{
         @"x-extension-item": @{
-            @"utis-to-content-representations": @"",
+            @"type-identifiers-to-content-representations": @"",
             @"source-url": @"",
             @"tags": @{},
             @"image-url": @"",
@@ -148,7 +148,7 @@
     };
     
     params = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
-    XCTAssertNoThrow([params.UTIsToContentRepresentations allKeys]);
+    XCTAssertNoThrow([params.typeIdentifiersToContentRepresentations allKeys]);
     XCTAssertNoThrow([params.sourceURL absoluteString]);
     XCTAssertNoThrow([params.imageURL absoluteString]);
     XCTAssertNoThrow(params.location.timestamp);

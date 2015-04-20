@@ -12,7 +12,7 @@
 @synthesize imageURL;
 @synthesize location;
 @synthesize sourceApplication;
-@synthesize UTIsToContentRepresentations;
+@synthesize typeIdentifiersToContentRepresentations;
 @synthesize userInfo;
 
 - (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable {
@@ -34,7 +34,7 @@
                                                                          imageURL:self.imageURL
                                                                          location:self.location
                                                                 sourceApplication:self.sourceApplication
-                                                     UTIsToContentRepresentations:self.UTIsToContentRepresentations
+                                                     typeIdentifiersToContentRepresentations:self.typeIdentifiersToContentRepresentations
                                                                          userInfo:self.userInfo];
 }
 
