@@ -56,7 +56,6 @@ XExtensionItem currently supports the following generic parameters (more informa
 * Tags
 * Source URL
 * Image URL
-* Location
 * Source application
     * Name
     * App store ID
