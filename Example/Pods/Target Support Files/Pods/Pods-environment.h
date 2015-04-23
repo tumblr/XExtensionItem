@@ -10,5 +10,5 @@
 #define COCOAPODS_POD_AVAILABLE_XExtensionItem
 #define COCOAPODS_VERSION_MAJOR_XExtensionItem 0
 #define COCOAPODS_VERSION_MINOR_XExtensionItem 1
-#define COCOAPODS_VERSION_PATCH_XExtensionItem 0
+#define COCOAPODS_VERSION_PATCH_XExtensionItem 1
 

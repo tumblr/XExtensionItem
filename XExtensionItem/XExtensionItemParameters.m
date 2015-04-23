@@ -5,7 +5,6 @@
 
 static NSString * const ParameterKeyXExtensionItem = @"x-extension-item";
 static NSString * const ParameterKeyImageURL = @"image-url";
-static NSString * const ParameterKeyLocation = @"location";
 static NSString * const ParameterKeyTypeIdentifiersToContentRepresentations = @"type-identifiers-to-content-representations";
 static NSString * const ParameterKeySourceURL = @"source-url";
 static NSString * const ParameterKeyTags = @"tags";
@@ -39,7 +38,6 @@ static NSString * const ParameterKeyTags = @"tags";
                                    tags:(NSArray *)tags
                               sourceURL:(NSURL *)sourceURL
                                imageURL:(NSURL *)imageURL
-                               location:(CLLocation *)location
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
 typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContentRepresentations
                                userInfo:(NSDictionary *)userInfo {
@@ -51,7 +49,6 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
         _tags = [tags copy];
         _sourceURL = [sourceURL copy];
         _imageURL = [imageURL copy];
-        _location = [location copy];
         _sourceApplication = sourceApplication;
         _typeIdentifiersToContentRepresentations = [typeIdentifiersToContentRepresentations copy];
         _userInfo = [userInfo copy];
@@ -67,7 +64,6 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
                                     tags:nil
                                sourceURL:nil
                                 imageURL:nil
-                                location:nil
                        sourceApplication:nil
             typeIdentifiersToContentRepresentations:nil
                                 userInfo:nil];
@@ -89,16 +85,6 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
                                     tags:[parameters arrayForKey:ParameterKeyTags]
                                sourceURL:[parameters URLForKey:ParameterKeySourceURL]
                                 imageURL:[parameters URLForKey:ParameterKeyImageURL]
-                                location:^CLLocation *{
-                                    NSData *data = [parameters dataForKey:ParameterKeyLocation];
-                                    
-                                    if (data) {
-                                        return [NSKeyedUnarchiver unarchiveObjectWithData:data];
-                                    }
-                                    else {
-                                        return nil;
-                                    }
-                                }()
                        sourceApplication:sourceApplication
             typeIdentifiersToContentRepresentations:[parameters dictionaryForKey:ParameterKeyTypeIdentifiersToContentRepresentations]
                                 userInfo:extensionItem.userInfo];
@@ -115,7 +101,6 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
         [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
         [mutableParameters setValue:self.imageURL forKey:ParameterKeyImageURL];
         [mutableParameters setValue:self.typeIdentifiersToContentRepresentations forKey:ParameterKeyTypeIdentifiersToContentRepresentations];
-        [mutableParameters setValue:[NSKeyedArchiver archivedDataWithRootObject:self.location] forKey:ParameterKeyLocation];
         [mutableParameters addEntriesFromDictionary:self.sourceApplication.dictionaryRepresentation];
         
         if ([mutableParameters count] > 0) {
@@ -164,10 +149,6 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
     if (self.imageURL) {
         [mutableDescription appendFormat:@", imageURL: %@", self.imageURL];
     }
-
-    if (self.location) {
-        [mutableDescription appendFormat:@", location: %@", self.location];
-    }
     
     if (self.sourceApplication) {
         [mutableDescription appendFormat:@", sourceApplication: %@", self.sourceApplication];
@@ -212,7 +193,6 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
                                                                        tags:self.tags
                                                                   sourceURL:self.sourceURL
                                                                    imageURL:self.imageURL
-                                                                   location:self.location
                                                           sourceApplication:self.sourceApplication
                                                typeIdentifiersToContentRepresentations:self.typeIdentifiersToContentRepresentations
                                                                    userInfo:self.userInfo];

@@ -1,5 +1,5 @@
 PODS:
-  - XExtensionItem (0.1.0)
+  - XExtensionItem (0.1.1)
 
 DEPENDENCIES:
   - XExtensionItem (from `..`)
@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: ..
 
 SPEC CHECKSUMS:
-  XExtensionItem: c2a0bdfd38caf2e1c7dfb980abfb75db56a6e95a
+  XExtensionItem: 95a64179402ad9d9d51673bcf93bd0c830c7f064
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.4

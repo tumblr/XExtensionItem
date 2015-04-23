@@ -1,4 +1,3 @@
-#import <CoreLocation/CoreLocation.h>
 #import <Foundation/Foundation.h>
 @class XExtensionItemMutableParameters;
 @class XExtensionItemSourceApplication;
@@ -99,11 +98,6 @@
 @property (nonatomic, readonly) NSURL *imageURL;
 
 /**
- An optional location.
- */
-@property (nonatomic, readonly) CLLocation *location;
-
-/**
  An optional object specifying information about the application that is sharing this extension item.
  
  @see `XExtensionItemSourceApplication`
@@ -173,7 +167,6 @@
  @param tags                                       (Optional) See `tags` property
  @param sourceURL                                  (Optional) See `sourceURL` property
  @param imageURL                                   (Optional) See `imageURL` property
- @param location                                   (Optional) See `location` property
  @param sourceApplication                          (Optional) See `sourceApplication` property
  @param typeIdentifiersToContentRepresentations    (Optional) See `typeIdentifiersToContentRepresentations` property
  @param userInfo                                   (Optional) See `userInfo` property
@@ -186,7 +179,6 @@
                                    tags:(NSArray *)tags
                               sourceURL:(NSURL *)sourceURL
                                imageURL:(NSURL *)imageURL
-                               location:(CLLocation *)location
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
 typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContentRepresentations
                                userInfo:(NSDictionary *)userInfo NS_DESIGNATED_INITIALIZER;
