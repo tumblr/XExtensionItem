@@ -26,7 +26,6 @@ static NSString * const ParameterKeyTags = @"tags";
                                     tags:parameters.tags
                                sourceURL:parameters.sourceURL
                                 imageURL:parameters.imageURL
-                                location:parameters.location
                        sourceApplication:parameters.sourceApplication
  typeIdentifiersToContentRepresentations:parameters.typeIdentifiersToContentRepresentations
                                 userInfo:parameters.userInfo];
