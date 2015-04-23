@@ -40,15 +40,7 @@
         
         [mutableParameters copy];
     });
-//    
-//    NSExtensionItem *item = [[NSExtensionItem alloc] init];
-//    item.attachments = @[
-//                         [[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://bryan.io"]
-//                                               typeIdentifier:(__bridge NSString *)kUTTypeURL],
-//                         [[NSItemProvider alloc] initWithItem:[[NSBundle mainBundle] URLForResource:@"thumbnail" withExtension:@"png"]
-//                                               typeIdentifier:(__bridge NSString *)kUTTypePNG]
-//                         ];
-    
+
     [self presentViewController:[[UIActivityViewController alloc] initWithActivityItems:@[parameters.extensionItemRepresentation]
                                                                   applicationActivities:nil]
                        animated:YES completion:nil];
