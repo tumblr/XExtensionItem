@@ -18,7 +18,9 @@ static NSString * const ParameterKeyTags = @"tags";
     
     XExtensionItemMutableParameters *parameters = [[XExtensionItemMutableParameters alloc] init];
     
-    initializationBlock(parameters);
+    if (initializationBlock) {
+        initializationBlock(parameters);
+    }
     
     return [self initWithAttributedTitle:parameters.attributedTitle
                    attributedContentText:parameters.attributedContentText
