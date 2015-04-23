@@ -32,7 +32,7 @@
         mutableParameters.location = [[CLLocation alloc] initWithLatitude:25 longitude:50];
         mutableParameters.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppNameFromBundle:[NSBundle mainBundle]
                                                                                                       appStoreID:@12345];
-        mutableParameters.UTIsToContentRepresentations = @{ @"text/html": @"<p><strong>Apple’s website markup</strong></p>" };
+        mutableParameters.typeIdentifiersToContentRepresentations = @{ @"text/html": @"<p><strong>Apple’s website markup</strong></p>" };
         
         [mutableParameters addEntriesToUserInfo:({
             TumblrCustomShareParameters *tumblrParameters = [[TumblrCustomShareParameters alloc] init];
@@ -42,16 +42,16 @@
         
         [mutableParameters copy];
     });
+//    
+//    NSExtensionItem *item = [[NSExtensionItem alloc] init];
+//    item.attachments = @[
+//                         [[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://bryan.io"]
+//                                               typeIdentifier:(__bridge NSString *)kUTTypeURL],
+//                         [[NSItemProvider alloc] initWithItem:[[NSBundle mainBundle] URLForResource:@"thumbnail" withExtension:@"png"]
+//                                               typeIdentifier:(__bridge NSString *)kUTTypePNG]
+//                         ];
     
-    NSExtensionItem *item = [[NSExtensionItem alloc] init];
-    item.attachments = @[
-                         [[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://bryan.io"]
-                                               typeIdentifier:(__bridge NSString *)kUTTypeURL],
-                         [[NSItemProvider alloc] initWithItem:[[NSBundle mainBundle] URLForResource:@"thumbnail" withExtension:@"png"]
-                                               typeIdentifier:(__bridge NSString *)kUTTypePNG]
-                         ];
-    
-    [self presentViewController:[[UIActivityViewController alloc] initWithActivityItems:@[item]
+    [self presentViewController:[[UIActivityViewController alloc] initWithActivityItems:@[parameters.extensionItemRepresentation]
                                                                   applicationActivities:nil]
                        animated:YES completion:nil];
 }

@@ -1,5 +1,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import <Foundation/Foundation.h>
+@class XExtensionItemMutableParameters;
 @class XExtensionItemSourceApplication;
 
 /**
@@ -145,9 +146,19 @@
  
  @param extensionItem Extension item retrieved from the share extension’s extension context.
  
- @return `XExtensionItemParameters` populated with values from the extension item.
+ @return New parameters instance populated with values from the extension item.
  */
 - (instancetype)initWithExtensionItem:(NSExtensionItem *)extensionItem;
+
+/**
+ For use in applications: create an immutable `XExtensionItemParameters` instance by configuring a mutable instance 
+ passed into a configuration block.
+ 
+ @param initializationBlock Block to be called with a mutable parameters instance to be configured.
+ 
+ @return New parameters instance populated with values from the mutable instance.
+ */
+- (instancetype)initWithBlock:(void (^)(XExtensionItemMutableParameters *))initializationBlock;
 
 /**
  For use in applications: create an immutable `XExtensionItemParameters` instance. Documentation for the arguments
@@ -166,6 +177,8 @@
  @param sourceApplication                          (Optional) See `sourceApplication` property
  @param typeIdentifiersToContentRepresentations    (Optional) See `typeIdentifiersToContentRepresentations` property
  @param userInfo                                   (Optional) See `userInfo` property
+ 
+ @return New parameters instance.
  */
 - (instancetype)initWithAttributedTitle:(NSAttributedString *)attributedTitle
                   attributedContentText:(NSAttributedString *)attributedContentText

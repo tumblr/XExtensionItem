@@ -14,6 +14,25 @@ static NSString * const ParameterKeyTags = @"tags";
 
 #pragma mark - Initialization
 
+- (instancetype)initWithBlock:(void (^)(XExtensionItemMutableParameters *))initializationBlock {
+    NSParameterAssert(initializationBlock);
+    
+    XExtensionItemMutableParameters *parameters = [[XExtensionItemMutableParameters alloc] init];
+    
+    initializationBlock(parameters);
+    
+    return [self initWithAttributedTitle:parameters.attributedTitle
+                   attributedContentText:parameters.attributedContentText
+                             attachments:parameters.attachments
+                                    tags:parameters.tags
+                               sourceURL:parameters.sourceURL
+                                imageURL:parameters.imageURL
+                                location:parameters.location
+                       sourceApplication:parameters.sourceApplication
+ typeIdentifiersToContentRepresentations:parameters.typeIdentifiersToContentRepresentations
+                                userInfo:parameters.userInfo];
+}
+
 - (instancetype)initWithAttributedTitle:(NSAttributedString *)attributedTitle
                   attributedContentText:(NSAttributedString *)attributedContentText
                             attachments:(NSArray *)attachments
@@ -24,7 +43,8 @@ static NSString * const ParameterKeyTags = @"tags";
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
 typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContentRepresentations
                                userInfo:(NSDictionary *)userInfo {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         _attributedTitle = [attributedTitle copy];
         _attributedContentText = [attributedContentText copy];
         _attachments = [attachments copy];
