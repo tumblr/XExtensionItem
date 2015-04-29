@@ -5,7 +5,7 @@
 
 static NSString * const ParameterKeyXExtensionItem = @"x-extension-item";
 static NSString * const ParameterKeyImageURL = @"image-url";
-static NSString * const ParameterKeyTypeIdentifiersToContentRepresentations = @"type-identifiers-to-content-representations";
+static NSString * const ParameterKeyAlternateContentRepresentations = @"alternate-content-representations";
 static NSString * const ParameterKeySourceURL = @"source-url";
 static NSString * const ParameterKeyTags = @"tags";
 
@@ -29,7 +29,7 @@ static NSString * const ParameterKeyTags = @"tags";
                                sourceURL:parameters.sourceURL
                                 imageURL:parameters.imageURL
                        sourceApplication:parameters.sourceApplication
- typeIdentifiersToContentRepresentations:parameters.typeIdentifiersToContentRepresentations
+         alternateContentRepresentations:parameters.alternateContentRepresentations
                                 userInfo:parameters.userInfo];
 }
 
@@ -40,7 +40,7 @@ static NSString * const ParameterKeyTags = @"tags";
                               sourceURL:(NSURL *)sourceURL
                                imageURL:(NSURL *)imageURL
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
-typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContentRepresentations
+        alternateContentRepresentations:(NSDictionary *)alternateContentRepresentations
                                userInfo:(NSDictionary *)userInfo {
     self = [super init];
     if (self) {
@@ -51,7 +51,7 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
         _sourceURL = [sourceURL copy];
         _imageURL = [imageURL copy];
         _sourceApplication = sourceApplication;
-        _typeIdentifiersToContentRepresentations = [typeIdentifiersToContentRepresentations copy];
+        _alternateContentRepresentations = [alternateContentRepresentations copy];
         _userInfo = [userInfo copy];
     }
     
@@ -66,7 +66,7 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
                                sourceURL:nil
                                 imageURL:nil
                        sourceApplication:nil
-            typeIdentifiersToContentRepresentations:nil
+            alternateContentRepresentations:nil
                                 userInfo:nil];
 }
 
@@ -87,7 +87,7 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
                                sourceURL:[parameters URLForKey:ParameterKeySourceURL]
                                 imageURL:[parameters URLForKey:ParameterKeyImageURL]
                        sourceApplication:sourceApplication
-            typeIdentifiersToContentRepresentations:[parameters dictionaryForKey:ParameterKeyTypeIdentifiersToContentRepresentations]
+         alternateContentRepresentations:[parameters dictionaryForKey:ParameterKeyAlternateContentRepresentations]
                                 userInfo:extensionItem.userInfo];
 }
 
@@ -101,7 +101,7 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
         [mutableParameters setValue:self.tags forKey:ParameterKeyTags];
         [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
         [mutableParameters setValue:self.imageURL forKey:ParameterKeyImageURL];
-        [mutableParameters setValue:self.typeIdentifiersToContentRepresentations forKey:ParameterKeyTypeIdentifiersToContentRepresentations];
+        [mutableParameters setValue:self.alternateContentRepresentations forKey:ParameterKeyAlternateContentRepresentations];
         [mutableParameters addEntriesFromDictionary:self.sourceApplication.dictionaryRepresentation];
         
         if ([mutableParameters count] > 0) {
@@ -155,8 +155,8 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
         [mutableDescription appendFormat:@", sourceApplication: %@", self.sourceApplication];
     }
     
-    if (self.typeIdentifiersToContentRepresentations) {
-        [mutableDescription appendFormat:@", TypeIdentifiersToContentRepresentations: %@", self.typeIdentifiersToContentRepresentations];
+    if (self.alternateContentRepresentations) {
+        [mutableDescription appendFormat:@", alternateContentRepresentations: %@", self.alternateContentRepresentations];
     }
     
     if (self.userInfo) {
@@ -195,7 +195,7 @@ typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContent
                                                                   sourceURL:self.sourceURL
                                                                    imageURL:self.imageURL
                                                           sourceApplication:self.sourceApplication
-                                               typeIdentifiersToContentRepresentations:self.typeIdentifiersToContentRepresentations
+                                            alternateContentRepresentations:self.alternateContentRepresentations
                                                                    userInfo:self.userInfo];
 }
 

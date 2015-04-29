@@ -48,12 +48,20 @@
 - (instancetype)initWithBlock:(void (^)(XExtensionItemMutableSourceApplication *))initializationBlock;
 
 /**
+ Create an immutable `XExtensionItemSourceApplication` instance. Documentation for the arguments can be found on each of 
+ this class’s properties.
+ 
+ Immutable `XExtensionItemSourceApplication` instances can also be created by copying an 
+ `XExtensionItemMutableSourceApplication` instance or by using the block-based convenience initializer.
+ 
  @param appName       (Optional) See `appName` property
  @param appStoreID    (Optional) See `appStoreID` property
  @param googlePlayID  (Optional) See `googlePlayID` property
  @param webURL        (Optional) See `webURL` property
  @param iOSAppURL     (Optional) See `iOSAppURL` property
  @param androidAppURL (Optional) See `androidAppURL` property
+ 
+ @return New source application instance.
  */
 - (instancetype)initWithAppName:(NSString *)appName
                      appStoreID:(NSString *)appStoreID
@@ -63,12 +71,20 @@
                   androidAppURL:(NSURL *)androidAppURL NS_DESIGNATED_INITIALIZER;
 
 /**
+ Create an immutable `XExtensionItemSourceApplication` instance. Documentation for the arguments can be found on each of
+ this class’s properties.
+ 
+ Immutable `XExtensionItemSourceApplication` instances can also be created by copying an
+ `XExtensionItemMutableSourceApplication` instance or by using the block-based convenience initializer.
+ 
  @param bundle        (Optional) Bundle where the human-readable, localized bundle name should be retrieved from.
  @param appStoreID    (Optional) See `appStoreID` property
  @param googlePlayID  (Optional) See `googlePlayID` property
  @param webURL        (Optional) See `webURL` property
  @param iOSAppURL     (Optional) See `iOSAppURL` property
  @param androidAppURL (Optional) See `androidAppURL` property
+ 
+ @return New source application instance.
  */
 - (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle
                                appStoreID:(NSString *)appStoreID

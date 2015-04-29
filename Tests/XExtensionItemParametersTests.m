@@ -81,11 +81,11 @@
 
 - (void)testTypeIdentifiersToContentRepresentations {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.typeIdentifiersToContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
+    inputParams.alternateContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
     
     XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
-    XCTAssertEqualObjects(inputParams.typeIdentifiersToContentRepresentations, outputParams.typeIdentifiersToContentRepresentations);
+    XCTAssertEqualObjects(inputParams.alternateContentRepresentations, outputParams.alternateContentRepresentations);
 }
 
 - (void)testUserInfo {
@@ -147,7 +147,7 @@
     };
     
     params = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
-    XCTAssertNoThrow([params.typeIdentifiersToContentRepresentations allKeys]);
+    XCTAssertNoThrow([params.alternateContentRepresentations allKeys]);
     XCTAssertNoThrow([params.sourceURL absoluteString]);
     XCTAssertNoThrow([params.imageURL absoluteString]);
     XCTAssertNoThrow([params.sourceApplication.appName stringByAppendingString:@""]);

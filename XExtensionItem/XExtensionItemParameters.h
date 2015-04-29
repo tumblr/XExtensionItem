@@ -113,10 +113,10 @@
  keyed off of the “public.html” UTI string.
  
  ```objc
- parameters.typeIdentifiersToContentRepresentations = @{ @"public.html": @"<p>HTML</p>" };
+ parameters.alternateContentRepresentations = @{ @"public.html": @"<p>HTML</p>" };
  ```
  */
-@property (nonatomic, readonly) NSDictionary *typeIdentifiersToContentRepresentations;
+@property (nonatomic, readonly) NSDictionary *alternateContentRepresentations;
 
 /**
  An optional dictionary of keys and values. Individual applications can add advertise whatever custom parameters they
@@ -159,17 +159,17 @@
  can be found on each of this class’s properties.
  
  Immutable `XExtensionItemParameters` instances can also be created by copying an `XExtensionItemMutableParameters`
- instance.
+ instance or by using the block-based convenience initializer.
  
- @param attributedTitle                            (Optional) See `attributedTitle` property
- @param attributedContentText                      (Optional) See `attributedContentText` property
- @param attachments                                (Optional) See `attachments` property
- @param tags                                       (Optional) See `tags` property
- @param sourceURL                                  (Optional) See `sourceURL` property
- @param imageURL                                   (Optional) See `imageURL` property
- @param sourceApplication                          (Optional) See `sourceApplication` property
- @param typeIdentifiersToContentRepresentations    (Optional) See `typeIdentifiersToContentRepresentations` property
- @param userInfo                                   (Optional) See `userInfo` property
+ @param attributedTitle                    (Optional) See `attributedTitle` property
+ @param attributedContentText              (Optional) See `attributedContentText` property
+ @param attachments                        (Optional) See `attachments` property
+ @param tags                               (Optional) See `tags` property
+ @param sourceURL                          (Optional) See `sourceURL` property
+ @param imageURL                           (Optional) See `imageURL` property
+ @param sourceApplication                  (Optional) See `sourceApplication` property
+ @param alternateContentRepresentations    (Optional) See `alternateContentRepresentations` property
+ @param userInfo                           (Optional) See `userInfo` property
  
  @return New parameters instance.
  */
@@ -180,7 +180,7 @@
                               sourceURL:(NSURL *)sourceURL
                                imageURL:(NSURL *)imageURL
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
-typeIdentifiersToContentRepresentations:(NSDictionary *)typeIdentifiersToContentRepresentations
+        alternateContentRepresentations:(NSDictionary *)alternateContentRepresentations
                                userInfo:(NSDictionary *)userInfo NS_DESIGNATED_INITIALIZER;
 
 @end
