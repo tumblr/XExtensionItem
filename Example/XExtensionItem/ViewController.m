@@ -34,7 +34,7 @@
                                                                                                           webURL:nil
                                                                                                        iOSAppURL:nil
                                                                                                    androidAppURL:nil];
-        mutableParameters.typeIdentifiersToContentRepresentations = @{ @"text/html": @"<p><strong>Apple’s website markup</strong></p>" };
+        mutableParameters.alternateContentRepresentations = @{ @"text/html": @"<p><strong>Apple’s website markup</strong></p>" };
         
         [mutableParameters addEntriesToUserInfo:({
             TumblrCustomShareParameters *tumblrParameters = [[TumblrCustomShareParameters alloc] init];

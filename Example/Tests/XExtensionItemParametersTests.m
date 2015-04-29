@@ -93,7 +93,7 @@
     XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
 }
 
-- (void)testTypeIdentifiersToContentRepresentations {
+- (void)testAlternateContentRepresentations {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.alternateContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
     
