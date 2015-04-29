@@ -1,3 +1,4 @@
+#import "XExtensionItemMutableSourceApplication.h"
 #import "XExtensionItemSourceApplication.h"
 #import "XExtensionItemTypeSafeDictionaryValues.h"
 
@@ -11,6 +12,23 @@ static NSString * const ParameterKeySourceApplicationAndroidAppURL = @"source-ap
 @implementation XExtensionItemSourceApplication
 
 #pragma mark - Initialization
+
+- (instancetype)initWithBlock:(void (^)(XExtensionItemMutableSourceApplication *))initializationBlock {
+    NSParameterAssert(initializationBlock);
+    
+    XExtensionItemMutableSourceApplication *sourceApplication = [[XExtensionItemMutableSourceApplication alloc] init];
+    
+    if (initializationBlock) {
+        initializationBlock(sourceApplication);
+    }
+    
+    return [self initWithAppName:sourceApplication.appName
+                      appStoreID:sourceApplication.appStoreID
+                    googlePlayID:sourceApplication.googlePlayID
+                          webURL:sourceApplication.webURL
+                       iOSAppURL:sourceApplication.iOSAppURL
+                   androidAppURL:sourceApplication.androidAppURL];
+}
 
 - (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle
                                appStoreID:(NSString *)appStoreID
@@ -144,6 +162,12 @@ static NSString * const ParameterKeySourceApplicationAndroidAppURL = @"source-ap
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+#pragma mark - NSMutableCopying
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
     return [[XExtensionItemSourceApplication allocWithZone:zone] initWithAppName:self.appName
                                                                       appStoreID:self.appStoreID
                                                                     googlePlayID:self.googlePlayID

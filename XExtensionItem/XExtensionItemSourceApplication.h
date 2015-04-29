@@ -1,10 +1,11 @@
 #import <Foundation/Foundation.h>
 #import "XExtensionItemDictionarySerializing.h"
+@class XExtensionItemMutableSourceApplication;
 
 /**
  A model object containing information about an application that is passing data into a share extension.
  */
-@interface XExtensionItemSourceApplication : NSObject <NSCopying, XExtensionItemDictionarySerializing>
+@interface XExtensionItemSourceApplication : NSObject <NSCopying, NSMutableCopying, XExtensionItemDictionarySerializing>
 
 /**
  Name of the application that is passing data into the share extension.
@@ -35,6 +36,16 @@
  URL where the content being shared can be deep-linked into on Android, e.g. `tumblr://blog?blogName=bryan&postID=43724939726`
  */
 @property (nonatomic, readonly) NSURL *androidAppURL;
+
+/**
+ Create an immutable `XExtensionItemSourceApplication` instance by configuring a mutable instance passed into a 
+ configuration block.
+ 
+ @param initializationBlock Block to be called with a mutable source application instance to be configured.
+ 
+ @return New source application instance populated with values from the mutable instance.
+ */
+- (instancetype)initWithBlock:(void (^)(XExtensionItemMutableSourceApplication *))initializationBlock;
 
 /**
  @param appName       (Optional) See `appName` property
