@@ -68,7 +68,11 @@
 - (void)testSourceApplication {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppName:@"Tumblr"
-                                                                                  appStoreID:@(12345)];
+                                                                                  appStoreID:@"12345"
+                                                                                googlePlayID:@"54321"
+                                                                                      webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
+                                                                                   iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
+                                                                               androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
     
     XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
@@ -144,7 +148,11 @@
             @"image-url": @"",
             @"location": @"",
             @"source-application-name": @[],
-            @"source-application-store-id": @[]
+            @"source-application-app-store-id": @[],
+            @"source-application-google-play-id": @[],
+            @"source-application-web-url": @[],
+            @"source-application-ios-app-url": @[],
+            @"source-application-android-app-url": @[]
         }
     };
     
@@ -153,7 +161,11 @@
     XCTAssertNoThrow([params.sourceURL absoluteString]);
     XCTAssertNoThrow([params.imageURL absoluteString]);
     XCTAssertNoThrow([params.sourceApplication.appName stringByAppendingString:@""]);
-    XCTAssertNoThrow(params.sourceApplication.appStoreID);
+    XCTAssertNoThrow([params.sourceApplication.appStoreID stringByAppendingString:@""]);
+    XCTAssertNoThrow([params.sourceApplication.googlePlayID stringByAppendingString:@""]);
+    XCTAssertNoThrow([params.sourceApplication.webURL absoluteString]);
+    XCTAssertNoThrow([params.sourceApplication.iOSAppURL absoluteString]);
+    XCTAssertNoThrow([params.sourceApplication.androidAppURL absoluteString]);
 }
 
 @end
