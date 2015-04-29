@@ -75,6 +75,16 @@
     XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
 }
 
+- (void)testSourceApplicationFromBundle {
+    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
+    inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
+                                                                                  appStoreID:@(12345)];
+    
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    
+    XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
+}
+
 - (void)testTypeIdentifiersToContentRepresentations {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.typeIdentifiersToContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };

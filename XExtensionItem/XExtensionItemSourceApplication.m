@@ -9,7 +9,9 @@ static NSString * const ParameterKeySourceApplicationStoreID = @"source-applicat
 #pragma mark - Initialization
 
 - (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle appStoreID:(NSNumber *)appStoreID {
-    return [self initWithAppName:bundle.infoDictionary[(NSString *)kCFBundleNameKey] appStoreID:appStoreID];
+    NSString *displayName = bundle.infoDictionary[@"CFBundleDisplayName"] ?: bundle.infoDictionary[(NSString *)kCFBundleNameKey];
+    
+    return [self initWithAppName:displayName appStoreID:appStoreID];
 }
 
 - (instancetype)initWithAppName:(NSString *)appName appStoreID:(NSNumber *)appStoreID {
