@@ -82,7 +82,11 @@
 - (void)testSourceApplicationFromBundle {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
-                                                                                  appStoreID:@(12345)];
+                                                                                            appStoreID:@"12345"
+                                                                                          googlePlayID:@"54321"
+                                                                                                webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
+                                                                                             iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
+                                                                                         androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
     
     XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
