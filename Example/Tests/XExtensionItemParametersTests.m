@@ -79,13 +79,27 @@
     XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
 }
 
-- (void)testTypeIdentifiersToContentRepresentations {
+- (void)testSourceApplicationFromBundle {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.typeIdentifiersToContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
+    inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
+                                                                                            appStoreID:@"12345"
+                                                                                          googlePlayID:@"54321"
+                                                                                                webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
+                                                                                             iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
+                                                                                         androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
     
     XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
     
-    XCTAssertEqualObjects(inputParams.typeIdentifiersToContentRepresentations, outputParams.typeIdentifiersToContentRepresentations);
+    XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
+}
+
+- (void)testTypeIdentifiersToContentRepresentations {
+    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
+    inputParams.alternateContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
+    
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    
+    XCTAssertEqualObjects(inputParams.alternateContentRepresentations, outputParams.alternateContentRepresentations);
 }
 
 - (void)testUserInfo {
@@ -147,7 +161,7 @@
     };
     
     params = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
-    XCTAssertNoThrow([params.typeIdentifiersToContentRepresentations allKeys]);
+    XCTAssertNoThrow([params.alternateContentRepresentations allKeys]);
     XCTAssertNoThrow([params.sourceURL absoluteString]);
     XCTAssertNoThrow([params.imageURL absoluteString]);
     XCTAssertNoThrow([params.sourceApplication.appName stringByAppendingString:@""]);
