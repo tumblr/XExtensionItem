@@ -1,7 +1,13 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '8.0'
+target 'XExtensionItem', :exclusive => true do
+  pod "XExtensionItem", :path => "../"
+end
 
-pod 'XExtensionItem', :path => '..'
+target 'ShareExtension', :exclusive => true do
+  pod "XExtensionItem", :path => "../"
+end
 
-link_with 'XExtensionItemShareExtensionExample'
+target 'Tests', :exclusive => true do
+  pod "XExtensionItem", :path => "../"
+end
