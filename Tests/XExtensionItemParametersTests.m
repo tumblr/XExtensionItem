@@ -79,6 +79,20 @@
     XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
 }
 
+- (void)testSourceApplicationFromBundle {
+    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
+    inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
+                                                                                            appStoreID:@"12345"
+                                                                                          googlePlayID:@"54321"
+                                                                                                webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
+                                                                                             iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
+                                                                                         androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
+    
+    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    
+    XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
+}
+
 - (void)testTypeIdentifiersToContentRepresentations {
     XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
     inputParams.typeIdentifiersToContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };

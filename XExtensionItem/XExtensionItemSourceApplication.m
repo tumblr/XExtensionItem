@@ -2,6 +2,8 @@
 #import "XExtensionItemSourceApplication.h"
 #import "XExtensionItemTypeSafeDictionaryValues.h"
 
+static NSString * const InfoPlistBundleDisplayNameKey = @"CFBundleDisplayName";
+
 static NSString * const ParameterKeySourceApplicationName = @"source-application-name";
 static NSString * const ParameterKeySourceApplicationAppStoreID = @"source-application-app-store-id";
 static NSString * const ParameterKeySourceApplicationGooglePlayID = @"source-application-google-play-id";
@@ -36,7 +38,9 @@ static NSString * const ParameterKeySourceApplicationAndroidAppURL = @"source-ap
                                    webURL:(NSURL *)webURL
                                 iOSAppURL:(NSURL *)iOSAppURL
                             androidAppURL:(NSURL *)androidAppURL {
-    return [self initWithAppName:bundle.infoDictionary[(NSString *)kCFBundleNameKey]
+    NSString *displayName = bundle.infoDictionary[InfoPlistBundleDisplayNameKey] ?: bundle.infoDictionary[(NSString *)kCFBundleNameKey];
+                                
+    return [self initWithAppName:displayName
                       appStoreID:appStoreID
                     googlePlayID:googlePlayID
                           webURL:webURL
