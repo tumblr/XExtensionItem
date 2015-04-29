@@ -1,28 +1,74 @@
+#import "XExtensionItemMutableSourceApplication.h"
 #import "XExtensionItemSourceApplication.h"
 #import "XExtensionItemTypeSafeDictionaryValues.h"
 
 static NSString * const ParameterKeySourceApplicationName = @"source-application-name";
-static NSString * const ParameterKeySourceApplicationStoreID = @"source-application-store-id";
+static NSString * const ParameterKeySourceApplicationAppStoreID = @"source-application-app-store-id";
+static NSString * const ParameterKeySourceApplicationGooglePlayID = @"source-application-google-play-id";
+static NSString * const ParameterKeySourceApplicationWebURL = @"source-application-web-url";
+static NSString * const ParameterKeySourceApplicationiOSAppURL = @"source-application-ios-app-url";
+static NSString * const ParameterKeySourceApplicationAndroidAppURL = @"source-application-android-app-url";
 
 @implementation XExtensionItemSourceApplication
 
 #pragma mark - Initialization
 
-- (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle appStoreID:(NSNumber *)appStoreID {
-    return [self initWithAppName:bundle.infoDictionary[(NSString *)kCFBundleNameKey] appStoreID:appStoreID];
+- (instancetype)initWithBlock:(void (^)(XExtensionItemMutableSourceApplication *))initializationBlock {
+    NSParameterAssert(initializationBlock);
+    
+    XExtensionItemMutableSourceApplication *sourceApplication = [[XExtensionItemMutableSourceApplication alloc] init];
+    
+    if (initializationBlock) {
+        initializationBlock(sourceApplication);
+    }
+    
+    return [self initWithAppName:sourceApplication.appName
+                      appStoreID:sourceApplication.appStoreID
+                    googlePlayID:sourceApplication.googlePlayID
+                          webURL:sourceApplication.webURL
+                       iOSAppURL:sourceApplication.iOSAppURL
+                   androidAppURL:sourceApplication.androidAppURL];
 }
 
-- (instancetype)initWithAppName:(NSString *)appName appStoreID:(NSNumber *)appStoreID {
+- (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle
+                               appStoreID:(NSString *)appStoreID
+                             googlePlayID:(NSString *)googlePlayID
+                                   webURL:(NSURL *)webURL
+                                iOSAppURL:(NSURL *)iOSAppURL
+                            androidAppURL:(NSURL *)androidAppURL {
+    return [self initWithAppName:bundle.infoDictionary[(NSString *)kCFBundleNameKey]
+                      appStoreID:appStoreID
+                    googlePlayID:googlePlayID
+                          webURL:webURL
+                       iOSAppURL:iOSAppURL
+                   androidAppURL:androidAppURL];
+}
+
+- (instancetype)initWithAppName:(NSString *)appName
+                     appStoreID:(NSString *)appStoreID
+                   googlePlayID:(NSString *)googlePlayID
+                         webURL:(NSURL *)webURL
+                      iOSAppURL:(NSURL *)iOSAppURL
+                  androidAppURL:(NSURL *)androidAppURL {
     if (self = [super init]) {
         _appName = [appName copy];
         _appStoreID = [appStoreID copy];
+        _googlePlayID = [googlePlayID copy];
+        _webURL = [webURL copy];
+        _iOSAppURL = [iOSAppURL copy];
+        _androidAppURL = [androidAppURL copy];
     }
     
     return self;
 }
 
 - (instancetype)init {
-    return [self initWithAppName:nil appStoreID:nil];
+    return [self initWithAppName:nil
+                      appStoreID:nil
+                    googlePlayID:nil
+                          webURL:nil
+                       iOSAppURL:nil
+                   androidAppURL:nil];
 }
 
 #pragma mark - XExtensionItemDictionarySerializing
@@ -31,13 +77,21 @@ static NSString * const ParameterKeySourceApplicationStoreID = @"source-applicat
     XExtensionItemTypeSafeDictionaryValues *dictionaryValues = [[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:dictionary];
     
     return [self initWithAppName:[dictionaryValues stringForKey:ParameterKeySourceApplicationName]
-                      appStoreID:[dictionaryValues numberForKey:ParameterKeySourceApplicationStoreID]];
+                      appStoreID:[dictionaryValues stringForKey:ParameterKeySourceApplicationAppStoreID]
+                    googlePlayID:[dictionaryValues stringForKey:ParameterKeySourceApplicationGooglePlayID]
+                          webURL:[dictionaryValues URLForKey:ParameterKeySourceApplicationWebURL]
+                       iOSAppURL:[dictionaryValues URLForKey:ParameterKeySourceApplicationiOSAppURL]
+                   androidAppURL:[dictionaryValues URLForKey:ParameterKeySourceApplicationAndroidAppURL]];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
     [mutableParameters setValue:self.appName forKey:ParameterKeySourceApplicationName];
-    [mutableParameters setValue:self.appStoreID forKey:ParameterKeySourceApplicationStoreID];
+    [mutableParameters setValue:self.appStoreID forKey:ParameterKeySourceApplicationAppStoreID];
+    [mutableParameters setValue:self.googlePlayID forKey:ParameterKeySourceApplicationGooglePlayID];
+    [mutableParameters setValue:self.webURL forKey:ParameterKeySourceApplicationWebURL];
+    [mutableParameters setValue:self.iOSAppURL forKey:ParameterKeySourceApplicationiOSAppURL];
+    [mutableParameters setValue:self.androidAppURL forKey:ParameterKeySourceApplicationAndroidAppURL];
     return [mutableParameters copy];
 }
 
@@ -55,8 +109,24 @@ static NSString * const ParameterKeySourceApplicationStoreID = @"source-applicat
     if (self.appStoreID) {
         [descriptionComponents addObject:[NSString stringWithFormat:@"appStoreID: %@", self.appStoreID]];
     }
+
+    if (self.googlePlayID) {
+        [descriptionComponents addObject:[NSString stringWithFormat:@"googlePlayID: %@", self.googlePlayID]];
+    }
     
-    if ([descriptionComponents count] > 0) {
+    if (self.webURL) {
+        [descriptionComponents addObject:[NSString stringWithFormat:@"webURL: %@", self.webURL]];
+    }
+    
+    if (self.iOSAppURL) {
+        [descriptionComponents addObject:[NSString stringWithFormat:@"iOSAppURL: %@", self.iOSAppURL]];
+    }
+    
+    if (self.androidAppURL) {
+        [descriptionComponents addObject:[NSString stringWithFormat:@"androidAppURL: %@", self.androidAppURL]];
+    }
+    
+    if (descriptionComponents.count > 0) {
         [mutableDescription appendFormat:@"{ %@ }", [descriptionComponents componentsJoinedByString:@", "]];
     }
     
@@ -81,6 +151,10 @@ static NSString * const ParameterKeySourceApplicationStoreID = @"source-applicat
     NSUInteger hash = 17;
     hash += self.appName.hash;
     hash += self.appStoreID.hash;
+    hash += self.googlePlayID.hash;
+    hash += self.webURL.hash;
+    hash += self.iOSAppURL.hash;
+    hash += self.androidAppURL.hash;
 
     return hash * 39;
 }
@@ -88,7 +162,18 @@ static NSString * const ParameterKeySourceApplicationStoreID = @"source-applicat
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    return [[XExtensionItemSourceApplication allocWithZone:zone] initWithAppName:self.appName appStoreID:self.appStoreID];
+    return self;
+}
+
+#pragma mark - NSMutableCopying
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    return [[XExtensionItemSourceApplication allocWithZone:zone] initWithAppName:self.appName
+                                                                      appStoreID:self.appStoreID
+                                                                    googlePlayID:self.googlePlayID
+                                                                          webURL:self.webURL
+                                                                       iOSAppURL:self.iOSAppURL
+                                                                   androidAppURL:self.androidAppURL];
 }
 
 @end
