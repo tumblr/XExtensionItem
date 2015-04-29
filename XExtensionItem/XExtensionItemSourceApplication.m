@@ -1,6 +1,8 @@
 #import "XExtensionItemSourceApplication.h"
 #import "XExtensionItemTypeSafeDictionaryValues.h"
 
+static NSString * const InfoPlistBundleDisplayNameKey = @"CFBundleDisplayName";
+
 static NSString * const ParameterKeySourceApplicationName = @"source-application-name";
 static NSString * const ParameterKeySourceApplicationStoreID = @"source-application-store-id";
 
@@ -9,7 +11,7 @@ static NSString * const ParameterKeySourceApplicationStoreID = @"source-applicat
 #pragma mark - Initialization
 
 - (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle appStoreID:(NSNumber *)appStoreID {
-    NSString *displayName = bundle.infoDictionary[@"CFBundleDisplayName"] ?: bundle.infoDictionary[(NSString *)kCFBundleNameKey];
+    NSString *displayName = bundle.infoDictionary[InfoPlistBundleDisplayNameKey] ?: bundle.infoDictionary[(NSString *)kCFBundleNameKey];
     
     return [self initWithAppName:displayName appStoreID:appStoreID];
 }
