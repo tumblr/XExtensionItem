@@ -14,18 +14,56 @@
 /**
  Apple App Store ID of the application that is passing data into the share extension.
  */
-@property (nonatomic, readonly) NSNumber *appStoreID;
+@property (nonatomic, readonly) NSString *appStoreID;
 
 /**
- @param appName     (Optional) See `appName` property
- @param appStoreURL (Optional) See `appStoreURL` property
+ Google Play Store ID of the application that is passing data into the share extension.
  */
-- (instancetype)initWithAppName:(NSString *)appName appStoreID:(NSNumber *)appStoreID NS_DESIGNATED_INITIALIZER;
+@property (nonatomic, readonly) NSString *googlePlayID;
 
 /**
- @param bundle      (Optional) Bundle where the human-readable, localized bundle name should be retrieved from.
- @param appStoreURL (Optional) See `appStoreURL` property
+ URL where the content being shared can be found on the web.
  */
-- (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle appStoreID:(NSNumber *)appStoreID;
+@property (nonatomic, readonly) NSURL *webURL;
+
+/**
+ URL where the content being shared can be deep-linked into on iOS, e.g. `tumblr://x-callback-url/blog?blogName=bryan&postID=43724939726`
+ */
+@property (nonatomic, readonly) NSURL *iOSAppURL;
+
+/**
+ URL where the content being shared can be deep-linked into on Android, e.g. `tumblr://blog?blogName=bryan&postID=43724939726`
+ */
+@property (nonatomic, readonly) NSURL *androidAppURL;
+
+/**
+ @param appName       (Optional) See `appName` property
+ @param appStoreID    (Optional) See `appStoreID` property
+ @param googlePlayID  (Optional) See `googlePlayID` property
+ @param webURL        (Optional) See `webURL` property
+ @param iOSAppURL     (Optional) See `iOSAppURL` property
+ @param androidAppURL (Optional) See `androidAppURL` property
+ */
+- (instancetype)initWithAppName:(NSString *)appName
+                     appStoreID:(NSString *)appStoreID
+                   googlePlayID:(NSString *)googlePlayID
+                         webURL:(NSURL *)webURL
+                      iOSAppURL:(NSURL *)iOSAppURL
+                  androidAppURL:(NSURL *)androidAppURL NS_DESIGNATED_INITIALIZER;
+
+/**
+ @param bundle        (Optional) Bundle where the human-readable, localized bundle name should be retrieved from.
+ @param appStoreID    (Optional) See `appStoreID` property
+ @param googlePlayID  (Optional) See `googlePlayID` property
+ @param webURL        (Optional) See `webURL` property
+ @param iOSAppURL     (Optional) See `iOSAppURL` property
+ @param androidAppURL (Optional) See `androidAppURL` property
+ */
+- (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle
+                               appStoreID:(NSString *)appStoreID
+                             googlePlayID:(NSString *)googlePlayID
+                                   webURL:(NSURL *)webURL
+                                iOSAppURL:(NSURL *)iOSAppURL
+                            androidAppURL:(NSURL *)androidAppURL;
 
 @end
