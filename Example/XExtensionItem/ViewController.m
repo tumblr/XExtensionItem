@@ -35,8 +35,8 @@
         mutableParameters.alternateContentRepresentations = @{ @"text/html": @"<p><strong>Apple’s website markup</strong></p>" };
         mutableParameters.tumblrParameters = [[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"want-this-for-xmas"
                                                                                                   requestedPostType:XExtensionItemTumblrPostTypeLink
-                                                                                                        consumerKey:@"a9fal494mglspj33lffaj4920vks"
-                                                                                              correlationIdentifier:@"j33lffaj4920mglspvksa9fal494"];
+                                                                                                        consumerKey:@"YOUR_CONSUMER_KEY_HERE"
+                                                                                              correlationIdentifier:@"YOUR_CORRELATION_ID_HERE"];
         
         [mutableParameters copy];
     });
