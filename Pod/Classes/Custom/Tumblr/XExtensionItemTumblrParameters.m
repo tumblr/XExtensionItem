@@ -82,6 +82,8 @@ static NSString * const ParameterKeyCorrelationIdentifier = @"com.tumblr.tumblr.
         [descriptionComponents addObject:[NSString stringWithFormat:@"correlationIdentifier: %@", self.correlationIdentifier]];
     }
     
+    [mutableDescription appendFormat:@"{ %@ }", [descriptionComponents componentsJoinedByString:@", "]];
+    
     return [mutableDescription copy];
 }
 
