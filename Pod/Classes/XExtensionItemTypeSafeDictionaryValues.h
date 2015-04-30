@@ -60,4 +60,12 @@
  */
 - (NSData *)dataForKey:(NSString *)key;
 
+/**
+ @param key The key for which to return the corresponding value.
+ 
+ @return The unsigned integer associated with the key, or `NSNotFound` if the key either doesn’t exist in the dictionary 
+ or maps to a value that isn’t an unsigned integer.
+ */
+- (NSUInteger)unsignedIntegerForKey:(NSString *)key;
+
 @end

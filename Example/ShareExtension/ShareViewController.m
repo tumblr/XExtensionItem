@@ -1,6 +1,5 @@
 #import "ShareViewController.h"
-#import "TumblrCustomShareParameters.h"
-#import <XExtensionItem/XExtensionItemParameters.h>
+#import "XExtensionItem+Tumblr.h"
 
 @implementation ShareViewController
 
@@ -18,16 +17,15 @@
             }
         }
         
-        NSLog(@"XExtensionItemParamters: %@", parameters);
+        NSLog(@"XExtensionItemParameters: %@", parameters);
         
         UIImage *thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:parameters.imageURL]];
         
         if (thumbnail) {
             NSLog(@"Was able to read thumbnail data from URL: %@", parameters.imageURL);
         }
-        
-        TumblrCustomShareParameters *tumblrParameters = [[TumblrCustomShareParameters alloc] initWithDictionary:parameters.userInfo];
-        NSLog(@"Tumblr custom URL slug: %@", tumblrParameters.customURLSlug);
+
+        NSLog(@"Tumblr custom parameters: %@", parameters.tumblrParameters);
     }
 }
 
