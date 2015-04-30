@@ -1,4 +1,3 @@
-#import <Foundation/Foundation.h>
 @class XExtensionItemMutableParameters;
 @class XExtensionItemSourceApplication;
 
@@ -32,8 +31,8 @@
  
  ```objc
  XExtensionItemMutableParameters *parameters = [[XExtensionItemMutableParameters alloc] init];
- parameters.attachments = @[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://apple.com"]
-                                                  typeIdentifier:(__bridge NSString *)kUTTypeURL]];
+ parameters.attachments = @[[[XExtensionItemAttachment alloc] initWithItem:[NSURL URLWithString:@"http://apple.com"]
+                                                            typeIdentifier:(__bridge NSString *)kUTTypeURL]];
  parameters.attributedTitle = [[NSAttributedString alloc] initWithString:@"Apple"];
  parameters.attributedContentText = [[NSAttributedString alloc] initWithString:@"iPad Air 2. Change is in the air"];
  
@@ -56,7 +55,7 @@
  }
  ```
  */
-@interface XExtensionItemParameters : NSObject <NSCopying, NSMutableCopying>
+@interface XExtensionItemParameters : NSObject <NSCopying, NSMutableCopying, UIActivityItemSource>
 
 /**
  An optional title for the item.
@@ -73,9 +72,9 @@
 @property (nonatomic, readonly) NSAttributedString *attributedContentText;
 
 /**
- An optional array of media data associated with the extension item. These items are always typed NSItemProvider
+ An optional array of media data associated with the extension item. These items must be of type `XExtensionItemAttachment`
  
- @see `NSExtensionItem`
+ @see `XExtensionItemAttachment`
  */
 @property (nonatomic, readonly) NSArray *attachments;
 
@@ -125,13 +124,6 @@
  Custom user info keys should *not* start with `x-extension-item-`, as those will be used internally by this library.
  */
 @property (nonatomic, readonly) NSDictionary *userInfo;
-
-#pragma mark - NSExtensionItem conversion
-
-/**
- For use in applications: convert an `XExtensionItemParameters` instance into an `NSExtensionItem`.
- */
-@property (nonatomic, readonly) NSExtensionItem *extensionItemRepresentation;
 
 #pragma mark - Initialization
 

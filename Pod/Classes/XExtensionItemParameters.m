@@ -1,3 +1,4 @@
+#import "XExtensionItemAttachment.h"
 #import "XExtensionItemMutableParameters.h"
 #import "XExtensionItemParameters.h"
 #import "XExtensionItemSourceApplication.h"
@@ -46,7 +47,7 @@ static NSString * const ParameterKeyTags = @"tags";
     if (self) {
         _attributedTitle = [attributedTitle copy];
         _attributedContentText = [attributedContentText copy];
-        _attachments = [attachments copy];
+        _attachments = attachments;
         _tags = [tags copy];
         _sourceURL = [sourceURL copy];
         _imageURL = [imageURL copy];
@@ -82,6 +83,7 @@ static NSString * const ParameterKeyTags = @"tags";
     
     return [self initWithAttributedTitle:extensionItem.attributedTitle
                    attributedContentText:extensionItem.attributedContentText
+#warning These need to be converted to `XExtensionItemAttachments`
                              attachments:extensionItem.attachments
                                     tags:[parameters arrayForKey:ParameterKeyTags]
                                sourceURL:[parameters URLForKey:ParameterKeySourceURL]
@@ -89,40 +91,6 @@ static NSString * const ParameterKeyTags = @"tags";
                        sourceApplication:sourceApplication
          alternateContentRepresentations:[parameters dictionaryForKey:ParameterKeyAlternateContentRepresentations]
                                 userInfo:extensionItem.userInfo];
-}
-
-- (NSExtensionItem *)extensionItemRepresentation {
-    NSExtensionItem *item = [[NSExtensionItem alloc] init];
-    item.userInfo = ({
-        NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
-        [mutableUserInfo addEntriesFromDictionary:self.userInfo];
-        
-        NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
-        [mutableParameters setValue:self.tags forKey:ParameterKeyTags];
-        [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
-        [mutableParameters setValue:self.imageURL forKey:ParameterKeyImageURL];
-        [mutableParameters setValue:self.alternateContentRepresentations forKey:ParameterKeyAlternateContentRepresentations];
-        [mutableParameters addEntriesFromDictionary:self.sourceApplication.dictionaryRepresentation];
-        
-        if ([mutableParameters count] > 0) {
-            mutableUserInfo[ParameterKeyXExtensionItem] = [mutableParameters copy];
-        }
-        
-        mutableUserInfo;
-    });
-    
-    /*
-     The `userInfo` setter *must* be called before the following three setters, which merely provide syntactic sugar for
-     populating the `userInfo` dictionary with the following keys:
-     * `NSExtensionItemAttributedTitleKey`,
-     * `NSExtensionItemAttributedContentTextKey`
-     * `NSExtensionItemAttachmentsKey`.
-     */
-    item.attachments = self.attachments;
-    item.attributedTitle = self.attributedTitle;
-    item.attributedContentText = self.attributedContentText;
-    
-    return item;
 }
 
 #pragma mark - NSObject
@@ -197,6 +165,68 @@ static NSString * const ParameterKeyTags = @"tags";
                                                           sourceApplication:self.sourceApplication
                                             alternateContentRepresentations:self.alternateContentRepresentations
                                                                    userInfo:self.userInfo];
+}
+
+#pragma mark - UIActivityItemSource
+
+- (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController {
+    XExtensionItemAttachment *firstAttachment = self.attachments.firstObject;
+    
+    return firstAttachment.item;
+}
+
+- (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
+    NSExtensionItem *item = [[NSExtensionItem alloc] init];
+    item.userInfo = ({
+        NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
+        [mutableUserInfo addEntriesFromDictionary:self.userInfo];
+        
+        NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
+        [mutableParameters setValue:self.tags forKey:ParameterKeyTags];
+        [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
+        [mutableParameters setValue:self.imageURL forKey:ParameterKeyImageURL];
+        [mutableParameters setValue:self.alternateContentRepresentations forKey:ParameterKeyAlternateContentRepresentations];
+        [mutableParameters addEntriesFromDictionary:self.sourceApplication.dictionaryRepresentation];
+        
+        if ([mutableParameters count] > 0) {
+            mutableUserInfo[ParameterKeyXExtensionItem] = [mutableParameters copy];
+        }
+        
+        mutableUserInfo;
+    });
+    
+    /*
+     The `userInfo` setter *must* be called before the following three setters, which merely provide syntactic sugar for
+     populating the `userInfo` dictionary with the following keys:
+     
+     * `NSExtensionItemAttributedTitleKey`,
+     * `NSExtensionItemAttributedContentTextKey`
+     * `NSExtensionItemAttachmentsKey`.
+
+     */
+    item.attachments = [[self class] transformArray:self.attachments usingBlock:^NSItemProvider *(XExtensionItemAttachment *attachment) {
+        return [[NSItemProvider alloc] initWithItem:attachment.item typeIdentifier:attachment.typeIdentifier];
+    }];
+    item.attributedTitle = self.attributedTitle;
+    item.attributedContentText = self.attributedContentText;
+    
+    return item;
+}
+
+#pragma mark - Private
+
++ (NSArray *)transformArray:(NSArray *)array usingBlock:(id (^)(id))block {
+    NSParameterAssert(block);
+    
+    NSMutableArray *transformed = [[NSMutableArray alloc] init];
+    
+    if (block) {
+        for (id object in array) {
+            [transformed addObject:block(object)];
+        }
+    }
+    
+    return [transformed copy];
 }
 
 @end
