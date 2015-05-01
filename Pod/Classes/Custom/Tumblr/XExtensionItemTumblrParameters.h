@@ -39,20 +39,16 @@ typedef NS_ENUM(NSUInteger, XExtensionItemTumblrPostType) {
  */
 @property (nonatomic, readonly) NSString *consumerKey;
 
-@property (nonatomic, readonly) NSString *correlationIdentifier;
-
 /**
  Convenience initializer that calls the designated initializer with a requested post type value of `XExtensionItemTumblrPostTypeAny`.
  
  @param customURLPathComponent (Optional) See `customURLPathComponent` property documentation.
  @param consumerKey            (Optional) See `consumerKey` property documentation.
- @param correlationIdentifier  (Optional) See `correlationIdentifier` property documentation.
 
  @return New parameters instance.
  */
 - (instancetype)initWithCustomURLPathComponent:(NSString *)customURLPathComponent
-                                   consumerKey:(NSString *)consumerKey
-                         correlationIdentifier:(NSString *)correlationIdentifier;
+                                   consumerKey:(NSString *)consumerKey;
 
 /**
  Initializes a custom Tumblr parameters object.
@@ -60,13 +56,11 @@ typedef NS_ENUM(NSUInteger, XExtensionItemTumblrPostType) {
  @param customURLPathComponent (Optional) See `customURLPathComponent` property documentation.
  @param requestedPostType      See `requestedPostType` property documentation. Default value: `XExtensionItemTumblrPostTypeAny`
  @param consumerKey            (Optional) See `consumerKey` property documentation.
- @param correlationIdentifier  (Optional) See `correlationIdentifier` property documentation.
  
  @return New parameters instance.
  */
 - (instancetype)initWithCustomURLPathComponent:(NSString *)customURLPathComponent
                              requestedPostType:(XExtensionItemTumblrPostType)requestedPostType
-                                   consumerKey:(NSString *)consumerKey
-                         correlationIdentifier:(NSString *)correlationIdentifier NS_DESIGNATED_INITIALIZER;
+                                   consumerKey:(NSString *)consumerKey NS_DESIGNATED_INITIALIZER;
 
 @end

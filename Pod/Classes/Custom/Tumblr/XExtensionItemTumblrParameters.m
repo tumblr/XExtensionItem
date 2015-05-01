@@ -11,24 +11,20 @@ static NSString * const ParameterKeyCorrelationIdentifier = @"com.tumblr.tumblr.
 #pragma mark - Initialization
 
 - (instancetype)initWithCustomURLPathComponent:(NSString *)customURLPathComponent
-                                   consumerKey:(NSString *)consumerKey
-                         correlationIdentifier:(NSString *)correlationIdentifier {
+                                   consumerKey:(NSString *)consumerKey {
     return [self initWithCustomURLPathComponent:nil
                               requestedPostType:XExtensionItemTumblrPostTypeAny
-                                    consumerKey:nil
-                          correlationIdentifier:nil];
+                                    consumerKey:nil];
 }
 
 - (instancetype)initWithCustomURLPathComponent:(NSString *)customURLPathComponent
                              requestedPostType:(XExtensionItemTumblrPostType)requestedPostType
-                                   consumerKey:(NSString *)consumerKey
-                         correlationIdentifier:(NSString *)correlationIdentifier {
+                                   consumerKey:(NSString *)consumerKey {
     self = [super init];
     if (self) {
         _customURLPathComponent = [customURLPathComponent copy];
         _requestedPostType = requestedPostType;
         _consumerKey = [consumerKey copy];
-        _correlationIdentifier = [correlationIdentifier copy];
     }
     
     return self;
@@ -37,8 +33,7 @@ static NSString * const ParameterKeyCorrelationIdentifier = @"com.tumblr.tumblr.
 - (instancetype)init {
     return [self initWithCustomURLPathComponent:nil
                               requestedPostType:XExtensionItemTumblrPostTypeAny
-                                    consumerKey:nil
-                          correlationIdentifier:nil];
+                                    consumerKey:nil];
 }
 
 #pragma mark - XExtensionItemDictionarySerializing
@@ -48,8 +43,7 @@ static NSString * const ParameterKeyCorrelationIdentifier = @"com.tumblr.tumblr.
     
     return [self initWithCustomURLPathComponent:[dictionaryValues stringForKey:ParameterKeyCustomURLPathComponent]
                               requestedPostType:[dictionaryValues unsignedIntegerForKey:ParameterKeyRequestedPostType]
-                                    consumerKey:[dictionaryValues stringForKey:ParameterKeyConsumerKey]
-                          correlationIdentifier:[dictionaryValues stringForKey:ParameterKeyCorrelationIdentifier]];
+                                    consumerKey:[dictionaryValues stringForKey:ParameterKeyConsumerKey]];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -57,7 +51,6 @@ static NSString * const ParameterKeyCorrelationIdentifier = @"com.tumblr.tumblr.
     [mutableParameters setValue:self.customURLPathComponent forKey:ParameterKeyCustomURLPathComponent];
     [mutableParameters setValue:@(self.requestedPostType) forKey:ParameterKeyRequestedPostType];
     [mutableParameters setValue:self.consumerKey forKey:ParameterKeyConsumerKey];
-    [mutableParameters setValue:self.correlationIdentifier forKey:ParameterKeyCorrelationIdentifier];
     return [mutableParameters copy];
 }
 
@@ -78,10 +71,6 @@ static NSString * const ParameterKeyCorrelationIdentifier = @"com.tumblr.tumblr.
         [descriptionComponents addObject:[NSString stringWithFormat:@"consumerKey: %@", self.consumerKey]];
     }
     
-    if (self.correlationIdentifier) {
-        [descriptionComponents addObject:[NSString stringWithFormat:@"correlationIdentifier: %@", self.correlationIdentifier]];
-    }
-    
     [mutableDescription appendFormat:@"{ %@ }", [descriptionComponents componentsJoinedByString:@", "]];
     
     return [mutableDescription copy];
@@ -98,10 +87,7 @@ static NSString * const ParameterKeyCorrelationIdentifier = @"com.tumblr.tumblr.
     
     XExtensionItemTumblrParameters *other = (XExtensionItemTumblrParameters *)object;
     
-    return [self.customURLPathComponent isEqual:other.customURLPathComponent] &&
-    self.requestedPostType == other.requestedPostType &&
-    [self.consumerKey isEqual:other.consumerKey] &&
-    [self.correlationIdentifier isEqual:other.correlationIdentifier];
+    return [self.customURLPathComponent isEqual:other.customURLPathComponent] && self.requestedPostType == other.requestedPostType && [self.consumerKey isEqual:other.consumerKey];
 }
 
 - (NSUInteger)hash {
@@ -109,7 +95,6 @@ static NSString * const ParameterKeyCorrelationIdentifier = @"com.tumblr.tumblr.
     hash += self.customURLPathComponent.hash;
     hash += self.requestedPostType;
     hash += self.consumerKey.hash;
-    hash += self.correlationIdentifier.hash;
     
     return hash * 41;
 }
