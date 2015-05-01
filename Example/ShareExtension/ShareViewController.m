@@ -1,6 +1,5 @@
 #import "ShareViewController.h"
-#import "TumblrCustomShareParameters.h"
-#import <XExtensionItem/XExtensionItem.h>
+#import <XExtensionItem/XExtensionItem+Tumblr.h>
 
 @implementation ShareViewController
 
@@ -21,9 +20,8 @@
         }
         
         NSLog(@"XExtensionItem: %@", xExtensionItem);
-        
-        TumblrCustomShareParameters *tumblrParameters = [[TumblrCustomShareParameters alloc] initWithDictionary:xExtensionItem.userInfo];
-        NSLog(@"Tumblr custom URL slug: %@", tumblrParameters.customURLSlug);
+
+        NSLog(@"Tumblr custom parameters: %@", xExtensionItem.tumblrParameters);
     }
 }
 

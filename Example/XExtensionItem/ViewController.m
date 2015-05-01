@@ -1,7 +1,6 @@
 @import MobileCoreServices;
-#import "TumblrCustomShareParameters.h"
 #import "ViewController.h"
-#import <XExtensionItem/XExtensionItem.h>
+#import <XExtensionItem/XExtensionItem+Tumblr.h>
 
 @implementation ViewController
 
@@ -33,11 +32,9 @@
                                                                              webURL:nil
                                                                           iOSAppURL:nil
                                                                       androidAppURL:nil];
-    [itemSource addEntriesToUserInfo:({
-        TumblrCustomShareParameters *tumblrParameters = [[TumblrCustomShareParameters alloc] init];
-        tumblrParameters.customURLSlug = @"want-this-for-xmas";
-        tumblrParameters;
-    })];
+    [itemSource addEntriesToUserInfo:[[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"want-this-for-xmas"
+                                                                                          requestedPostType:XExtensionItemTumblrPostTypeLink
+                                                                                                consumerKey:@"YOUR_CONSUMER_KEY_HERE"]];
     
     [self presentViewController:[[UIActivityViewController alloc] initWithActivityItems:@[itemSource] applicationActivities:nil]
                        animated:YES
