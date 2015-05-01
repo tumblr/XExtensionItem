@@ -1,36 +1,18 @@
-#import "XExtensionItemMutableSourceApplication.h"
-#import "XExtensionItemSourceApplication.h"
+#import "XExtensionItemReferrer.h"
 #import "XExtensionItemTypeSafeDictionaryValues.h"
 
 static NSString * const InfoPlistBundleDisplayNameKey = @"CFBundleDisplayName";
 
-static NSString * const ParameterKeySourceApplicationName = @"source-application-name";
-static NSString * const ParameterKeySourceApplicationAppStoreID = @"source-application-app-store-id";
-static NSString * const ParameterKeySourceApplicationGooglePlayID = @"source-application-google-play-id";
-static NSString * const ParameterKeySourceApplicationWebURL = @"source-application-web-url";
-static NSString * const ParameterKeySourceApplicationiOSAppURL = @"source-application-ios-app-url";
-static NSString * const ParameterKeySourceApplicationAndroidAppURL = @"source-application-android-app-url";
+static NSString * const ParameterKeyReferrerName = @"referrer-name";
+static NSString * const ParameterKeyReferrerAppStoreID = @"referrer-app-store-id";
+static NSString * const ParameterKeyReferrerGooglePlayID = @"referrer-google-play-id";
+static NSString * const ParameterKeyReferrerWebURL = @"referrer-web-url";
+static NSString * const ParameterKeyReferreriOSAppURL = @"referrer-ios-app-url";
+static NSString * const ParameterKeyReferrerAndroidAppURL = @"referrer-android-app-url";
 
-@implementation XExtensionItemSourceApplication
+@implementation XExtensionItemReferrer
 
 #pragma mark - Initialization
-
-- (instancetype)initWithBlock:(void (^)(XExtensionItemMutableSourceApplication *))initializationBlock {
-    NSParameterAssert(initializationBlock);
-    
-    XExtensionItemMutableSourceApplication *sourceApplication = [[XExtensionItemMutableSourceApplication alloc] init];
-    
-    if (initializationBlock) {
-        initializationBlock(sourceApplication);
-    }
-    
-    return [self initWithAppName:sourceApplication.appName
-                      appStoreID:sourceApplication.appStoreID
-                    googlePlayID:sourceApplication.googlePlayID
-                          webURL:sourceApplication.webURL
-                       iOSAppURL:sourceApplication.iOSAppURL
-                   androidAppURL:sourceApplication.androidAppURL];
-}
 
 - (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle
                                appStoreID:(NSString *)appStoreID
@@ -80,22 +62,22 @@ static NSString * const ParameterKeySourceApplicationAndroidAppURL = @"source-ap
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     XExtensionItemTypeSafeDictionaryValues *dictionaryValues = [[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:dictionary];
     
-    return [self initWithAppName:[dictionaryValues stringForKey:ParameterKeySourceApplicationName]
-                      appStoreID:[dictionaryValues stringForKey:ParameterKeySourceApplicationAppStoreID]
-                    googlePlayID:[dictionaryValues stringForKey:ParameterKeySourceApplicationGooglePlayID]
-                          webURL:[dictionaryValues URLForKey:ParameterKeySourceApplicationWebURL]
-                       iOSAppURL:[dictionaryValues URLForKey:ParameterKeySourceApplicationiOSAppURL]
-                   androidAppURL:[dictionaryValues URLForKey:ParameterKeySourceApplicationAndroidAppURL]];
+    return [self initWithAppName:[dictionaryValues stringForKey:ParameterKeyReferrerName]
+                      appStoreID:[dictionaryValues stringForKey:ParameterKeyReferrerAppStoreID]
+                    googlePlayID:[dictionaryValues stringForKey:ParameterKeyReferrerGooglePlayID]
+                          webURL:[dictionaryValues URLForKey:ParameterKeyReferrerWebURL]
+                       iOSAppURL:[dictionaryValues URLForKey:ParameterKeyReferreriOSAppURL]
+                   androidAppURL:[dictionaryValues URLForKey:ParameterKeyReferrerAndroidAppURL]];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
-    [mutableParameters setValue:self.appName forKey:ParameterKeySourceApplicationName];
-    [mutableParameters setValue:self.appStoreID forKey:ParameterKeySourceApplicationAppStoreID];
-    [mutableParameters setValue:self.googlePlayID forKey:ParameterKeySourceApplicationGooglePlayID];
-    [mutableParameters setValue:self.webURL forKey:ParameterKeySourceApplicationWebURL];
-    [mutableParameters setValue:self.iOSAppURL forKey:ParameterKeySourceApplicationiOSAppURL];
-    [mutableParameters setValue:self.androidAppURL forKey:ParameterKeySourceApplicationAndroidAppURL];
+    [mutableParameters setValue:self.appName forKey:ParameterKeyReferrerName];
+    [mutableParameters setValue:self.appStoreID forKey:ParameterKeyReferrerAppStoreID];
+    [mutableParameters setValue:self.googlePlayID forKey:ParameterKeyReferrerGooglePlayID];
+    [mutableParameters setValue:self.webURL forKey:ParameterKeyReferrerWebURL];
+    [mutableParameters setValue:self.iOSAppURL forKey:ParameterKeyReferreriOSAppURL];
+    [mutableParameters setValue:self.androidAppURL forKey:ParameterKeyReferrerAndroidAppURL];
     return [mutableParameters copy];
 }
 
@@ -142,11 +124,11 @@ static NSString * const ParameterKeySourceApplicationAndroidAppURL = @"source-ap
         return YES;
     }
     
-    if (![object isKindOfClass:[XExtensionItemSourceApplication class]]) {
+    if (![object isKindOfClass:[XExtensionItemReferrer class]]) {
         return NO;
     }
     
-    XExtensionItemSourceApplication *other = (XExtensionItemSourceApplication *)object;
+    XExtensionItemReferrer *other = (XExtensionItemReferrer *)object;
     
     return [self.appName isEqual:other.appName] && [self.appStoreID isEqual:other.appStoreID];
 }
@@ -161,23 +143,6 @@ static NSString * const ParameterKeySourceApplicationAndroidAppURL = @"source-ap
     hash += self.androidAppURL.hash;
 
     return hash * 39;
-}
-
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-    return self;
-}
-
-#pragma mark - NSMutableCopying
-
-- (id)mutableCopyWithZone:(NSZone *)zone {
-    return [[XExtensionItemSourceApplication allocWithZone:zone] initWithAppName:self.appName
-                                                                      appStoreID:self.appStoreID
-                                                                    googlePlayID:self.googlePlayID
-                                                                          webURL:self.webURL
-                                                                       iOSAppURL:self.iOSAppURL
-                                                                   androidAppURL:self.androidAppURL];
 }
 
 @end

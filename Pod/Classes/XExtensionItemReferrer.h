@@ -1,10 +1,9 @@
 #import "XExtensionItemDictionarySerializing.h"
-@class XExtensionItemMutableSourceApplication;
 
 /**
- A model object containing information about an application that is passing data into a share extension.
+ A model object containing information about the application where the content is being passed from.
  */
-@interface XExtensionItemSourceApplication : NSObject <NSCopying, NSMutableCopying, XExtensionItemDictionarySerializing>
+@interface XExtensionItemReferrer : NSObject <XExtensionItemDictionarySerializing>
 
 /**
  Name of the application that is passing data into the share extension.
@@ -37,21 +36,8 @@
 @property (nonatomic, readonly) NSURL *androidAppURL;
 
 /**
- Create an immutable `XExtensionItemSourceApplication` instance by configuring a mutable instance passed into a 
- configuration block.
- 
- @param initializationBlock Block to be called with a mutable source application instance to be configured.
- 
- @return New source application instance populated with values from the mutable instance.
- */
-- (instancetype)initWithBlock:(void (^)(XExtensionItemMutableSourceApplication *))initializationBlock;
-
-/**
- Create an immutable `XExtensionItemSourceApplication` instance. Documentation for the arguments can be found on each of 
- this class’s properties.
- 
- Immutable `XExtensionItemSourceApplication` instances can also be created by copying an 
- `XExtensionItemMutableSourceApplication` instance or by using the block-based convenience initializer.
+ Create an `XExtensionItemReferrer` instance. Documentation for the arguments can be found on each of this
+ class’s properties.
  
  @param appName       (Optional) See `appName` property
  @param appStoreID    (Optional) See `appStoreID` property
@@ -60,7 +46,7 @@
  @param iOSAppURL     (Optional) See `iOSAppURL` property
  @param androidAppURL (Optional) See `androidAppURL` property
  
- @return New source application instance.
+ @return New referrer instance.
  */
 - (instancetype)initWithAppName:(NSString *)appName
                      appStoreID:(NSString *)appStoreID
@@ -70,11 +56,8 @@
                   androidAppURL:(NSURL *)androidAppURL NS_DESIGNATED_INITIALIZER;
 
 /**
- Create an immutable `XExtensionItemSourceApplication` instance. Documentation for the arguments can be found on each of
- this class’s properties.
- 
- Immutable `XExtensionItemSourceApplication` instances can also be created by copying an
- `XExtensionItemMutableSourceApplication` instance or by using the block-based convenience initializer.
+ Create an `XExtensionItemReferrer` instance. Documentation for the arguments can be found on each of this
+ class’s properties.
  
  @param bundle        (Optional) Bundle where the human-readable, localized bundle name should be retrieved from.
  @param appStoreID    (Optional) See `appStoreID` property
@@ -83,7 +66,7 @@
  @param iOSAppURL     (Optional) See `iOSAppURL` property
  @param androidAppURL (Optional) See `androidAppURL` property
  
- @return New source application instance.
+ @return New referrer instance.
  */
 - (instancetype)initWithAppNameFromBundle:(NSBundle *)bundle
                                appStoreID:(NSString *)appStoreID

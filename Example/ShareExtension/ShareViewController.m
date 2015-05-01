@@ -1,35 +1,33 @@
 #import "ShareViewController.h"
 #import "TumblrCustomShareParameters.h"
-#import <XExtensionItem/XExtensionItemParameters.h>
+#import <XExtensionItem/XExtensionItem.h>
 
 @implementation ShareViewController
+
+#pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    for (NSExtensionItem *item in self.extensionContext.inputItems) {
-        XExtensionItemParameters *parameters = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
+    for (NSExtensionItem *extensionItem in self.extensionContext.inputItems) {
+        XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:extensionItem];
         
-        for (NSItemProvider *itemProvider in parameters.attachments) {
+        for (NSItemProvider *itemProvider in xExtensionItem.attachments) {
             for (NSString *typeIdentifier in itemProvider.registeredTypeIdentifiers) {
-                [itemProvider loadItemForTypeIdentifier:typeIdentifier options:nil completionHandler:^(id<NSSecureCoding> item, NSError *error) {
-                    NSLog(@"Attachment item: %@", item);
+                [itemProvider loadItemForTypeIdentifier:typeIdentifier options:nil completionHandler:^(id <NSSecureCoding> attachmentItem, NSError *error) {
+                    NSLog(@"Attachment item: %@", attachmentItem);
                 }];
             }
         }
         
-        NSLog(@"XExtensionItemParamters: %@", parameters);
+        NSLog(@"XExtensionItem: %@", xExtensionItem);
         
-        UIImage *thumbnail = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:parameters.imageURL]];
-        
-        if (thumbnail) {
-            NSLog(@"Was able to read thumbnail data from URL: %@", parameters.imageURL);
-        }
-        
-        TumblrCustomShareParameters *tumblrParameters = [[TumblrCustomShareParameters alloc] initWithDictionary:parameters.userInfo];
+        TumblrCustomShareParameters *tumblrParameters = [[TumblrCustomShareParameters alloc] initWithDictionary:xExtensionItem.userInfo];
         NSLog(@"Tumblr custom URL slug: %@", tumblrParameters.customURLSlug);
     }
 }
+
+#pragma mark - SLComposeServiceViewController
 
 - (BOOL)isContentValid {
     return YES;
