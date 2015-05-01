@@ -58,32 +58,32 @@
     XCTAssertEqualObjects(itemSource.sourceURL, xExtensionItem.sourceURL);
 }
 
-- (void)testSourceApplication {
+- (void)testReferrer {
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
-    itemSource.sourceApplication = [[XExtensionItemReferrer alloc] initWithAppName:@"Tumblr"
-                                                                                  appStoreID:@"12345"
-                                                                                googlePlayID:@"54321"
-                                                                                      webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
-                                                                                   iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
-                                                                               androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
+    itemSource.referrer = [[XExtensionItemReferrer alloc] initWithAppName:@"Tumblr"
+                                                               appStoreID:@"12345"
+                                                             googlePlayID:@"54321"
+                                                                   webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
+                                                                iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
+                                                            androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
-    XCTAssertEqualObjects(itemSource.sourceApplication, xExtensionItem.sourceApplication);
+    XCTAssertEqualObjects(itemSource.referrer, xExtensionItem.referrer);
 }
 
-- (void)testSourceApplicationFromBundle {
+- (void)testReferrerFromBundle {
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
-    itemSource.sourceApplication = [[XExtensionItemReferrer alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
-                                                                                            appStoreID:@"12345"
-                                                                                          googlePlayID:@"54321"
-                                                                                                webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
-                                                                                             iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
-                                                                                         androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
+    itemSource.referrer = [[XExtensionItemReferrer alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
+                                                                         appStoreID:@"12345"
+                                                                       googlePlayID:@"54321"
+                                                                             webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
+                                                                          iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
+                                                                      androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
-    XCTAssertEqualObjects(itemSource.sourceApplication, xExtensionItem.sourceApplication);
+    XCTAssertEqualObjects(itemSource.referrer, xExtensionItem.referrer);
 }
 
 - (void)testUserInfo {
@@ -106,7 +106,7 @@
     
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
     [itemSource addEntriesToUserInfo:inputCustomParameters];
-
+    
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
     CustomParameters *outputCustomParameters = [[CustomParameters alloc] initWithDictionary:xExtensionItem.userInfo];
@@ -116,7 +116,7 @@
 
 - (void)testTypeSafety {
     /*
-     Try to break things by intentionally using the wrong types for these keys, then calling methods that would only 
+     Try to break things by intentionally using the wrong types for these keys, then calling methods that would only
      exist on the correct object types
      */
     
@@ -124,6 +124,9 @@
     item.userInfo = @{
         @"x-extension-item": @[],
     };
+    
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:item];
+    XCTAssertNoThrow([xExtensionItem.sourceURL absoluteString]);
     
     item = [[NSExtensionItem alloc] init];
     item.userInfo = @{
@@ -140,14 +143,14 @@
         }
     };
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:item];
+    xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:item];
     XCTAssertNoThrow([xExtensionItem.sourceURL absoluteString]);
-    XCTAssertNoThrow([xExtensionItem.sourceApplication.appName stringByAppendingString:@""]);
-    XCTAssertNoThrow([xExtensionItem.sourceApplication.appStoreID stringByAppendingString:@""]);
-    XCTAssertNoThrow([xExtensionItem.sourceApplication.googlePlayID stringByAppendingString:@""]);
-    XCTAssertNoThrow([xExtensionItem.sourceApplication.webURL absoluteString]);
-    XCTAssertNoThrow([xExtensionItem.sourceApplication.iOSAppURL absoluteString]);
-    XCTAssertNoThrow([xExtensionItem.sourceApplication.androidAppURL absoluteString]);
+    XCTAssertNoThrow([xExtensionItem.referrer.appName stringByAppendingString:@""]);
+    XCTAssertNoThrow([xExtensionItem.referrer.appStoreID stringByAppendingString:@""]);
+    XCTAssertNoThrow([xExtensionItem.referrer.googlePlayID stringByAppendingString:@""]);
+    XCTAssertNoThrow([xExtensionItem.referrer.webURL absoluteString]);
+    XCTAssertNoThrow([xExtensionItem.referrer.iOSAppURL absoluteString]);
+    XCTAssertNoThrow([xExtensionItem.referrer.androidAppURL absoluteString]);
 }
 
 @end
