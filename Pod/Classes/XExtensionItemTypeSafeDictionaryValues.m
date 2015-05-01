@@ -48,6 +48,17 @@
     return [self valueForKey:key ofType:[NSData class]];
 }
 
+- (NSUInteger)unsignedIntegerForKey:(NSString *)key {
+    NSNumber *number = [self numberForKey:key];
+    
+    if (number) {
+        return number.unsignedIntegerValue;
+    }
+    else {
+        return NSNotFound;
+    }
+}
+
 #pragma mark - Private
 
 - (id)valueForKey:(NSString *)key ofType:(Class)class {

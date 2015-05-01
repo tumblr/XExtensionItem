@@ -22,5 +22,18 @@
   "frameworks": [
     "Foundation", 
     "UIKit"
+  ],
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "Pods/Classes/*.{h,m}"
+    },
+    {
+      "name": "Tumblr",
+      "source_files": "Pods/Classes/Custom/Tumblr/*.{h,m}",
+      "dependencies": {
+        "XExtensionItem/Core": []
+      }
+    }
   ]
 }

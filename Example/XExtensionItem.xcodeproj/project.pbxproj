@@ -23,13 +23,11 @@
 		9384B3E41AF15E2700960EF7 /* XExtensionItemTypeSafeDictionaryValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3E11AF15E2700960EF7 /* XExtensionItemTypeSafeDictionaryValuesTests.m */; };
 		9384B3E61AF15E4100960EF7 /* XExtensionItem.podspec.json in Resources */ = {isa = PBXBuildFile; fileRef = 9384B3E51AF15E4100960EF7 /* XExtensionItem.podspec.json */; };
 		9384B3EE1AF15EFE00960EF7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3E81AF15EFE00960EF7 /* AppDelegate.m */; };
-		9384B3F01AF15EFE00960EF7 /* TumblrCustomShareParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3EB1AF15EFE00960EF7 /* TumblrCustomShareParameters.m */; };
 		9384B3F11AF15EFE00960EF7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3ED1AF15EFE00960EF7 /* ViewController.m */; };
 		9384B3F31AF1607000960EF7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9384B3F21AF1607000960EF7 /* Main.storyboard */; };
 		9384B3FE1AF1614100960EF7 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3FD1AF1614100960EF7 /* ShareViewController.m */; };
 		9384B4001AF1614100960EF7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9384B3FF1AF1614100960EF7 /* MainInterface.storyboard */; };
 		9384B4031AF1614100960EF7 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9384B3F81AF1614100960EF7 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9384B4081AF1624900960EF7 /* TumblrCustomShareParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3EB1AF15EFE00960EF7 /* TumblrCustomShareParameters.m */; };
 		984F574C2FA43194C8C80DD4 /* libPods-XExtensionItem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 522AC9D97FEA882750D86BD6 /* libPods-XExtensionItem.a */; };
 		9DAE8AE3708DB46E11453D97 /* libPods-ShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A40DEC0AFFF91D68B1774179 /* libPods-ShareExtension.a */; };
 /* End PBXBuildFile section */
@@ -92,8 +90,6 @@
 		9384B3E51AF15E4100960EF7 /* XExtensionItem.podspec.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = XExtensionItem.podspec.json; path = ../XExtensionItem.podspec.json; sourceTree = "<group>"; };
 		9384B3E71AF15EFE00960EF7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9384B3E81AF15EFE00960EF7 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9384B3EA1AF15EFE00960EF7 /* TumblrCustomShareParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TumblrCustomShareParameters.h; sourceTree = "<group>"; };
-		9384B3EB1AF15EFE00960EF7 /* TumblrCustomShareParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TumblrCustomShareParameters.m; sourceTree = "<group>"; };
 		9384B3EC1AF15EFE00960EF7 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9384B3ED1AF15EFE00960EF7 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9384B3F21AF1607000960EF7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -187,8 +183,6 @@
 				9384B3F21AF1607000960EF7 /* Main.storyboard */,
 				9384B3E71AF15EFE00960EF7 /* AppDelegate.h */,
 				9384B3E81AF15EFE00960EF7 /* AppDelegate.m */,
-				9384B3EA1AF15EFE00960EF7 /* TumblrCustomShareParameters.h */,
-				9384B3EB1AF15EFE00960EF7 /* TumblrCustomShareParameters.m */,
 				9384B3EC1AF15EFE00960EF7 /* ViewController.h */,
 				9384B3ED1AF15EFE00960EF7 /* ViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
@@ -503,7 +497,6 @@
 			files = (
 				9384B3F11AF15EFE00960EF7 /* ViewController.m in Sources */,
 				9384B3EE1AF15EFE00960EF7 /* AppDelegate.m in Sources */,
-				9384B3F01AF15EFE00960EF7 /* TumblrCustomShareParameters.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,7 +515,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9384B4081AF1624900960EF7 /* TumblrCustomShareParameters.m in Sources */,
 				9384B3FE1AF1614100960EF7 /* ShareViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
