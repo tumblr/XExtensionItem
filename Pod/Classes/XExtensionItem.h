@@ -114,10 +114,6 @@
 
 
 
-
-
-
-
 /**
  A data structure that iOS 8 extension developers can use to retrieve well-defined data structures from applications 
  (application developers will have provided this data using the `XExtensionItemSource` class).
