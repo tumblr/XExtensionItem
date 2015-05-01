@@ -1,18 +1,40 @@
-#import "XExtensionItemAttachment.h"
 #import "XExtensionItemMutableParameters.h"
 #import "XExtensionItemParameters.h"
 #import "XExtensionItemSourceApplication.h"
 #import "XExtensionItemTypeSafeDictionaryValues.h"
 
 static NSString * const ParameterKeyXExtensionItem = @"x-extension-item";
-static NSString * const ParameterKeyImageURL = @"image-url";
-static NSString * const ParameterKeyAlternateContentRepresentations = @"alternate-content-representations";
 static NSString * const ParameterKeySourceURL = @"source-url";
 static NSString * const ParameterKeyTags = @"tags";
 
 @implementation XExtensionItemParameters
 
-#pragma mark - Initialization
+#pragma mark - Public initializers
+
+- (instancetype)initWithPlaceholderItem:(id)placeholderItem
+                        attributedTitle:(NSAttributedString *)attributedTitle
+                  attributedContentText:(NSAttributedString *)attributedContentText
+                            attachments:(NSArray *)attachments
+                                   tags:(NSArray *)tags
+                              sourceURL:(NSURL *)sourceURL
+                      sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
+                               userInfo:(NSDictionary *)userInfo {
+    NSParameterAssert(placeholderItem);
+    
+    self = [self initWithAttributedTitle:attributedTitle
+                   attributedContentText:attributedContentText
+                             attachments:attachments
+                                    tags:tags
+                               sourceURL:sourceURL
+                       sourceApplication:sourceApplication
+                                userInfo:userInfo];
+    if (self) {
+        _placeholderItem = placeholderItem;
+        
+    }
+    
+    return self;
+}
 
 - (instancetype)initWithBlock:(void (^)(XExtensionItemMutableParameters *))initializationBlock {
     NSParameterAssert(initializationBlock);
@@ -23,25 +45,52 @@ static NSString * const ParameterKeyTags = @"tags";
         initializationBlock(parameters);
     }
     
-    return [self initWithAttributedTitle:parameters.attributedTitle
+    return [self initWithPlaceholderItem:parameters.placeholderItem
+                         attributedTitle:parameters.attributedTitle
                    attributedContentText:parameters.attributedContentText
                              attachments:parameters.attachments
                                     tags:parameters.tags
                                sourceURL:parameters.sourceURL
-                                imageURL:parameters.imageURL
                        sourceApplication:parameters.sourceApplication
-         alternateContentRepresentations:parameters.alternateContentRepresentations
                                 userInfo:parameters.userInfo];
 }
+
+- (instancetype)initWithExtensionItem:(NSExtensionItem *)extensionItem {
+    NSDictionary *parameterDictionary = [[[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:extensionItem.userInfo]
+                                         dictionaryForKey:ParameterKeyXExtensionItem];
+    
+    XExtensionItemTypeSafeDictionaryValues *dictionaryValues = [[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:parameterDictionary];
+    
+    XExtensionItemSourceApplication *sourceApplication = [[XExtensionItemSourceApplication alloc] initWithDictionary:parameterDictionary];
+    
+    return [self initWithAttributedTitle:extensionItem.attributedTitle
+                   attributedContentText:extensionItem.attributedContentText
+                             attachments:extensionItem.attachments
+                                    tags:[dictionaryValues arrayForKey:ParameterKeyTags]
+                               sourceURL:[dictionaryValues URLForKey:ParameterKeySourceURL]
+                       sourceApplication:sourceApplication
+                                userInfo:extensionItem.userInfo];
+}
+
+- (instancetype)init {
+#warning Someone could call this on the non-mutable version, argh
+    return [self initWithAttributedTitle:nil
+                   attributedContentText:nil
+                             attachments:nil
+                                    tags:nil
+                               sourceURL:nil
+                       sourceApplication:nil
+                                userInfo:nil];
+}
+
+#pragma mark - Private initializers
 
 - (instancetype)initWithAttributedTitle:(NSAttributedString *)attributedTitle
                   attributedContentText:(NSAttributedString *)attributedContentText
                             attachments:(NSArray *)attachments
                                    tags:(NSArray *)tags
                               sourceURL:(NSURL *)sourceURL
-                               imageURL:(NSURL *)imageURL
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
-        alternateContentRepresentations:(NSDictionary *)alternateContentRepresentations
                                userInfo:(NSDictionary *)userInfo {
     self = [super init];
     if (self) {
@@ -50,47 +99,11 @@ static NSString * const ParameterKeyTags = @"tags";
         _attachments = attachments;
         _tags = [tags copy];
         _sourceURL = [sourceURL copy];
-        _imageURL = [imageURL copy];
         _sourceApplication = sourceApplication;
-        _alternateContentRepresentations = [alternateContentRepresentations copy];
         _userInfo = [userInfo copy];
     }
     
     return self;
-}
-
-- (instancetype)init {
-    return [self initWithAttributedTitle:nil
-                   attributedContentText:nil
-                             attachments:nil
-                                    tags:nil
-                               sourceURL:nil
-                                imageURL:nil
-                       sourceApplication:nil
-            alternateContentRepresentations:nil
-                                userInfo:nil];
-}
-
-#pragma mark - NSExtensionItem conversion
-
-- (instancetype)initWithExtensionItem:(NSExtensionItem *)extensionItem {
-    NSDictionary *parameterDictionary = [[[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:extensionItem.userInfo]
-                                         dictionaryForKey:ParameterKeyXExtensionItem];
-    
-    XExtensionItemTypeSafeDictionaryValues *parameters = [[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:parameterDictionary];
-
-    XExtensionItemSourceApplication *sourceApplication = [[XExtensionItemSourceApplication alloc] initWithDictionary:parameterDictionary];
-    
-    return [self initWithAttributedTitle:extensionItem.attributedTitle
-                   attributedContentText:extensionItem.attributedContentText
-#warning These need to be converted to `XExtensionItemAttachments`
-                             attachments:extensionItem.attachments
-                                    tags:[parameters arrayForKey:ParameterKeyTags]
-                               sourceURL:[parameters URLForKey:ParameterKeySourceURL]
-                                imageURL:[parameters URLForKey:ParameterKeyImageURL]
-                       sourceApplication:sourceApplication
-         alternateContentRepresentations:[parameters dictionaryForKey:ParameterKeyAlternateContentRepresentations]
-                                userInfo:extensionItem.userInfo];
 }
 
 #pragma mark - NSObject
@@ -115,16 +128,8 @@ static NSString * const ParameterKeyTags = @"tags";
         [mutableDescription appendFormat:@", sourceURL: %@", self.sourceURL];
     }
     
-    if (self.imageURL) {
-        [mutableDescription appendFormat:@", imageURL: %@", self.imageURL];
-    }
-    
     if (self.sourceApplication) {
         [mutableDescription appendFormat:@", sourceApplication: %@", self.sourceApplication];
-    }
-    
-    if (self.alternateContentRepresentations) {
-        [mutableDescription appendFormat:@", alternateContentRepresentations: %@", self.alternateContentRepresentations];
     }
     
     if (self.userInfo) {
@@ -156,23 +161,20 @@ static NSString * const ParameterKeyTags = @"tags";
 #pragma mark - NSMutableCopying
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
-    return [[XExtensionItemMutableParameters alloc] initWithAttributedTitle:self.attributedTitle
+    return [[XExtensionItemMutableParameters alloc] initWithPlaceholderItem:self.placeholderItem
+                                                            attributedTitle:self.attributedTitle
                                                       attributedContentText:self.attributedContentText
                                                                 attachments:self.attachments
                                                                        tags:self.tags
                                                                   sourceURL:self.sourceURL
-                                                                   imageURL:self.imageURL
                                                           sourceApplication:self.sourceApplication
-                                            alternateContentRepresentations:self.alternateContentRepresentations
                                                                    userInfo:self.userInfo];
 }
 
 #pragma mark - UIActivityItemSource
 
 - (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController {
-    XExtensionItemAttachment *firstAttachment = self.attachments.firstObject;
-    
-    return firstAttachment.item;
+    return self.placeholderItem;
 }
 
 - (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
@@ -184,8 +186,6 @@ static NSString * const ParameterKeyTags = @"tags";
         NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
         [mutableParameters setValue:self.tags forKey:ParameterKeyTags];
         [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
-        [mutableParameters setValue:self.imageURL forKey:ParameterKeyImageURL];
-        [mutableParameters setValue:self.alternateContentRepresentations forKey:ParameterKeyAlternateContentRepresentations];
         [mutableParameters addEntriesFromDictionary:self.sourceApplication.dictionaryRepresentation];
         
         if ([mutableParameters count] > 0) {
@@ -204,29 +204,11 @@ static NSString * const ParameterKeyTags = @"tags";
      * `NSExtensionItemAttachmentsKey`.
 
      */
-    item.attachments = [[self class] transformArray:self.attachments usingBlock:^NSItemProvider *(XExtensionItemAttachment *attachment) {
-        return [[NSItemProvider alloc] initWithItem:attachment.item typeIdentifier:attachment.typeIdentifier];
-    }];
+    item.attachments = self.attachments;
     item.attributedTitle = self.attributedTitle;
     item.attributedContentText = self.attributedContentText;
     
     return item;
-}
-
-#pragma mark - Private
-
-+ (NSArray *)transformArray:(NSArray *)array usingBlock:(id (^)(id))block {
-    NSParameterAssert(block);
-    
-    NSMutableArray *transformed = [[NSMutableArray alloc] init];
-    
-    if (block) {
-        for (id object in array) {
-            [transformed addObject:block(object)];
-        }
-    }
-    
-    return [transformed copy];
 }
 
 @end

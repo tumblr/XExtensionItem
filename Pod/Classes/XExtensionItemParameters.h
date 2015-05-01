@@ -57,6 +57,8 @@
  */
 @interface XExtensionItemParameters : NSObject <NSCopying, NSMutableCopying, UIActivityItemSource>
 
+@property (nonatomic, readonly) id placeholderItem;
+
 /**
  An optional title for the item.
  
@@ -72,9 +74,9 @@
 @property (nonatomic, readonly) NSAttributedString *attributedContentText;
 
 /**
- An optional array of media data associated with the extension item. These items must be of type `XExtensionItemAttachment`
+ An optional array of media data associated with the extension item. These items must be of type `NSItemProvider`
  
- @see `XExtensionItemAttachment`
+ @see `NSItemProvider`
  */
 @property (nonatomic, readonly) NSArray *attachments;
 
@@ -90,13 +92,6 @@
 @property (nonatomic, readonly) NSURL *sourceURL;
 
 /**
- An optional URL specifying a image for the attachment data. If the attachment is an image, this may be the URL to a 
- smaller version, or if the attachment is a URL, it could be the same image that would be provided via Open Graph 
- meta tags.
- */
-@property (nonatomic, readonly) NSURL *imageURL;
-
-/**
  An optional object specifying information about the application that is sharing this extension item.
  
  @see `XExtensionItemSourceApplication`
@@ -104,24 +99,10 @@
 @property (nonatomic, readonly) XExtensionItemSourceApplication *sourceApplication;
 
 /**
- An optional dictionary mapping type identifier strings (e.g. “public.html”) to representations of the attachment 
- content in those formats.
- 
- For example, an application may include an `NSURL` in its extension item’s attachments array. It may then augment 
- that URL with a textual summary in the `attributedContentText` field and an HTML representation in this dictionary, 
- keyed off of the “public.html” UTI string.
- 
- ```objc
- parameters.alternateContentRepresentations = @{ @"public.html": @"<p>HTML</p>" };
- ```
- */
-@property (nonatomic, readonly) NSDictionary *alternateContentRepresentations;
-
-/**
  An optional dictionary of keys and values. Individual applications can add advertise whatever custom parameters they
  support, and extension developers can add values for those parameters in this dictionary.
  
- Custom user info keys should *not* start with `x-extension-item-`, as those will be used internally by this library.
+ Custom user info keys should *not* start with `x-extension-item`, as those will be used internally by this library.
  */
 @property (nonatomic, readonly) NSDictionary *userInfo;
 
@@ -152,27 +133,25 @@
  
  Immutable `XExtensionItemParameters` instances can also be created by copying an `XExtensionItemMutableParameters`
  instance or by using the block-based convenience initializer.
- 
+
+ @param placeholderItem                    (Required) See `placeholderItem` property
  @param attributedTitle                    (Optional) See `attributedTitle` property
  @param attributedContentText              (Optional) See `attributedContentText` property
  @param attachments                        (Optional) See `attachments` property
  @param tags                               (Optional) See `tags` property
  @param sourceURL                          (Optional) See `sourceURL` property
- @param imageURL                           (Optional) See `imageURL` property
  @param sourceApplication                  (Optional) See `sourceApplication` property
- @param alternateContentRepresentations    (Optional) See `alternateContentRepresentations` property
  @param userInfo                           (Optional) See `userInfo` property
  
  @return New parameters instance.
  */
-- (instancetype)initWithAttributedTitle:(NSAttributedString *)attributedTitle
+- (instancetype)initWithPlaceholderItem:(id)placeholderItem
+                        attributedTitle:(NSAttributedString *)attributedTitle
                   attributedContentText:(NSAttributedString *)attributedContentText
                             attachments:(NSArray *)attachments
                                    tags:(NSArray *)tags
                               sourceURL:(NSURL *)sourceURL
-                               imageURL:(NSURL *)imageURL
                       sourceApplication:(XExtensionItemSourceApplication *)sourceApplication
-        alternateContentRepresentations:(NSDictionary *)alternateContentRepresentations
-                               userInfo:(NSDictionary *)userInfo NS_DESIGNATED_INITIALIZER;
+                               userInfo:(NSDictionary *)userInfo;
 
 @end
