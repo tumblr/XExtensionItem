@@ -10,7 +10,7 @@
 @implementation XExtensionItemParametersTests
 
 - (void)testAttributedTitle {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
     itemSource.attributedTitle = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
@@ -19,7 +19,7 @@
 }
 
 - (void)testAttributedContentText {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
     itemSource.attributedContentText = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
@@ -44,7 +44,7 @@
 }
 
 - (void)testTags {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
     itemSource.tags = @[@"foo", @"bar", @"baz"];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
@@ -53,7 +53,7 @@
 }
 
 - (void)testSourceURL {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
     itemSource.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
@@ -62,7 +62,7 @@
 }
 
 - (void)testReferrer {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
     itemSource.referrer = [[XExtensionItemReferrer alloc] initWithAppName:@"Tumblr"
                                                                appStoreID:@"12345"
                                                              googlePlayID:@"54321"
@@ -76,7 +76,7 @@
 }
 
 - (void)testReferrerFromBundle {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
     itemSource.referrer = [[XExtensionItemReferrer alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
                                                                          appStoreID:@"12345"
                                                                        googlePlayID:@"54321"
@@ -90,7 +90,7 @@
 }
 
 - (void)testUserInfo {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
     itemSource.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     itemSource.userInfo = @{ @"foo": @"bar" };
     
@@ -107,7 +107,7 @@
     CustomParameters *inputCustomParameters = [[CustomParameters alloc] init];
     inputCustomParameters.customParameter = @"Value";
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
     [itemSource addEntriesToUserInfo:inputCustomParameters];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
