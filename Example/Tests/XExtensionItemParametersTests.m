@@ -29,7 +29,10 @@
 
 - (void)testAttachments {
     NSURL *URL = [NSURL URLWithString:@"http://apple.com"];
-    NSArray *attachments = @[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://apple.com"] typeIdentifier:(__bridge NSString *)kUTTypeURL]];
+    NSArray *attachments = @[
+        [[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://apple.com"] typeIdentifier:(__bridge NSString *)kUTTypeURL],
+        [[NSItemProvider alloc] initWithItem:@"Apple’s website" typeIdentifier:(__bridge NSString *)kUTTypeText]
+    ];
     
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:URL
                                                                                  attachments:
@@ -133,7 +136,6 @@
         @"x-extension-item": @{
             @"source-url": @"",
             @"tags": @{},
-            @"location": @"",
             @"referrer-name": @[],
             @"referrer-app-store-id": @[],
             @"referrer-google-play-id": @[],
@@ -145,6 +147,7 @@
     
     xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:item];
     XCTAssertNoThrow([xExtensionItem.sourceURL absoluteString]);
+    XCTAssertNoThrow(xExtensionItem.tags.count);
     XCTAssertNoThrow([xExtensionItem.referrer.appName stringByAppendingString:@""]);
     XCTAssertNoThrow([xExtensionItem.referrer.appStoreID stringByAppendingString:@""]);
     XCTAssertNoThrow([xExtensionItem.referrer.googlePlayID stringByAppendingString:@""]);

@@ -146,7 +146,6 @@
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* XExtensionItem */,
 				6003F5B5195388D20070C39A /* Tests */,
-				9384B3F91AF1614100960EF7 /* ShareExtension */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				81F4BA2224092B26314306A1 /* Pods */,
@@ -180,13 +179,8 @@
 		6003F593195388D20070C39A /* XExtensionItem */ = {
 			isa = PBXGroup;
 			children = (
-				9384B3F21AF1607000960EF7 /* Main.storyboard */,
-				9384B3E71AF15EFE00960EF7 /* AppDelegate.h */,
-				9384B3E81AF15EFE00960EF7 /* AppDelegate.m */,
-				9384B3EC1AF15EFE00960EF7 /* ViewController.h */,
-				9384B3ED1AF15EFE00960EF7 /* ViewController.m */,
-				6003F5A8195388D20070C39A /* Images.xcassets */,
-				6003F594195388D20070C39A /* Supporting Files */,
+				9373F98F1AF4634C00501A00 /* App */,
+				9384B3F91AF1614100960EF7 /* Share Extension */,
 			);
 			path = XExtensionItem;
 			sourceTree = "<group>";
@@ -247,7 +241,21 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		9384B3F91AF1614100960EF7 /* ShareExtension */ = {
+		9373F98F1AF4634C00501A00 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9384B3F21AF1607000960EF7 /* Main.storyboard */,
+				9384B3E71AF15EFE00960EF7 /* AppDelegate.h */,
+				9384B3E81AF15EFE00960EF7 /* AppDelegate.m */,
+				9384B3EC1AF15EFE00960EF7 /* ViewController.h */,
+				9384B3ED1AF15EFE00960EF7 /* ViewController.m */,
+				6003F5A8195388D20070C39A /* Images.xcassets */,
+				6003F594195388D20070C39A /* Supporting Files */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		9384B3F91AF1614100960EF7 /* Share Extension */ = {
 			isa = PBXGroup;
 			children = (
 				9384B3FC1AF1614100960EF7 /* ShareViewController.h */,
@@ -255,7 +263,8 @@
 				9384B3FF1AF1614100960EF7 /* MainInterface.storyboard */,
 				9384B3FA1AF1614100960EF7 /* Supporting Files */,
 			);
-			path = ShareExtension;
+			name = "Share Extension";
+			path = ../ShareExtension;
 			sourceTree = "<group>";
 		};
 		9384B3FA1AF1614100960EF7 /* Supporting Files */ = {

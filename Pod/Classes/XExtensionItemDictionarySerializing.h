@@ -2,16 +2,16 @@
  A protocol for objects that can be converted to and from dictionaries.
  
  Third-parties can provide custom classes conforming to `XExtensionItemDictionarySerializing` in order to augment the
- common `XExtensionItemParameters` values with service-specific ones. For example, a `TumblrExtensionItemParameters`
- object may define a custom URL property, which applications can set in order to pass a custom URL slug to posts
- created using the Tumblr share extension.
+ generic `XExtensionItem` values with service-specific ones. For example, a `XExtensionItemTumblrParameters` object may 
+ define a custom URL property, which applications can set in order to pass a custom URL component to posts created using 
+ the Tumblr share extension.
  
- An application would use a custom `XExtensionItemDictionarySerializing` class as follows:
+ An application would use a custom class that conforms to `XExtensionItemDictionarySerializing` as follows:
  
  ```objc
- XExtensionItemMutableParameters *mutableParameters = …;
- [mutableParameters addEntriesToUserInfo:({
- [[TumblrExtensionItemParameters alloc] initWithCustomURLSlug:@"new-years-resolutions"];
+ XExtensionItemSource *itemSource = …;
+ [itemSource addEntriesToUserInfo:({
+     [[XExtensionItemTumblrParameters alloc] initWith…];
  })];
  ```
  

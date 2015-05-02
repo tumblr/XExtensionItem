@@ -1,5 +1,6 @@
 /**
- Helper class for extracting type-safe values out of an `NSDictionary`.
+ Helper class for extracting type-safe values out of an `NSDictionary`. Useful when implementing a custom parameters 
+ class that conforms to `XExtensionItemDictionarySerializing` (see `XExtensionItemTumblrParameters`).
  */
 @interface XExtensionItemTypeSafeDictionaryValues : NSObject
 
