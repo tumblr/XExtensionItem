@@ -11,6 +11,10 @@ static NSString * const ParameterKeyTags = @"tags";
 @property (nonatomic) id placeholderItem;
 @property (nonatomic) NSArray *attachments;
 
+@property (nonatomic) NSMutableDictionary *activityTypesToItemProviderBlocks;
+@property (nonatomic) NSMutableDictionary *activityTypesToSubjects;
+@property (nonatomic) NSMutableDictionary *activityTypesToThumbnailProviderBlocks;
+
 @end
 
 @implementation XExtensionItemSource
@@ -25,10 +29,20 @@ static NSString * const ParameterKeyTags = @"tags";
     if (self) {
         _placeholderItem = placeholderItem;
         _attachments = [attachments copy];
+        
+        _activityTypesToItemProviderBlocks = [[NSMutableDictionary alloc] init];
+        _activityTypesToSubjects = [[NSMutableDictionary alloc] init];
+        _activityTypesToThumbnailProviderBlocks = [[NSMutableDictionary alloc] init];
     }
     
     return self;
 }
+
+- (instancetype)init {
+    return [self initWithPlaceholderItem:nil attachments:nil];
+}
+
+#pragma mark - XExtensionItemSource
 
 - (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable {
     self.userInfo = ({
@@ -38,13 +52,72 @@ static NSString * const ParameterKeyTags = @"tags";
     });
 }
 
+- (void)registerItemProvider:(XExtensionItemProvider)itemProvider forActivityType:(NSString *)activityType {
+    NSParameterAssert(itemProvider);
+    NSParameterAssert(activityType);
+    
+    if (activityType && itemProvider) {
+        self.activityTypesToItemProviderBlocks[activityType] = itemProvider;
+    }
+}
+
+- (void)registerSubject:(NSString *)subject forActivityType:(NSString *)activityType {
+    NSParameterAssert(subject);
+    NSParameterAssert(activityType);
+    
+    if (activityType && subject) {
+        self.activityTypesToSubjects[activityType] = subject;
+    }
+}
+
+- (void)registerThumbnailProvider:(XExtensionItemThumbnailProvider)thumbnailProvider forActivityType:(NSString *)activityType {
+    NSParameterAssert(thumbnailProvider);
+    NSParameterAssert(activityType);
+    
+    if (activityType && thumbnailProvider) {
+        self.activityTypesToThumbnailProviderBlocks[activityType] = thumbnailProvider;
+    }
+}
+
 #pragma mark - UIActivityItemSource
 
 - (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController {
     return self.placeholderItem;
 }
 
-- (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
+- (NSString *)activityViewController:(UIActivityViewController *)activityViewController
+              subjectForActivityType:(NSString *)activityType {
+    return self.activityTypesToSubjects[activityType];
+}
+
+- (UIImage *)activityViewController:(UIActivityViewController *)activityViewController
+      thumbnailImageForActivityType:(NSString *)activityType
+                      suggestedSize:(CGSize)size {
+    XExtensionItemThumbnailProvider provider = self.activityTypesToThumbnailProviderBlocks[activityType];
+    
+    if (provider) {
+        return provider(size);
+    }
+    else {
+        return nil;
+    }
+}
+
+- (id)activityViewController:(UIActivityViewController *)activityViewController
+         itemForActivityType:(NSString *)activityType {
+    XExtensionItemProvider itemProvider = self.activityTypesToItemProviderBlocks[activityType];
+    
+    if (itemProvider) {
+        return itemProvider();
+    }
+    else {
+        return self.extensionItemRepresentation;
+    }
+}
+
+#pragma mark - Private
+
+- (NSExtensionItem *)extensionItemRepresentation {
     NSExtensionItem *item = [[NSExtensionItem alloc] init];
     item.userInfo = ({
         NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
