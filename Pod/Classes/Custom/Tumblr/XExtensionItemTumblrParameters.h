@@ -11,7 +11,7 @@ typedef NS_ENUM(NSUInteger, XExtensionItemTumblrPostType) {
 };
 
 /**
- *  Custom parameters that will be consumer by the Tumblr share extension.
+ *  Custom parameters that will be consumed by the Tumblr share extension.
  */
 @interface XExtensionItemTumblrParameters : NSObject <XExtensionItemDictionarySerializing>
 
