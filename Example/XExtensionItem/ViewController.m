@@ -1,6 +1,6 @@
 @import MobileCoreServices;
 #import "ViewController.h"
-#import "XExtensionItem+Tumblr.h"
+#import <XExtensionItem/XExtensionItem+Tumblr.h>
 
 @implementation ViewController
 
@@ -17,32 +17,28 @@
 #pragma mark - Actions
 
 - (void)action {
-    XExtensionItemParameters *parameters = ({
-        XExtensionItemMutableParameters *mutableParameters = [[XExtensionItemMutableParameters alloc] init];
-        mutableParameters.attributedTitle = [[NSAttributedString alloc] initWithString:@"Apple"];
-        mutableParameters.attributedContentText = [[NSAttributedString alloc] initWithString:@"iPad Air 2. Change is in the air"];
-        mutableParameters.attachments = @[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"https://www.apple.com/ipad-air-2/"]
-                                                            typeIdentifier:(__bridge NSString *)kUTTypeURL]];
-        mutableParameters.tags = @[@"apple", @"ipad", @"ios"];
-        mutableParameters.sourceURL = [NSURL URLWithString:@"http://apple.com"];
-        mutableParameters.imageURL = [[NSBundle mainBundle] URLForResource:@"thumbnail" withExtension:@"png"];
-        mutableParameters.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppNameFromBundle:[NSBundle mainBundle]
-                                                                                                      appStoreID:@"12345"
-                                                                                                    googlePlayID:@"12345"
-                                                                                                          webURL:nil
-                                                                                                       iOSAppURL:nil
-                                                                                                   androidAppURL:nil];
-        mutableParameters.alternateContentRepresentations = @{ @"text/html": @"<p><strong>Apple’s website markup</strong></p>" };
-        mutableParameters.tumblrParameters = [[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"want-this-for-xmas"
-                                                                                                  requestedPostType:XExtensionItemTumblrPostTypeLink
-                                                                                                        consumerKey:@"YOUR_CONSUMER_KEY_HERE"];
-        
-        [mutableParameters copy];
-    });
-
-    [self presentViewController:[[UIActivityViewController alloc] initWithActivityItems:@[parameters.extensionItemRepresentation]
-                                                                  applicationActivities:nil]
-                       animated:YES completion:nil];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:[NSURL URLWithString:@"http://apple.com/ipad-air-2/"]
+                                                                                 attachments:@[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"https://www.apple.com/ipad-air-2/"]
+                                                                                                                     typeIdentifier:(__bridge NSString *)kUTTypeURL],
+                                                                                               [[NSItemProvider alloc] initWithItem:@"String of text"
+                                                                                                                     typeIdentifier:(__bridge NSString *)kUTTypeText]]];
+    itemSource.attributedTitle = [[NSAttributedString alloc] initWithString:@"Apple"];
+    itemSource.attributedContentText = [[NSAttributedString alloc] initWithString:@"iPad Air 2. Change is in the air"];
+    itemSource.tags = @[@"apple", @"ipad", @"ios"];
+    itemSource.sourceURL = [NSURL URLWithString:@"http://apple.com"];
+    itemSource.referrer = [[XExtensionItemReferrer alloc] initWithAppNameFromBundle:[NSBundle mainBundle]
+                                                                         appStoreID:@"12345"
+                                                                       googlePlayID:@"12345"
+                                                                             webURL:nil
+                                                                          iOSAppURL:nil
+                                                                      androidAppURL:nil];
+    [itemSource addEntriesToUserInfo:[[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"want-this-for-xmas"
+                                                                                          requestedPostType:XExtensionItemTumblrPostTypeLink
+                                                                                                consumerKey:@"YOUR_CONSUMER_KEY_HERE"]];
+    
+    [self presentViewController:[[UIActivityViewController alloc] initWithActivityItems:@[itemSource] applicationActivities:nil]
+                       animated:YES
+                     completion:nil];
 }
 
 @end

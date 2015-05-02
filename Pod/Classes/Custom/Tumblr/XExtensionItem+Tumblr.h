@@ -1,4 +1,11 @@
 #import "XExtensionItem.h"
-#import "XExtensionItemMutableParameters+Tumblr.h"
-#import "XExtensionItemParameters+Tumblr.h"
 #import "XExtensionItemTumblrParameters.h"
+
+@interface XExtensionItem (Tumblr)
+
+/**
+ Tumblr-specific parameters.
+ */
+@property (nonatomic, readonly) XExtensionItemTumblrParameters *tumblrParameters;
+
+@end

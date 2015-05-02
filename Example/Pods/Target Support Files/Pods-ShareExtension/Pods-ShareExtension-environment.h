@@ -12,3 +12,15 @@
 #define COCOAPODS_VERSION_MINOR_XExtensionItem 1
 #define COCOAPODS_VERSION_PATCH_XExtensionItem 1
 
+// XExtensionItem/Core
+#define COCOAPODS_POD_AVAILABLE_XExtensionItem_Core
+#define COCOAPODS_VERSION_MAJOR_XExtensionItem_Core 0
+#define COCOAPODS_VERSION_MINOR_XExtensionItem_Core 1
+#define COCOAPODS_VERSION_PATCH_XExtensionItem_Core 1
+
+// XExtensionItem/Tumblr
+#define COCOAPODS_POD_AVAILABLE_XExtensionItem_Tumblr
+#define COCOAPODS_VERSION_MAJOR_XExtensionItem_Tumblr 0
+#define COCOAPODS_VERSION_MINOR_XExtensionItem_Tumblr 1
+#define COCOAPODS_VERSION_PATCH_XExtensionItem_Tumblr 1
+

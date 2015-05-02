@@ -1,7 +1,6 @@
-#import "XExtensionItemParameters+Tumblr.h"
-#import "XExtensionItemTumblrParameters.h"
+#import "XExtensionItem+Tumblr.h"
 
-@implementation XExtensionItemParameters (Tumblr)
+@implementation XExtensionItem (Tumblr)
 
 - (XExtensionItemTumblrParameters *)tumblrParameters {
     return [[XExtensionItemTumblrParameters alloc] initWithDictionary:self.userInfo];

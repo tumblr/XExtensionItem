@@ -2,8 +2,7 @@
 @import UIKit;
 @import XCTest;
 #import "CustomParameters.h"
-#import "XExtensionItemMutableParameters.h"
-#import "XExtensionItemSourceApplication.h"
+#import "XExtensionItem.h"
 
 @interface XExtensionItemParametersTests : XCTestCase
 @end
@@ -11,108 +10,96 @@
 @implementation XExtensionItemParametersTests
 
 - (void)testAttributedTitle {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.attributedTitle = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    itemSource.attributedTitle = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
-    XCTAssertEqualObjects(inputParams.attributedTitle.string, outputParams.attributedTitle.string);
+    XCTAssertEqualObjects(itemSource.attributedTitle.string, xExtensionItem.attributedTitle.string);
 }
 
 - (void)testAttributedContentText {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.attributedContentText = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    itemSource.attributedContentText = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
-    XCTAssertEqual(inputParams.attributedContentText.hash, outputParams.attributedContentText.hash);
+    XCTAssertEqual(itemSource.attributedContentText.hash, xExtensionItem.attributedContentText.hash);
 }
 
 - (void)testAttachments {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.attachments = @[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://apple.com"]
-                                                      typeIdentifier:(__bridge NSString *)kUTTypeURL]];
+    NSURL *URL = [NSURL URLWithString:@"http://apple.com"];
+    NSArray *attachments = @[
+        [[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"http://apple.com"] typeIdentifier:(__bridge NSString *)kUTTypeURL],
+        [[NSItemProvider alloc] initWithItem:@"Apple’s website" typeIdentifier:(__bridge NSString *)kUTTypeText]
+    ];
     
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:URL
+                                                                                 attachments:
+                                        attachments];
     
-    XCTAssertEqualObjects(inputParams.attachments, outputParams.attachments);
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
+    
+    XCTAssertEqualObjects(attachments, xExtensionItem.attachments);
 }
 
 - (void)testTags {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.tags = @[@"foo", @"bar", @"baz"];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    itemSource.tags = @[@"foo", @"bar", @"baz"];
     
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
-    XCTAssertEqualObjects(inputParams.tags, outputParams.tags);
+    XCTAssertEqualObjects(itemSource.tags, xExtensionItem.tags);
 }
 
 - (void)testSourceURL {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    itemSource.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
-    XCTAssertEqualObjects(inputParams.sourceURL, outputParams.sourceURL);
+    XCTAssertEqualObjects(itemSource.sourceURL, xExtensionItem.sourceURL);
 }
 
-- (void)testImageURL {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.imageURL = [NSURL URLWithString:@"http://tumblr.com/image.png"];
+- (void)testReferrer {
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    itemSource.referrer = [[XExtensionItemReferrer alloc] initWithAppName:@"Tumblr"
+                                                               appStoreID:@"12345"
+                                                             googlePlayID:@"54321"
+                                                                   webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
+                                                                iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
+                                                            androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
     
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
-    XCTAssertEqualObjects(inputParams.imageURL, outputParams.imageURL);
+    XCTAssertEqualObjects(itemSource.referrer, xExtensionItem.referrer);
 }
 
-- (void)testSourceApplication {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppName:@"Tumblr"
-                                                                                  appStoreID:@"12345"
-                                                                                googlePlayID:@"54321"
-                                                                                      webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
-                                                                                   iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
-                                                                               androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
+- (void)testReferrerFromBundle {
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    itemSource.referrer = [[XExtensionItemReferrer alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
+                                                                         appStoreID:@"12345"
+                                                                       googlePlayID:@"54321"
+                                                                             webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
+                                                                          iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
+                                                                      androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
     
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
-    XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
-}
-
-- (void)testSourceApplicationFromBundle {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.sourceApplication = [[XExtensionItemSourceApplication alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
-                                                                                            appStoreID:@"12345"
-                                                                                          googlePlayID:@"54321"
-                                                                                                webURL:[NSURL URLWithString:@"http://bryan.io/a94kan4"]
-                                                                                             iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
-                                                                                         androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
-    
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
-    
-    XCTAssertEqualObjects(inputParams.sourceApplication, outputParams.sourceApplication);
-}
-
-- (void)testAlternateContentRepresentations {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.alternateContentRepresentations = @{ @"text/html": @"<p><strong>Foo</strong></p>" };
-    
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
-    
-    XCTAssertEqualObjects(inputParams.alternateContentRepresentations, outputParams.alternateContentRepresentations);
+    XCTAssertEqualObjects(itemSource.referrer, xExtensionItem.referrer);
 }
 
 - (void)testUserInfo {
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    inputParams.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
-    inputParams.userInfo = @{ @"foo": @"bar" };
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    itemSource.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
+    itemSource.userInfo = @{ @"foo": @"bar" };
     
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
     
     // Output params user info dictionary should be a superset of input params user info dictionary
     
-    [inputParams.userInfo enumerateKeysAndObjectsUsingBlock:^(id inputKey, id inputValue, BOOL *stop) {
-        XCTAssertEqualObjects(outputParams.userInfo[inputKey], inputValue);
+    [itemSource.userInfo enumerateKeysAndObjectsUsingBlock:^(id inputKey, id inputValue, BOOL *stop) {
+        XCTAssertEqualObjects(xExtensionItem.userInfo[inputKey], inputValue);
     }];
 }
 
@@ -120,19 +107,19 @@
     CustomParameters *inputCustomParameters = [[CustomParameters alloc] init];
     inputCustomParameters.customParameter = @"Value";
     
-    XExtensionItemMutableParameters *inputParams = [[XExtensionItemMutableParameters alloc] init];
-    [inputParams addEntriesToUserInfo:inputCustomParameters];
-
-    XExtensionItemParameters *outputParams = [[XExtensionItemParameters alloc] initWithExtensionItem:inputParams.extensionItemRepresentation];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] init];
+    [itemSource addEntriesToUserInfo:inputCustomParameters];
     
-    CustomParameters *outputCustomParameters = [[CustomParameters alloc] initWithDictionary:outputParams.userInfo];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:[itemSource activityViewController:nil itemForActivityType:nil]];
+    
+    CustomParameters *outputCustomParameters = [[CustomParameters alloc] initWithDictionary:xExtensionItem.userInfo];
     
     XCTAssertEqualObjects(inputCustomParameters, outputCustomParameters);
 }
 
 - (void)testTypeSafety {
     /*
-     Try to break things by intentionally using the wrong types for these keys, then calling methods that would only 
+     Try to break things by intentionally using the wrong types for these keys, then calling methods that would only
      exist on the correct object types
      */
     
@@ -141,35 +128,32 @@
         @"x-extension-item": @[],
     };
     
-    XExtensionItemParameters *params = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:item];
+    XCTAssertNoThrow([xExtensionItem.sourceURL absoluteString]);
     
     item = [[NSExtensionItem alloc] init];
     item.userInfo = @{
         @"x-extension-item": @{
-            @"type-identifiers-to-content-representations": @"",
             @"source-url": @"",
             @"tags": @{},
-            @"image-url": @"",
-            @"location": @"",
-            @"source-application-name": @[],
-            @"source-application-app-store-id": @[],
-            @"source-application-google-play-id": @[],
-            @"source-application-web-url": @[],
-            @"source-application-ios-app-url": @[],
-            @"source-application-android-app-url": @[]
+            @"referrer-name": @[],
+            @"referrer-app-store-id": @[],
+            @"referrer-google-play-id": @[],
+            @"referrer-web-url": @[],
+            @"referrer-ios-app-url": @[],
+            @"referrer-android-app-url": @[]
         }
     };
     
-    params = [[XExtensionItemParameters alloc] initWithExtensionItem:item];
-    XCTAssertNoThrow([params.alternateContentRepresentations allKeys]);
-    XCTAssertNoThrow([params.sourceURL absoluteString]);
-    XCTAssertNoThrow([params.imageURL absoluteString]);
-    XCTAssertNoThrow([params.sourceApplication.appName stringByAppendingString:@""]);
-    XCTAssertNoThrow([params.sourceApplication.appStoreID stringByAppendingString:@""]);
-    XCTAssertNoThrow([params.sourceApplication.googlePlayID stringByAppendingString:@""]);
-    XCTAssertNoThrow([params.sourceApplication.webURL absoluteString]);
-    XCTAssertNoThrow([params.sourceApplication.iOSAppURL absoluteString]);
-    XCTAssertNoThrow([params.sourceApplication.androidAppURL absoluteString]);
+    xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:item];
+    XCTAssertNoThrow([xExtensionItem.sourceURL absoluteString]);
+    XCTAssertNoThrow(xExtensionItem.tags.count);
+    XCTAssertNoThrow([xExtensionItem.referrer.appName stringByAppendingString:@""]);
+    XCTAssertNoThrow([xExtensionItem.referrer.appStoreID stringByAppendingString:@""]);
+    XCTAssertNoThrow([xExtensionItem.referrer.googlePlayID stringByAppendingString:@""]);
+    XCTAssertNoThrow([xExtensionItem.referrer.webURL absoluteString]);
+    XCTAssertNoThrow([xExtensionItem.referrer.iOSAppURL absoluteString]);
+    XCTAssertNoThrow([xExtensionItem.referrer.androidAppURL absoluteString]);
 }
 
 @end
