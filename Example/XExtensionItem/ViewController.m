@@ -30,7 +30,7 @@
                                                                          appStoreID:@"12345"
                                                                        googlePlayID:@"12345"
                                                                              webURL:[NSURL URLWithString:@"http://myservice.com/a94ks0583k"]
-                                                                          iOSAppURL:[NSURL URLWithString:@"myservice.com://content/a94ks0583k"]
+                                                                          iOSAppURL:[NSURL URLWithString:@"myservice://content/a94ks0583k"]
                                                                       androidAppURL:[NSURL URLWithString:@"myservice://content/a94ks0583k"]];
     [itemSource addEntriesToUserInfo:[[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"want-this-for-xmas"
                                                                                           requestedPostType:XExtensionItemTumblrPostTypeLink
