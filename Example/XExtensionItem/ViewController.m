@@ -17,9 +17,11 @@
 #pragma mark - Actions
 
 - (void)action {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:[NSURL URLWithString:@"http://apple.com/ipad-air-2/"]
-                                                                                 attachments:@[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"https://www.apple.com/ipad-air-2/"]
-                                                                                                                     typeIdentifier:(__bridge NSString *)kUTTypeURL],
+    UIImage *image = [UIImage imageNamed:@"thumbnail"];
+    
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:image
+                                                                                 attachments:@[[[NSItemProvider alloc] initWithItem:image
+                                                                                                                     typeIdentifier:(__bridge NSString *)kUTTypePNG],
                                                                                                [[NSItemProvider alloc] initWithItem:@"String of text"
                                                                                                                      typeIdentifier:(__bridge NSString *)kUTTypeText]]];
     itemSource.attributedTitle = [[NSAttributedString alloc] initWithString:@"Apple"];

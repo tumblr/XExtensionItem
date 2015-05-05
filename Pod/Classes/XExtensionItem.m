@@ -45,37 +45,91 @@ static NSString * const ParameterKeyTags = @"tags";
 }
 
 - (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
-    NSExtensionItem *item = [[NSExtensionItem alloc] init];
-    item.userInfo = ({
-        NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
-        [mutableUserInfo addEntriesFromDictionary:self.userInfo];
-        
-        NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
-        [mutableParameters setValue:self.tags forKey:ParameterKeyTags];
-        [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
-        [mutableParameters addEntriesFromDictionary:self.referrer.dictionaryRepresentation];
-        
-        if ([mutableParameters count] > 0) {
-            mutableUserInfo[ParameterKeyXExtensionItem] = [mutableParameters copy];
-        }
-        
-        mutableUserInfo;
-    });
-    
     /*
-     The `userInfo` setter *must* be called before the following three setters, which merely provide syntactic sugar for
-     populating the `userInfo` dictionary with the following keys:
-     
-     * `NSExtensionItemAttributedTitleKey`,
-     * `NSExtensionItemAttributedContentTextKey`
-     * `NSExtensionItemAttachmentsKey`.
-     
+     Share extensions take `NSExtensionItem` instances as input, and *some* system activities do as well, but some do 
+     not. Unfortunately we need to maintain a hardcoded list of which system activities we can pass extension items to.
      */
-    item.attachments = self.attachments;
-    item.attributedTitle = self.attributedTitle;
-    item.attributedContentText = self.attributedContentText;
+    if (activityTypeAcceptsExtensionItemInput(activityType)) {
+        NSExtensionItem *item = [[NSExtensionItem alloc] init];
+        item.userInfo = ({
+            NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
+            [mutableUserInfo addEntriesFromDictionary:self.userInfo];
+            
+            NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
+            [mutableParameters setValue:self.tags forKey:ParameterKeyTags];
+            [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
+            [mutableParameters addEntriesFromDictionary:self.referrer.dictionaryRepresentation];
+            
+            if ([mutableParameters count] > 0) {
+                mutableUserInfo[ParameterKeyXExtensionItem] = [mutableParameters copy];
+            }
+            
+            mutableUserInfo;
+        });
+        
+        /*
+         The `userInfo` setter *must* be called before the following three setters, which merely provide syntactic sugar for
+         populating the `userInfo` dictionary with the following keys:
+         
+         * `NSExtensionItemAttributedTitleKey`,
+         * `NSExtensionItemAttributedContentTextKey`
+         * `NSExtensionItemAttachmentsKey`.
+         
+         */
+        item.attachments = self.attachments;
+        item.attributedTitle = self.attributedTitle;
+        item.attributedContentText = self.attributedContentText;
+        
+        return item;
+    }
+    else {
+        return self.placeholderItem;
+    }
+}
+
+#pragma mark - Private
+
+static BOOL activityTypeAcceptsExtensionItemInput(NSString *activityType) {
+    NSArray *unacceptingTypes = @[
+                                  UIActivityTypeMessage,
+                                  UIActivityTypeMail,
+                                  UIActivityTypePrint,
+                                  UIActivityTypeCopyToPasteboard,
+                                  UIActivityTypeAssignToContact,
+                                  UIActivityTypeSaveToCameraRoll,
+                                  UIActivityTypeAddToReadingList,
+                                  UIActivityTypeAirDrop,
+                                  UIActivityTypePostToVimeo,
+                                  UIActivityTypePostToTencentWeibo
+                                  ];
     
-    return item;
+    NSArray *acceptingTypes = @[
+                                /*
+                                 The built-in iOS share sheet will pull in `attributedContentText`.
+                                 */
+                                UIActivityTypePostToFacebook,
+                                
+                                /*
+                                 The built-in iOS share sheet will pull in `attributedContentText`.
+                                 */
+                                UIActivityTypePostToTwitter,
+                                
+                                /*
+                                 The built-in iOS share sheet will pull in `attributedContentText`. If the official 
+                                 Flickr app is installed, it takes precedent and does not consume this value.
+                                 */
+                                UIActivityTypePostToFlickr
+                                ];
+    
+    if ([unacceptingTypes containsObject:activityType]) {
+        return NO;
+    }
+    else if ([acceptingTypes containsObject:activityType]) {
+        return YES;
+    }
+    else {
+        return YES;
+    }
 }
 
 @end
