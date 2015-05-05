@@ -87,13 +87,13 @@
 @property (nonatomic, copy) NSDictionary *userInfo;
 
 /**
- Initialize a new instance with a placeholder item, whose type will be used by the activity controller to determine 
+ Initialize a new instance with a placeholder item, whose type will be used by the activity controller to determine
  which activities and extensions are displayed, and an array of attachments that will actually be passed to the selected 
  activity/extension.
  
  @param placeholderItem (Required) A placeholder item whose type will be used by the activity controller to determine
  which activities and extensions are displayed. System activities that do not accept `NSExtensionItem` input will 
- receive this placeholder item instead.
+ receive this placeholder instead.
  @param attachments     (Required) An array of media data associated with the extension item. These items must be of 
  type `NSItemProvider` and will be passed to the selected activity/extension.
  
@@ -103,13 +103,16 @@
                             attachments:(NSArray/*<NSItemProvider>*/ *)attachments NS_DESIGNATED_INITIALIZER;
 
 /**
- *  <#Description#>
- *
- *  @param placeholderData    <#placeholderData description#>
- *  @param dataTypeIdentifier <#dataTypeIdentifier description#>
- *  @param attachments        <#attachments description#>
- *
- *  @return <#return value description#>
+ Initialize a new instance with placeholder data and a type identifier which will be used by the activity controller to 
+ determine which activities and extensions are displayed, and an array of attachments that will actually be passed to 
+ the selected activity/extension.
+ 
+ @param placeholderData    (Required) A placeholder item. System activities that do not accept `NSExtensionItem` input 
+ will receive this placeholder instead.
+ @param dataTypeIdentifier (Required) The UTI for the data.
+ @param attachments        (Required) An array of media data associated with the extension item. These items must be of
+ 
+ @return New item source instance.
  */
 - (instancetype)initWithPlaceholderData:(id)placeholderData
                      dataTypeIdentifier:(NSString *)dataTypeIdentifier
@@ -164,7 +167,7 @@
 /**
  *  @see `XExtensionItemSource`
  */
-@property (nonatomic, readonly) NSArray *tags;
+@property (nonatomic, readonly) NSArray/*<NSString>*/ *tags;
 
 /**
  *  @see `XExtensionItemSource`

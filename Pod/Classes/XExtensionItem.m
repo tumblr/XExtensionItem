@@ -10,7 +10,7 @@ static NSString * const ParameterKeyTags = @"tags";
 
 @property (nonatomic) id placeholderItem;
 @property (nonatomic) NSString *dataTypeIdentifier;
-@property (nonatomic) NSArray *attachments;
+@property (nonatomic) NSArray/*<NSItemProvider>*/ *attachments;
 
 @end
 
@@ -34,6 +34,8 @@ static NSString * const ParameterKeyTags = @"tags";
 - (instancetype)initWithPlaceholderData:(id)placeholderData
                      dataTypeIdentifier:(NSString *)dataTypeIdentifier
                             attachments:(NSArray/*<NSItemProvider>*/ *)attachments {
+    NSParameterAssert(dataTypeIdentifier);
+    
     self = [self initWithPlaceholderItem:placeholderData attachments:attachments];
     if (self) {
         _dataTypeIdentifier = [dataTypeIdentifier copy];
@@ -41,6 +43,12 @@ static NSString * const ParameterKeyTags = @"tags";
     
     return self;
 }
+
+- (instancetype)init {
+    return [self initWithPlaceholderItem:nil attachments:nil];
+}
+
+#pragma mark - XExtensionItemSource
 
 - (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable {
     self.userInfo = ({
@@ -115,6 +123,11 @@ static BOOL activityTypeAcceptsExtensionItemInput(NSString *activityType) {
                                   UIActivityTypeSaveToCameraRoll,
                                   UIActivityTypeAddToReadingList,
                                   UIActivityTypeAirDrop,
+                                  
+                                  /*
+                                   I’m guessing that these accept `NSExtensionItem` input but have not yet been able to 
+                                   verify.
+                                   */
                                   UIActivityTypePostToWeibo,
                                   UIActivityTypePostToTencentWeibo
                                   ];
