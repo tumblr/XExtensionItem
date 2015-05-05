@@ -52,12 +52,12 @@ static NSString * const ParameterKeyTags = @"tags";
     });
 }
 
-- (void)registerItemProvider:(XExtensionItemProvider)itemProvider forActivityType:(NSString *)activityType {
-    NSParameterAssert(itemProvider);
+- (void)registerItemProvidingBlock:(XExtensionItemProvidingBlock)itemBlock forActivityType:(NSString *)activityType {
+    NSParameterAssert(itemBlock);
     NSParameterAssert(activityType);
     
-    if (activityType && itemProvider) {
-        self.activityTypesToItemProviderBlocks[activityType] = itemProvider;
+    if (activityType && itemBlock) {
+        self.activityTypesToItemProviderBlocks[activityType] = itemBlock;
     }
 }
 
@@ -70,12 +70,12 @@ static NSString * const ParameterKeyTags = @"tags";
     }
 }
 
-- (void)registerThumbnailProvider:(XExtensionItemThumbnailProvider)thumbnailProvider forActivityType:(NSString *)activityType {
-    NSParameterAssert(thumbnailProvider);
+- (void)registerThumbnailProvidingBlock:(XExtensionItemThumbnailProvidingBlock)thumbnailBlock forActivityType:(NSString *)activityType {
+    NSParameterAssert(thumbnailBlock);
     NSParameterAssert(activityType);
     
-    if (activityType && thumbnailProvider) {
-        self.activityTypesToThumbnailProviderBlocks[activityType] = thumbnailProvider;
+    if (activityType && thumbnailBlock) {
+        self.activityTypesToThumbnailProviderBlocks[activityType] = thumbnailBlock;
     }
 }
 
@@ -93,10 +93,10 @@ static NSString * const ParameterKeyTags = @"tags";
 - (UIImage *)activityViewController:(UIActivityViewController *)activityViewController
       thumbnailImageForActivityType:(NSString *)activityType
                       suggestedSize:(CGSize)size {
-    XExtensionItemThumbnailProvider provider = self.activityTypesToThumbnailProviderBlocks[activityType];
+    XExtensionItemThumbnailProvidingBlock thumbnailBlock = self.activityTypesToThumbnailProviderBlocks[activityType];
     
-    if (provider) {
-        return provider(size);
+    if (thumbnailBlock) {
+        return thumbnailBlock(size);
     }
     else {
         return nil;
@@ -105,10 +105,10 @@ static NSString * const ParameterKeyTags = @"tags";
 
 - (id)activityViewController:(UIActivityViewController *)activityViewController
          itemForActivityType:(NSString *)activityType {
-    XExtensionItemProvider itemProvider = self.activityTypesToItemProviderBlocks[activityType];
+    XExtensionItemProvidingBlock itemBlock = self.activityTypesToItemProviderBlocks[activityType];
     
-    if (itemProvider) {
-        return itemProvider();
+    if (itemBlock) {
+        return itemBlock();
     }
     else {
         return self.extensionItemRepresentation;

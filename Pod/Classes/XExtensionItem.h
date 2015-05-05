@@ -6,7 +6,7 @@
  *
  *  @return <#return value description#>
  */
-typedef id (^XExtensionItemProvider)();
+typedef id (^XExtensionItemProvidingBlock)();
 
 /**
  *  <#Description#>
@@ -15,7 +15,7 @@ typedef id (^XExtensionItemProvider)();
  *
  *  @return <#return value description#>
  */
-typedef UIImage *(^XExtensionItemThumbnailProvider)(CGSize suggestedSize);
+typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
 
 /**
  A data structure that application developers can use to pass well-defined data structures into iOS 8 extensions 
@@ -133,11 +133,11 @@ typedef UIImage *(^XExtensionItemThumbnailProvider)(CGSize suggestedSize);
  *  
  *  A good example usage would be to provide a special HTML string in the event that `UIActivityTypeMail` is selected.
  *
- *  @param itemProvider (Required) A block that will be called if the activity with the specified type is selected. It 
+ *  @param itemBlock    (Required) A block that will be called if the activity with the specified type is selected. It
  *  should return the item to be provided to this activity.
  *  @param activityType (Required) The activity type that the subject should be provided to.
  */
-- (void)registerItemProvider:(XExtensionItemProvider)itemProvider forActivityType:(NSString *)activityType;
+- (void)registerItemProvidingBlock:(XExtensionItemProvidingBlock)itemBlock forActivityType:(NSString *)activityType;
 
 /**
  *  Registers a subject for activities that support separate subject and data fields.
@@ -150,12 +150,12 @@ typedef UIImage *(^XExtensionItemThumbnailProvider)(CGSize suggestedSize);
 /**
  *  Registers a thumbnail preview image for activities that support a preview image.
  *
- *  @param thumbnailProvider (Required) A block that will be called with the suggested size for the thumbnail image, in 
+ *  @param thumbnailBlock    (Required) A block that will be called with the suggested size for the thumbnail image, in
  *  points. It should return an image using the appropriate scale for the screen. Images provided at the suggested size 
  *  will result in the best experience.
  *  @param activityType      (Required) The activity type that the subject should be provided to.
  */
-- (void)registerThumbnailProvider:(XExtensionItemThumbnailProvider)thumbnailProvider forActivityType:(NSString *)activityType;
+- (void)registerThumbnailProvidingBlock:(XExtensionItemThumbnailProvidingBlock)thumbnailBlock forActivityType:(NSString *)activityType;
 
 @end
 
