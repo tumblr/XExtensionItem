@@ -103,6 +103,19 @@
                             attachments:(NSArray/*<NSItemProvider>*/ *)attachments NS_DESIGNATED_INITIALIZER;
 
 /**
+ *  <#Description#>
+ *
+ *  @param placeholderData    <#placeholderData description#>
+ *  @param dataTypeIdentifier <#dataTypeIdentifier description#>
+ *  @param attachments        <#attachments description#>
+ *
+ *  @return <#return value description#>
+ */
+- (instancetype)initWithPlaceholderData:(id)placeholderData
+                     dataTypeIdentifier:(NSString *)dataTypeIdentifier
+                            attachments:(NSArray/*<NSItemProvider>*/ *)attachments;
+
+/**
  Add entries from a dictionary-serializable custom object to this paramter object’s `userInfo` dictionary.
  
  @param dictionarySerializable Object whose entries should be added to this paramter object’s `userInfo` dictionary.

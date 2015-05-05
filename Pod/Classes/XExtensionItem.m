@@ -9,6 +9,7 @@ static NSString * const ParameterKeyTags = @"tags";
 @interface XExtensionItemSource ()
 
 @property (nonatomic) id placeholderItem;
+@property (nonatomic) NSString *dataTypeIdentifier;
 @property (nonatomic) NSArray *attachments;
 
 @end
@@ -30,6 +31,17 @@ static NSString * const ParameterKeyTags = @"tags";
     return self;
 }
 
+- (instancetype)initWithPlaceholderData:(id)placeholderData
+                     dataTypeIdentifier:(NSString *)dataTypeIdentifier
+                            attachments:(NSArray/*<NSItemProvider>*/ *)attachments {
+    self = [self initWithPlaceholderItem:placeholderData attachments:attachments];
+    if (self) {
+        _dataTypeIdentifier = [dataTypeIdentifier copy];
+    }
+    
+    return self;
+}
+
 - (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable {
     self.userInfo = ({
         NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] initWithDictionary:self.userInfo];
@@ -44,9 +56,13 @@ static NSString * const ParameterKeyTags = @"tags";
     return self.placeholderItem;
 }
 
+- (NSString *)activityViewController:(UIActivityViewController *)activityViewController dataTypeIdentifierForActivityType:(NSString *)activityType {
+    return self.dataTypeIdentifier;
+}
+
 - (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
     /*
-     Share extensions take `NSExtensionItem` instances as input, and *some* system activities do as well, but some do 
+     Share extensions take `NSExtensionItem` instances as input, and *some* system activities do as well, but some do
      not. Unfortunately we need to maintain a hardcoded list of which system activities we can pass extension items to.
      */
     if (activityTypeAcceptsExtensionItemInput(activityType)) {
@@ -99,13 +115,14 @@ static BOOL activityTypeAcceptsExtensionItemInput(NSString *activityType) {
                                   UIActivityTypeSaveToCameraRoll,
                                   UIActivityTypeAddToReadingList,
                                   UIActivityTypeAirDrop,
-                                  UIActivityTypePostToVimeo,
+                                  UIActivityTypePostToWeibo,
                                   UIActivityTypePostToTencentWeibo
                                   ];
     
     NSArray *acceptingTypes = @[
                                 /*
-                                 The built-in iOS share sheet will pull in `attributedContentText`.
+                                 The built-in iOS share sheet will pull in `attributedContentText`. If the official
+                                 Facebook app is installed, it takes precedent and does not consume this value.
                                  */
                                 UIActivityTypePostToFacebook,
                                 
@@ -115,10 +132,15 @@ static BOOL activityTypeAcceptsExtensionItemInput(NSString *activityType) {
                                 UIActivityTypePostToTwitter,
                                 
                                 /*
-                                 The built-in iOS share sheet will pull in `attributedContentText`. If the official 
+                                 The built-in iOS share sheet will pull in `attributedContentText`.
+                                 */
+                                UIActivityTypePostToVimeo,
+                                
+                                /*
+                                 The built-in iOS share sheet will pull in `attributedContentText`. If the official
                                  Flickr app is installed, it takes precedent and does not consume this value.
                                  */
-                                UIActivityTypePostToFlickr
+                                UIActivityTypePostToFlickr,
                                 ];
     
     if ([unacceptingTypes containsObject:activityType]) {
@@ -154,10 +176,10 @@ static BOOL activityTypeAcceptsExtensionItemInput(NSString *activityType) {
         _extensionItem = extensionItem;
         
         NSDictionary *dictionary = [[[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:extensionItem.userInfo]
-                                             dictionaryForKey:ParameterKeyXExtensionItem];
+                                    dictionaryForKey:ParameterKeyXExtensionItem];
         
         XExtensionItemTypeSafeDictionaryValues *dictionaryValues = [[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:dictionary];
-
+        
         _tags = [[dictionaryValues arrayForKey:ParameterKeyTags] copy];
         _sourceURL = [[dictionaryValues URLForKey:ParameterKeySourceURL] copy];
         _referrer = [[XExtensionItemReferrer alloc] initWithDictionary:dictionary];
