@@ -28,6 +28,7 @@
 		9384B3FE1AF1614100960EF7 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3FD1AF1614100960EF7 /* ShareViewController.m */; };
 		9384B4001AF1614100960EF7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9384B3FF1AF1614100960EF7 /* MainInterface.storyboard */; };
 		9384B4031AF1614100960EF7 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9384B3F81AF1614100960EF7 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		93E84A8D1AF9525400ABE400 /* clip.mov in Resources */ = {isa = PBXBuildFile; fileRef = 93E84A8C1AF9525400ABE400 /* clip.mov */; };
 		984F574C2FA43194C8C80DD4 /* libPods-XExtensionItem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 522AC9D97FEA882750D86BD6 /* libPods-XExtensionItem.a */; };
 		9DAE8AE3708DB46E11453D97 /* libPods-ShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A40DEC0AFFF91D68B1774179 /* libPods-ShareExtension.a */; };
 /* End PBXBuildFile section */
@@ -98,6 +99,7 @@
 		9384B3FC1AF1614100960EF7 /* ShareViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		9384B3FD1AF1614100960EF7 /* ShareViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		9384B3FF1AF1614100960EF7 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		93E84A8C1AF9525400ABE400 /* clip.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = clip.mov; path = ../../../../Desktop/clip.mov; sourceTree = "<group>"; };
 		9A6E84F017B092F5A19805F8 /* Pods-XExtensionItem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XExtensionItem.release.xcconfig"; path = "Pods/Target Support Files/Pods-XExtensionItem/Pods-XExtensionItem.release.xcconfig"; sourceTree = "<group>"; };
 		A40DEC0AFFF91D68B1774179 /* libPods-ShareExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShareExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF8BB31896275DB3F779A30B /* Pods-ShareExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExtension/Pods-ShareExtension.release.xcconfig"; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				9384B3EC1AF15EFE00960EF7 /* ViewController.h */,
 				9384B3ED1AF15EFE00960EF7 /* ViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
+				93E84A8C1AF9525400ABE400 /* clip.mov */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
 			name = App;
@@ -381,6 +384,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93E84A8D1AF9525400ABE400 /* clip.mov in Resources */,
 				9384B3F31AF1607000960EF7 /* Main.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
