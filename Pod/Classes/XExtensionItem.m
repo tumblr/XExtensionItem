@@ -1,7 +1,6 @@
 #import "XExtensionItem.h"
 #import "XExtensionItemReferrer.h"
 #import "XExtensionItemTypeSafeDictionaryValues.h"
-@import MobileCoreServices;
 
 static NSString * const ParameterKeyXExtensionItem = @"x-extension-item";
 static NSString * const ParameterKeySourceURL = @"source-url";
@@ -43,10 +42,6 @@ static NSString * const ParameterKeyTags = @"tags";
 
 - (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController {
     return self.placeholderItem;
-}
-
-- (NSString *)activityViewController:(UIActivityViewController *)activityViewController dataTypeIdentifierForActivityType:(NSString *)activityType {
-    return (__bridge NSString *)kUTTypeVideo;
 }
 
 - (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
@@ -104,14 +99,13 @@ static BOOL activityTypeAcceptsExtensionItemInput(NSString *activityType) {
                                   UIActivityTypeSaveToCameraRoll,
                                   UIActivityTypeAddToReadingList,
                                   UIActivityTypeAirDrop,
-                                  UIActivityTypePostToWeibo,
+                                  UIActivityTypePostToVimeo,
                                   UIActivityTypePostToTencentWeibo
                                   ];
     
     NSArray *acceptingTypes = @[
                                 /*
-                                 The built-in iOS share sheet will pull in `attributedContentText`. If the official
-                                 Facebook app is installed, it takes precedent and does not consume this value.
+                                 The built-in iOS share sheet will pull in `attributedContentText`.
                                  */
                                 UIActivityTypePostToFacebook,
                                 
@@ -121,15 +115,10 @@ static BOOL activityTypeAcceptsExtensionItemInput(NSString *activityType) {
                                 UIActivityTypePostToTwitter,
                                 
                                 /*
-                                 The built-in iOS share sheet will pull in `attributedContentText`.
-                                 */
-                                UIActivityTypePostToVimeo,
-                                
-                                /*
                                  The built-in iOS share sheet will pull in `attributedContentText`. If the official 
                                  Flickr app is installed, it takes precedent and does not consume this value.
                                  */
-                                UIActivityTypePostToFlickr,
+                                UIActivityTypePostToFlickr
                                 ];
     
     if ([unacceptingTypes containsObject:activityType]) {
