@@ -9,7 +9,8 @@ static NSString * const ParameterKeyTags = @"tags";
 @interface XExtensionItemSource ()
 
 @property (nonatomic) id placeholderItem;
-@property (nonatomic) NSArray *attachments;
+@property (nonatomic) NSString *dataTypeIdentifier;
+@property (nonatomic) NSArray/*<NSItemProvider>*/ *attachments;
 
 @property (nonatomic) NSMutableDictionary *activityTypesToItemProviderBlocks;
 @property (nonatomic) NSMutableDictionary *activityTypesToSubjects;
@@ -32,6 +33,19 @@ static NSString * const ParameterKeyTags = @"tags";
         _activityTypesToItemProviderBlocks = [[NSMutableDictionary alloc] init];
         _activityTypesToSubjects = [[NSMutableDictionary alloc] init];
         _activityTypesToThumbnailProviderBlocks = [[NSMutableDictionary alloc] init];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithPlaceholderData:(id)placeholderData
+                     dataTypeIdentifier:(NSString *)dataTypeIdentifier
+                            attachments:(NSArray/*<NSItemProvider>*/ *)attachments {
+    NSParameterAssert(dataTypeIdentifier);
+    
+    self = [self initWithPlaceholderItem:placeholderData attachments:attachments];
+    if (self) {
+        _dataTypeIdentifier = [dataTypeIdentifier copy];
     }
     
     return self;
@@ -102,52 +116,120 @@ static NSString * const ParameterKeyTags = @"tags";
     }
 }
 
-- (id)activityViewController:(UIActivityViewController *)activityViewController
-         itemForActivityType:(NSString *)activityType {
+- (NSString *)activityViewController:(UIActivityViewController *)activityViewController dataTypeIdentifierForActivityType:(NSString *)activityType {
+    return self.dataTypeIdentifier;
+}
+
+- (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
     XExtensionItemProvidingBlock itemBlock = self.activityTypesToItemProviderBlocks[activityType];
     
     if (itemBlock) {
         return itemBlock();
     }
+    else if (isExtensionItemInputAcceptedByActivityType(activityType)) {
+        /*
+         Share extensions take `NSExtensionItem` instances as input, and *some* system activities do as well, but some 
+         do not. Unfortunately we need to maintain a hardcoded list of which system activities we can pass extension 
+         items to.
+         
+         Trying to pass an extension item into a system activity that doesn’t know how to process it will result in no 
+         data making it’s way through. In these cases, we’ll pass the placeholder item that this instance was 
+         initialized with instead.
+         */
+        
+        NSExtensionItem *item = [[NSExtensionItem alloc] init];
+        item.userInfo = ({
+            NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
+            [mutableUserInfo addEntriesFromDictionary:self.userInfo];
+            
+            NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
+            [mutableParameters setValue:self.tags forKey:ParameterKeyTags];
+            [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
+            [mutableParameters addEntriesFromDictionary:self.referrer.dictionaryRepresentation];
+            
+            if (mutableParameters.count > 0) {
+                mutableUserInfo[ParameterKeyXExtensionItem] = [mutableParameters copy];
+            }
+            
+            mutableUserInfo;
+        });
+        
+        /*
+         The `userInfo` setter *must* be called before the following three setters, which merely provide syntactic sugar for
+         populating the `userInfo` dictionary with the following keys:
+         
+         * `NSExtensionItemAttributedTitleKey`,
+         * `NSExtensionItemAttributedContentTextKey`
+         * `NSExtensionItemAttachmentsKey`.
+         
+         */
+        item.attachments = self.attachments;
+        item.attributedTitle = self.attributedTitle;
+        item.attributedContentText = self.attributedContentText;
+        
+        return item;
+    }
     else {
-        return self.extensionItemRepresentation;
+        return self.placeholderItem;
     }
 }
 
 #pragma mark - Private
 
-- (NSExtensionItem *)extensionItemRepresentation {
-    NSExtensionItem *item = [[NSExtensionItem alloc] init];
-    item.userInfo = ({
-        NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
-        [mutableUserInfo addEntriesFromDictionary:self.userInfo];
-        
-        NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
-        [mutableParameters setValue:self.tags forKey:ParameterKeyTags];
-        [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
-        [mutableParameters addEntriesFromDictionary:self.referrer.dictionaryRepresentation];
-        
-        if ([mutableParameters count] > 0) {
-            mutableUserInfo[ParameterKeyXExtensionItem] = [mutableParameters copy];
-        }
-        
-        mutableUserInfo;
-    });
+static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
+    NSSet *unacceptingTypes = [[NSSet alloc] initWithArray:@[
+                                                             UIActivityTypeMessage,
+                                                             UIActivityTypeMail,
+                                                             UIActivityTypePrint,
+                                                             UIActivityTypeCopyToPasteboard,
+                                                             UIActivityTypeAssignToContact,
+                                                             UIActivityTypeSaveToCameraRoll,
+                                                             UIActivityTypeAddToReadingList,
+                                                             UIActivityTypeAirDrop,
+                                                             
+                                                             /*
+                                                              I’m guessing that these accept `NSExtensionItem` input but 
+                                                              have not yet been able to verify.
+                                                              */
+                                                             UIActivityTypePostToWeibo,
+                                                             UIActivityTypePostToTencentWeibo
+                                                             ]];
     
-    /*
-     The `userInfo` setter *must* be called before the following three setters, which merely provide syntactic sugar for
-     populating the `userInfo` dictionary with the following keys:
-     
-     * `NSExtensionItemAttributedTitleKey`,
-     * `NSExtensionItemAttributedContentTextKey`
-     * `NSExtensionItemAttachmentsKey`.
-     
-     */
-    item.attachments = self.attachments;
-    item.attributedTitle = self.attributedTitle;
-    item.attributedContentText = self.attributedContentText;
+    NSSet *acceptingTypes = [[NSSet alloc] initWithArray:@[
+                                                           /*
+                                                            The built-in iOS share sheet will pull in `attributedContentText`. 
+                                                            If the official Facebook app is installed, it takes precedent 
+                                                            and does not consume this value.
+                                                            */
+                                                           UIActivityTypePostToFacebook,
+                                                           
+                                                           /*
+                                                            The built-in iOS share sheet will pull in `attributedContentText`.
+                                                            */
+                                                           UIActivityTypePostToTwitter,
+                                                           
+                                                           /*
+                                                            The built-in iOS share sheet will pull in `attributedContentText`.
+                                                            */
+                                                           UIActivityTypePostToVimeo,
+                                                           
+                                                           /*
+                                                            The built-in iOS share sheet will pull in `attributedContentText`. 
+                                                            If the official Flickr app is installed, it takes precedent 
+                                                            and does not consume this value.
+                                                            */
+                                                           UIActivityTypePostToFlickr,
+                                                           ]];
     
-    return item;
+    if ([unacceptingTypes containsObject:activityType]) {
+        return NO;
+    }
+    else if ([acceptingTypes containsObject:activityType]) {
+        return YES;
+    }
+    else {
+        return YES;
+    }
 }
 
 @end
@@ -172,10 +254,10 @@ static NSString * const ParameterKeyTags = @"tags";
         _extensionItem = extensionItem;
         
         NSDictionary *dictionary = [[[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:extensionItem.userInfo]
-                                             dictionaryForKey:ParameterKeyXExtensionItem];
+                                    dictionaryForKey:ParameterKeyXExtensionItem];
         
         XExtensionItemTypeSafeDictionaryValues *dictionaryValues = [[XExtensionItemTypeSafeDictionaryValues alloc] initWithDictionary:dictionary];
-
+        
         _tags = [[dictionaryValues arrayForKey:ParameterKeyTags] copy];
         _sourceURL = [[dictionaryValues URLForKey:ParameterKeySourceURL] copy];
         _referrer = [[XExtensionItemReferrer alloc] initWithDictionary:dictionary];

@@ -103,19 +103,36 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
 @property (nonatomic, copy) NSDictionary *userInfo;
 
 /**
- Initialize a new instance with a placeholder item, whose type will be used by the activity controller to determine 
+ Initialize a new instance with a placeholder item, whose type will be used by the activity controller to determine
  which activities and extensions are displayed, and an array of attachments that will actually be passed to the selected 
  activity/extension.
  
  @param placeholderItem (Required) A placeholder item whose type will be used by the activity controller to determine
- which activities and extensions are displayed.
- @param attachments     (Required) An array of media data associated with the extension item. These items must be of 
+ which activities and extensions are displayed. System activities that do not accept `NSExtensionItem` input will 
+ receive this placeholder instead.
+ @param attachments     An array of media data associated with the extension item. These items must be of
  type `NSItemProvider` and will be passed to the selected activity/extension.
  
  @return New item source instance.
  */
 - (instancetype)initWithPlaceholderItem:(id)placeholderItem
                             attachments:(NSArray/*<NSItemProvider>*/ *)attachments NS_DESIGNATED_INITIALIZER;
+
+/**
+ Initialize a new instance with placeholder data and a type identifier which will be used by the activity controller to 
+ determine which activities and extensions are displayed, and an array of attachments that will actually be passed to 
+ the selected activity/extension.
+ 
+ @param placeholderData    (Required) Placeholder data. System activities that do not accept `NSExtensionItem` input
+ will receive this placeholder instead.
+ @param dataTypeIdentifier (Required) The UTI for the placeholder data.
+ @param attachments        An array of media data associated with the extension item. These items must be of
+ 
+ @return New item source instance.
+ */
+- (instancetype)initWithPlaceholderData:(id)placeholderData
+                     dataTypeIdentifier:(NSString *)dataTypeIdentifier
+                            attachments:(NSArray/*<NSItemProvider>*/ *)attachments;
 
 /**
  Add entries from a dictionary-serializable custom object to this paramter object’s `userInfo` dictionary.
@@ -198,7 +215,7 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
 /**
  *  @see `XExtensionItemSource`
  */
-@property (nonatomic, readonly) NSArray *tags;
+@property (nonatomic, readonly) NSArray/*<NSString>*/ *tags;
 
 /**
  *  @see `XExtensionItemSource`
