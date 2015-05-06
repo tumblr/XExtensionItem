@@ -4,6 +4,14 @@
 #import "CustomParameters.h"
 #import "XExtensionItem.h"
 
+#define XCTAssertEqualExtensionItems(item1, item2) \
+    XCTAssertTrue([item1 isKindOfClass:[NSExtensionItem class]]); \
+    XCTAssertTrue([item2 isKindOfClass:[NSExtensionItem class]]); \
+    XCTAssertEqualObjects(item1.attributedTitle, item2.attributedTitle); \
+    XCTAssertEqualObjects(item1.attributedContentText, item2.attributedContentText); \
+    XCTAssertEqualObjects(item1.userInfo, item2.userInfo); \
+    XCTAssertEqualObjects(item1.attachments, item2.attachments);
+
 @interface XExtensionItemParametersTests : XCTestCase
 @end
 
@@ -154,6 +162,51 @@
     XCTAssertNoThrow([xExtensionItem.referrer.webURL absoluteString]);
     XCTAssertNoThrow([xExtensionItem.referrer.iOSAppURL absoluteString]);
     XCTAssertNoThrow([xExtensionItem.referrer.androidAppURL absoluteString]);
+}
+
+- (void)testDataTypeIdentifierPassedToInitializerIsReturnedByActivityItemSourceDelegateMethods {
+    NSString *dataTypeIdentifier = (NSString *)kUTTypeVideo;
+    
+    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithPlaceholderData:[[NSData alloc] init]
+                                                                      dataTypeIdentifier:dataTypeIdentifier
+                                                                             attachments:@[]];
+    
+    XCTAssertEqualObjects(dataTypeIdentifier, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
+}
+
+- (void)testPlaceholderReturnedForSystemActivityThatCantProcessExtensionItemInput {
+    NSString *placeholder = @"Foo";
+    
+    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithPlaceholderItem:placeholder attachments:
+                                    @[[[NSItemProvider alloc] initWithItem:@"Bar" typeIdentifier:(NSString *)kUTTypeText]]];
+    
+    XCTAssertEqualObjects(placeholder, [source activityViewController:nil itemForActivityType:UIActivityTypeMail]);
+}
+
+- (void)testExtensionItemReturnedForSystemActivityThatCanProcessExtensionItemInput {
+    NSArray *attachments = @[[[NSItemProvider alloc] initWithItem:@"Bar" typeIdentifier:(NSString *)kUTTypeText]];
+    
+    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Foo" attachments:attachments];
+    
+    NSExtensionItem *expected = [[NSExtensionItem alloc] init];
+    expected.attachments = attachments;
+    
+    NSExtensionItem *actual = [source activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter];
+    
+    XCTAssertEqualExtensionItems(expected, actual);
+}
+
+- (void)testExtensionItemReturnedForNonSystemExtension {
+    NSArray *attachments = @[[[NSItemProvider alloc] initWithItem:@"Bar" typeIdentifier:(NSString *)kUTTypeText]];
+    
+    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Foo" attachments:attachments];
+    
+    NSExtensionItem *expected = [[NSExtensionItem alloc] init];
+    expected.attachments = attachments;
+    
+    NSExtensionItem *actual = [source activityViewController:nil itemForActivityType:@"com.irace.me.SomeExtension"];
+    
+    XCTAssertEqualExtensionItems(expected, actual);
 }
 
 @end
