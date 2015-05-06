@@ -85,7 +85,7 @@ static NSString * const ParameterKeyTags = @"tags";
             [mutableParameters setValue:self.sourceURL forKey:ParameterKeySourceURL];
             [mutableParameters addEntriesFromDictionary:self.referrer.dictionaryRepresentation];
             
-            if ([mutableParameters count] > 0) {
+            if (mutableParameters.count > 0) {
                 mutableUserInfo[ParameterKeyXExtensionItem] = [mutableParameters copy];
             }
             
@@ -114,48 +114,50 @@ static NSString * const ParameterKeyTags = @"tags";
 
 #pragma mark - Private
 
-static BOOL activityTypeAcceptsExtensionItemInput(NSString *activityType) {
-    NSArray *unacceptingTypes = @[
-                                  UIActivityTypeMessage,
-                                  UIActivityTypeMail,
-                                  UIActivityTypePrint,
-                                  UIActivityTypeCopyToPasteboard,
-                                  UIActivityTypeAssignToContact,
-                                  UIActivityTypeSaveToCameraRoll,
-                                  UIActivityTypeAddToReadingList,
-                                  UIActivityTypeAirDrop,
-                                  
-                                  /*
-                                   I’m guessing that these accept `NSExtensionItem` input but have not yet been able to 
-                                   verify.
-                                   */
-                                  UIActivityTypePostToWeibo,
-                                  UIActivityTypePostToTencentWeibo
-                                  ];
+static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
+    NSSet *unacceptingTypes = [[NSSet alloc] initWithArray:@[
+                                                             UIActivityTypeMessage,
+                                                             UIActivityTypeMail,
+                                                             UIActivityTypePrint,
+                                                             UIActivityTypeCopyToPasteboard,
+                                                             UIActivityTypeAssignToContact,
+                                                             UIActivityTypeSaveToCameraRoll,
+                                                             UIActivityTypeAddToReadingList,
+                                                             UIActivityTypeAirDrop,
+                                                             
+                                                             /*
+                                                              I’m guessing that these accept `NSExtensionItem` input but 
+                                                              have not yet been able to verify.
+                                                              */
+                                                             UIActivityTypePostToWeibo,
+                                                             UIActivityTypePostToTencentWeibo
+                                                             ]];
     
-    NSArray *acceptingTypes = @[
-                                /*
-                                 The built-in iOS share sheet will pull in `attributedContentText`. If the official
-                                 Facebook app is installed, it takes precedent and does not consume this value.
-                                 */
-                                UIActivityTypePostToFacebook,
-                                
-                                /*
-                                 The built-in iOS share sheet will pull in `attributedContentText`.
-                                 */
-                                UIActivityTypePostToTwitter,
-                                
-                                /*
-                                 The built-in iOS share sheet will pull in `attributedContentText`.
-                                 */
-                                UIActivityTypePostToVimeo,
-                                
-                                /*
-                                 The built-in iOS share sheet will pull in `attributedContentText`. If the official
-                                 Flickr app is installed, it takes precedent and does not consume this value.
-                                 */
-                                UIActivityTypePostToFlickr,
-                                ];
+    NSSet *acceptingTypes = [[NSSet alloc] initWithArray:@[
+                                                           /*
+                                                            The built-in iOS share sheet will pull in `attributedContentText`. 
+                                                            If the official Facebook app is installed, it takes precedent 
+                                                            and does not consume this value.
+                                                            */
+                                                           UIActivityTypePostToFacebook,
+                                                           
+                                                           /*
+                                                            The built-in iOS share sheet will pull in `attributedContentText`.
+                                                            */
+                                                           UIActivityTypePostToTwitter,
+                                                           
+                                                           /*
+                                                            The built-in iOS share sheet will pull in `attributedContentText`.
+                                                            */
+                                                           UIActivityTypePostToVimeo,
+                                                           
+                                                           /*
+                                                            The built-in iOS share sheet will pull in `attributedContentText`. 
+                                                            If the official Flickr app is installed, it takes precedent 
+                                                            and does not consume this value.
+                                                            */
+                                                           UIActivityTypePostToFlickr,
+                                                           ]];
     
     if ([unacceptingTypes containsObject:activityType]) {
         return NO;
