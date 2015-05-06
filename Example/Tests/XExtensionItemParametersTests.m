@@ -4,7 +4,7 @@
 #import "CustomParameters.h"
 #import "XExtensionItem.h"
 
-#define XCTAssertEqualExtensionItems(item1, item2) \
+#define XExtensionItemAssertEqualItems(item1, item2) \
     XCTAssertTrue([item1 isKindOfClass:[NSExtensionItem class]]); \
     XCTAssertTrue([item2 isKindOfClass:[NSExtensionItem class]]); \
     XCTAssertEqualObjects(item1.attributedTitle, item2.attributedTitle); \
@@ -193,7 +193,7 @@
     
     NSExtensionItem *actual = [source activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter];
     
-    XCTAssertEqualExtensionItems(expected, actual);
+    XExtensionItemAssertEqualItems(expected, actual);
 }
 
 - (void)testExtensionItemReturnedForNonSystemExtension {
@@ -206,7 +206,7 @@
     
     NSExtensionItem *actual = [source activityViewController:nil itemForActivityType:@"com.irace.me.SomeExtension"];
     
-    XCTAssertEqualExtensionItems(expected, actual);
+    XExtensionItemAssertEqualItems(expected, actual);
 }
 
 @end
