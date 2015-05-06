@@ -69,6 +69,10 @@ static NSString * const ParameterKeyTags = @"tags";
     /*
      Share extensions take `NSExtensionItem` instances as input, and *some* system activities do as well, but some do
      not. Unfortunately we need to maintain a hardcoded list of which system activities we can pass extension items to.
+     
+     Trying to pass an extension item into a system activity that doesn’t know how to process it will result in no data 
+     making it’s way through. In these cases, we’ll pass the placeholder item that this instance was initialized with 
+     instead.
      */
     if (activityTypeAcceptsExtensionItemInput(activityType)) {
         NSExtensionItem *item = [[NSExtensionItem alloc] init];
