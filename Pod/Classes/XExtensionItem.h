@@ -91,7 +91,7 @@
  which activities and extensions are displayed, and an array of attachments that will actually be passed to the selected 
  activity/extension.
  
- @param placeholderItem A placeholder item whose type will be used by the activity controller to determine
+ @param placeholderItem (Required) A placeholder item whose type will be used by the activity controller to determine
  which activities and extensions are displayed. System activities that do not accept `NSExtensionItem` input will 
  receive this placeholder instead.
  @param attachments     An array of media data associated with the extension item. These items must be of
@@ -107,9 +107,9 @@
  determine which activities and extensions are displayed, and an array of attachments that will actually be passed to 
  the selected activity/extension.
  
- @param placeholderData    A placeholder item. System activities that do not accept `NSExtensionItem` input
+ @param placeholderData    (Required) Placeholder data. System activities that do not accept `NSExtensionItem` input
  will receive this placeholder instead.
- @param dataTypeIdentifier The UTI for the data.
+ @param dataTypeIdentifier (Required) The UTI for the placeholder data.
  @param attachments        An array of media data associated with the extension item. These items must be of
  
  @return New item source instance.

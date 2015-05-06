@@ -19,6 +19,8 @@ static NSString * const ParameterKeyTags = @"tags";
 #pragma mark - Initialization
 
 - (instancetype)initWithPlaceholderItem:(id)placeholderItem attachments:(NSArray *)attachments {
+    NSParameterAssert(placeholderItem);
+    
     self = [super init];
     if (self) {
         _placeholderItem = placeholderItem;
