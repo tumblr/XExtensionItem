@@ -23,7 +23,6 @@ static NSString * const ParameterKeyTags = @"tags";
 
 - (instancetype)initWithPlaceholderItem:(id)placeholderItem attachments:(NSArray *)attachments {
     NSParameterAssert(placeholderItem);
-    NSParameterAssert(attachments);
     
     self = [super init];
     if (self) {

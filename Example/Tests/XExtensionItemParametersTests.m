@@ -4,6 +4,14 @@
 #import "CustomParameters.h"
 #import "XExtensionItem.h"
 
+#define XExtensionItemAssertEqualItems(item1, item2) \
+    XCTAssertTrue([item1 isKindOfClass:[NSExtensionItem class]]); \
+    XCTAssertTrue([item2 isKindOfClass:[NSExtensionItem class]]); \
+    XCTAssertEqualObjects(item1.attributedTitle, item2.attributedTitle); \
+    XCTAssertEqualObjects(item1.attributedContentText, item2.attributedContentText); \
+    XCTAssertEqualObjects(item1.userInfo, item2.userInfo); \
+    XCTAssertEqualObjects(item1.attachments, item2.attachments);
+
 @interface XExtensionItemParametersTests : XCTestCase
 @end
 
@@ -154,6 +162,76 @@
     XCTAssertNoThrow([xExtensionItem.referrer.webURL absoluteString]);
     XCTAssertNoThrow([xExtensionItem.referrer.iOSAppURL absoluteString]);
     XCTAssertNoThrow([xExtensionItem.referrer.androidAppURL absoluteString]);
+}
+
+- (void)testRegisteringItemProvidingBlockReturnsRegisteredItemForTwitterActivity {
+    NSString *twitterString = @"Foo";
+    
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Bar" attachments:@[]];
+    
+    [itemSource registerItemProvidingBlock:^{ return twitterString; } forActivityType:UIActivityTypePostToTwitter];
+    
+    XCTAssertEqualObjects(twitterString, [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter]);
+}
+
+- (void)testRegisteringItemProvidingBlockReturnsExtensionItemForNonTwitterActivity {
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:@"title"];
+    
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Bar" attachments:nil];
+    itemSource.attributedTitle = attributedTitle;
+    
+    [itemSource registerItemProvidingBlock:^{ return @"Foo"; } forActivityType:UIActivityTypePostToTwitter];
+    
+    NSExtensionItem *expected = [[NSExtensionItem alloc] init];
+    expected.attributedTitle = attributedTitle;
+
+    NSExtensionItem *actual = [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToFacebook];
+    
+    XExtensionItemAssertEqualItems(expected, actual);
+}
+
+- (void)testRegisteringSubjectReturnsRegisteredSubjectForMailActivity {
+    NSString *subject = @"Subject";
+    
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Bar" attachments:@[]];
+    
+    [itemSource registerSubject:subject forActivityType:UIActivityTypeMail];
+    
+    XCTAssertEqualObjects(subject, [itemSource activityViewController:nil subjectForActivityType:UIActivityTypeMail]);
+}
+
+- (void)testRegisteringSubjectReturnsNilForNonMailActivity {
+    NSString *subject = @"Subject";
+    
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Bar" attachments:@[]];
+    
+    [itemSource registerSubject:subject forActivityType:UIActivityTypeMail];
+    
+    XCTAssertNil([itemSource activityViewController:nil subjectForActivityType:UIActivityTypeMessage]);
+}
+
+- (void)testRegisteringThumbnailProdivingBlockReturnsThumbnailForTwitterActivity {
+    UIImage *image = [[UIImage alloc] initWithData:[@"" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Bar" attachments:@[]];
+    
+    [itemSource registerThumbnailProvidingBlock:^UIImage *(CGSize suggestedSize) {
+        return image;
+    } forActivityType:UIActivityTypePostToTwitter];
+    
+    XCTAssertEqualObjects(image, [itemSource activityViewController:nil thumbnailImageForActivityType:UIActivityTypePostToTwitter suggestedSize:CGSizeZero]);
+}
+
+- (void)testRegisteringThumbnailProdivingBlockReturnsNilForNonTwitterActivity {
+    UIImage *image = [[UIImage alloc] initWithData:[@"" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Bar" attachments:@[]];
+    
+    [itemSource registerThumbnailProvidingBlock:^UIImage *(CGSize suggestedSize) {
+        return image;
+    } forActivityType:UIActivityTypePostToTwitter];
+    
+    XCTAssertNil([itemSource activityViewController:nil thumbnailImageForActivityType:UIActivityTypeMail suggestedSize:CGSizeZero]);
 }
 
 @end
