@@ -2,6 +2,22 @@
 #import "XExtensionItemDictionarySerializing.h"
 
 /**
+ *  <#Description#>
+ *
+ *  @return <#return value description#>
+ */
+typedef id (^XExtensionItemProvidingBlock)();
+
+/**
+ *  <#Description#>
+ *
+ *  @param suggestedSize <#suggestedSize description#>
+ *
+ *  @return <#return value description#>
+ */
+typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
+
+/**
  A data structure that application developers can use to pass well-defined data structures into iOS 8 extensions 
  (extension developers can then use the `XExtensionItem` class to read this data).
  
@@ -125,7 +141,38 @@
  */
 - (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable;
 
-// TODO: Add methods for providing overrides for system activities (e.g. Facebook)
+/**
+ *  Register an item to be provided if a specific activity is selected e.g. `UIActivityTypePostToFacebook`. 
+ *  
+ *  @discussion By default, this class provides an `NSExtensionItem` that includes all of the attachments passed to this 
+ *  instance’s initializer, plus any of this class’s other properties which have been populated. This method should be 
+ *  used if you’d like to provide an alternative item on a per-activity basis. 
+ *  
+ *  A good example usage would be to provide a special HTML string in the event that `UIActivityTypeMail` is selected.
+ *
+ *  @param itemBlock    (Required) A block that will be called if the activity with the specified type is selected. It
+ *  should return the item to be provided to this activity.
+ *  @param activityType (Required) The activity type that the subject should be provided to.
+ */
+- (void)registerItemProvidingBlock:(XExtensionItemProvidingBlock)itemBlock forActivityType:(NSString *)activityType;
+
+/**
+ *  Registers a subject for activities that support separate subject and data fields.
+ *
+ *  @param subject      (Required) A string to use as the contents of the subject field.
+ *  @param activityType (Required) The activity type that the subject should be provided to.
+ */
+- (void)registerSubject:(NSString *)subject forActivityType:(NSString *)activityType;
+
+/**
+ *  Registers a thumbnail preview image for activities that support a preview image.
+ *
+ *  @param thumbnailBlock    (Required) A block that will be called with the suggested size for the thumbnail image, in
+ *  points. It should return an image using the appropriate scale for the screen. Images provided at the suggested size 
+ *  will result in the best experience.
+ *  @param activityType      (Required) The activity type that the subject should be provided to.
+ */
+- (void)registerThumbnailProvidingBlock:(XExtensionItemThumbnailProvidingBlock)thumbnailBlock forActivityType:(NSString *)activityType;
 
 @end
 
@@ -135,7 +182,8 @@
  A data structure that iOS 8 extension developers can use to retrieve well-defined data structures from applications 
  (application developers will have provided this data using the `XExtensionItemSource` class).
  
- Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItem` instances:
+ @discussion Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItem` 
+ instances:
  
  ```objc
  for (NSExtensionItem *inputItem in self.extensionContext.inputItems) {

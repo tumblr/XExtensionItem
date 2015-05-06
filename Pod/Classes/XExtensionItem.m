@@ -12,6 +12,10 @@ static NSString * const ParameterKeyTags = @"tags";
 @property (nonatomic) NSString *dataTypeIdentifier;
 @property (nonatomic) NSArray/*<NSItemProvider>*/ *attachments;
 
+@property (nonatomic) NSMutableDictionary *activityTypesToItemProviderBlocks;
+@property (nonatomic) NSMutableDictionary *activityTypesToSubjects;
+@property (nonatomic) NSMutableDictionary *activityTypesToThumbnailProviderBlocks;
+
 @end
 
 @implementation XExtensionItemSource
@@ -25,6 +29,10 @@ static NSString * const ParameterKeyTags = @"tags";
     if (self) {
         _placeholderItem = placeholderItem;
         _attachments = [attachments copy];
+        
+        _activityTypesToItemProviderBlocks = [[NSMutableDictionary alloc] init];
+        _activityTypesToSubjects = [[NSMutableDictionary alloc] init];
+        _activityTypesToThumbnailProviderBlocks = [[NSMutableDictionary alloc] init];
     }
     
     return self;
@@ -57,10 +65,55 @@ static NSString * const ParameterKeyTags = @"tags";
     });
 }
 
+- (void)registerItemProvidingBlock:(XExtensionItemProvidingBlock)itemBlock forActivityType:(NSString *)activityType {
+    NSParameterAssert(itemBlock);
+    NSParameterAssert(activityType);
+    
+    if (activityType && itemBlock) {
+        self.activityTypesToItemProviderBlocks[activityType] = itemBlock;
+    }
+}
+
+- (void)registerSubject:(NSString *)subject forActivityType:(NSString *)activityType {
+    NSParameterAssert(subject);
+    NSParameterAssert(activityType);
+    
+    if (activityType && subject) {
+        self.activityTypesToSubjects[activityType] = subject;
+    }
+}
+
+- (void)registerThumbnailProvidingBlock:(XExtensionItemThumbnailProvidingBlock)thumbnailBlock forActivityType:(NSString *)activityType {
+    NSParameterAssert(thumbnailBlock);
+    NSParameterAssert(activityType);
+    
+    if (activityType && thumbnailBlock) {
+        self.activityTypesToThumbnailProviderBlocks[activityType] = thumbnailBlock;
+    }
+}
+
 #pragma mark - UIActivityItemSource
 
 - (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController {
     return self.placeholderItem;
+}
+
+- (NSString *)activityViewController:(UIActivityViewController *)activityViewController
+              subjectForActivityType:(NSString *)activityType {
+    return self.activityTypesToSubjects[activityType];
+}
+
+- (UIImage *)activityViewController:(UIActivityViewController *)activityViewController
+      thumbnailImageForActivityType:(NSString *)activityType
+                      suggestedSize:(CGSize)size {
+    XExtensionItemThumbnailProvidingBlock thumbnailBlock = self.activityTypesToThumbnailProviderBlocks[activityType];
+    
+    if (thumbnailBlock) {
+        return thumbnailBlock(size);
+    }
+    else {
+        return nil;
+    }
 }
 
 - (NSString *)activityViewController:(UIActivityViewController *)activityViewController dataTypeIdentifierForActivityType:(NSString *)activityType {
@@ -68,15 +121,22 @@ static NSString * const ParameterKeyTags = @"tags";
 }
 
 - (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
-    /*
-     Share extensions take `NSExtensionItem` instances as input, and *some* system activities do as well, but some do
-     not. Unfortunately we need to maintain a hardcoded list of which system activities we can pass extension items to.
-     
-     Trying to pass an extension item into a system activity that doesn’t know how to process it will result in no data 
-     making it’s way through. In these cases, we’ll pass the placeholder item that this instance was initialized with 
-     instead.
-     */
-    if (isExtensionItemInputAcceptedByActivityType(activityType)) {
+    XExtensionItemProvidingBlock itemBlock = self.activityTypesToItemProviderBlocks[activityType];
+    
+    if (itemBlock) {
+        return itemBlock();
+    }
+    else if (isExtensionItemInputAcceptedByActivityType(activityType)) {
+        /*
+         Share extensions take `NSExtensionItem` instances as input, and *some* system activities do as well, but some 
+         do not. Unfortunately we need to maintain a hardcoded list of which system activities we can pass extension 
+         items to.
+         
+         Trying to pass an extension item into a system activity that doesn’t know how to process it will result in no 
+         data making it’s way through. In these cases, we’ll pass the placeholder item that this instance was 
+         initialized with instead.
+         */
+        
         NSExtensionItem *item = [[NSExtensionItem alloc] init];
         item.userInfo = ({
             NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
