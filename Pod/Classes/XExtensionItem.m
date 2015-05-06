@@ -74,7 +74,7 @@ static NSString * const ParameterKeyTags = @"tags";
      making it’s way through. In these cases, we’ll pass the placeholder item that this instance was initialized with 
      instead.
      */
-    if (activityTypeAcceptsExtensionItemInput(activityType)) {
+    if (isExtensionItemInputAcceptedByActivityType(activityType)) {
         NSExtensionItem *item = [[NSExtensionItem alloc] init];
         item.userInfo = ({
             NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
