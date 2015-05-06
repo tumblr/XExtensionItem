@@ -17,6 +17,10 @@
 
 @implementation XExtensionItemParametersTests
 
+- (void)testItemSourceThrowsIfPlaceholderIsNil {
+    XCTAssertThrows([[XExtensionItemSource alloc] initWithPlaceholderItem:nil attachments:nil]);
+}
+
 - (void)testAttributedTitle {
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
     itemSource.attributedTitle = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
@@ -164,6 +168,22 @@
     XCTAssertNoThrow([xExtensionItem.referrer.androidAppURL absoluteString]);
 }
 
+- (void)testRegisteringItemProvidingBlockThrowsIfBlockIsNil {
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
+    
+    XCTAssertThrows([itemSource registerItemProvidingBlock:nil forActivityType:UIActivityTypeMail]);
+}
+
+- (void)testRegisteringItemProvidingBlockThrowsIfActivityTypeIsNil {
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
+    
+    XExtensionItemThumbnailProvidingBlock block = ^UIImage *(CGSize suggestedSize) {
+        return nil;
+    };
+    
+    XCTAssertThrows([itemSource registerItemProvidingBlock:block forActivityType:nil]);
+}
+
 - (void)testRegisteringItemProvidingBlockReturnsRegisteredItemForTwitterActivity {
     NSString *twitterString = @"Foo";
     
@@ -210,7 +230,19 @@
     XCTAssertNil([itemSource activityViewController:nil subjectForActivityType:UIActivityTypeMessage]);
 }
 
-- (void)testRegisteringThumbnailProdivingBlockReturnsThumbnailForTwitterActivity {
+- (void)testRegisteringSubjectThrowsIfSubjectIsNil {
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
+    
+    XCTAssertThrows([itemSource registerSubject:nil forActivityType:UIActivityTypeMail]);
+}
+
+- (void)testRegisteringSubjectThrowsIfActivityTypeIsNil {
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
+    
+    XCTAssertThrows([itemSource registerSubject:@"" forActivityType:nil]);
+}
+
+- (void)testRegisteringThumbnailProvidingBlockReturnsThumbnailForTwitterActivity {
     UIImage *image = [[UIImage alloc] initWithData:[@"" dataUsingEncoding:NSUTF8StringEncoding]];
     
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Bar" attachments:@[]];
@@ -222,7 +254,7 @@
     XCTAssertEqualObjects(image, [itemSource activityViewController:nil thumbnailImageForActivityType:UIActivityTypePostToTwitter suggestedSize:CGSizeZero]);
 }
 
-- (void)testRegisteringThumbnailProdivingBlockReturnsNilForNonTwitterActivity {
+- (void)testRegisteringThumbnailProvidingBlockReturnsNilForNonTwitterActivity {
     UIImage *image = [[UIImage alloc] initWithData:[@"" dataUsingEncoding:NSUTF8StringEncoding]];
     
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"Bar" attachments:@[]];
@@ -232,6 +264,22 @@
     } forActivityType:UIActivityTypePostToTwitter];
     
     XCTAssertNil([itemSource activityViewController:nil thumbnailImageForActivityType:UIActivityTypeMail suggestedSize:CGSizeZero]);
+}
+
+- (void)testRegisteringThumbnailProvidingBlockThrowsIfBlockIsNil {
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
+    
+    XCTAssertThrows([itemSource registerThumbnailProvidingBlock:nil forActivityType:UIActivityTypeMail]);
+}
+
+- (void)testRegisteringThumbnailProvidingBlockThrowsIfActivityTypeIsNil {
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"" attachments:@[]];
+    
+    XExtensionItemThumbnailProvidingBlock block = ^UIImage *(CGSize suggestedSize) {
+        return nil;
+    };
+    
+    XCTAssertThrows([itemSource registerThumbnailProvidingBlock:block forActivityType:nil]);
 }
 
 @end
