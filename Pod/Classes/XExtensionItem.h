@@ -2,27 +2,35 @@
 #import "XExtensionItemReferrer.h"
 #import "XExtensionItemDictionarySerializing.h"
 
-typedef id (^XExtensionItemProvidingBlock)();
-typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
+typedef id (^XExtensionItemProvidingBlock)(NSString *activityType);
+typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, NSString *activityType);
 
 @interface XExtensionItemSource : NSObject <UIActivityItemSource>
 
-@property (nonatomic, copy) NSAttributedString *attributedTitle;
+@property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSAttributedString *attributedContentText;
 @property (nonatomic, copy) NSArray *tags;
 @property (nonatomic, copy) NSURL *sourceURL;
 @property (nonatomic) XExtensionItemReferrer *referrer;
 @property (nonatomic, copy) NSDictionary *userInfo;
 
-- (instancetype)initWithPlaceholderItem:(id)placeholderItem attachments:(NSArray/*<NSItemProvider>*/ *)attachments NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithURLProvider:(NSURL *(^)(NSString *activityType))urlProvider;
+- (instancetype)initWithTextProvider:(NSString *(^)(NSString *activityType))textProvider;
+- (instancetype)initWithImageProvider:(UIImage *(^)(NSString *activityType))imageProvider;
+- (instancetype)initWithDataProvider:(NSData *(^)(NSString *activityType))dataProvider ofType:(NSString *)typeIdentifier;
+- (instancetype)initWithFileURL:(NSURL *)fileURL;
 
-- (instancetype)initWithPlaceholderData:(id)placeholderData dataTypeIdentifier:(NSString *)dataTypeIdentifier attachments:(NSArray/*<NSItemProvider>*/ *)attachments;
+- (instancetype)initWithPlaceholderItem:(id)placeholderItem typeIdentifier:(NSString *)typeIdentifier itemBlock:(XExtensionItemProvidingBlock)itemBlock NS_DESIGNATED_INITIALIZER;
 
 - (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable;
 
-- (void)registerItemProvidingBlock:(XExtensionItemProvidingBlock)itemBlock forActivityType:(NSString *)activityType;
-- (void)registerSubject:(NSString *)subject forActivityType:(NSString *)activityType;
-- (void)registerThumbnailProvidingBlock:(XExtensionItemThumbnailProvidingBlock)thumbnailBlock forActivityType:(NSString *)activityType;
+// Use these methods to add additional attachments to your content. For example, you could add an image attachment to be shared alongside a URL.
+// Attachments can be of type NSString, NSURL, UIImage, or NSItemProvider.
+- (void)setAttachments:(NSArray *)attachments;
+- (void)setAttachments:(NSArray *)attachments forActivityType:(NSString *)activityType;
+
+// Set this if you can provide a thumbnail for this content.
+- (void)setThumbnailProvider:(XExtensionItemThumbnailProvidingBlock)thumbnailProvider;
 
 @end
 

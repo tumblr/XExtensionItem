@@ -17,12 +17,12 @@
 #pragma mark - Actions
 
 - (void)action {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:[NSURL URLWithString:@"http://apple.com/ipad-air-2/"]
-                                                                                 attachments:@[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"https://www.apple.com/ipad-air-2/"]
-                                                                                                                     typeIdentifier:(__bridge NSString *)kUTTypeURL],
-                                                                                               [[NSItemProvider alloc] initWithItem:@"String of text"
-                                                                                                                     typeIdentifier:(__bridge NSString *)kUTTypeText]]];
-    itemSource.attributedTitle = [[NSAttributedString alloc] initWithString:@"Apple"];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURLProvider:^NSURL *(NSString *activityType) {
+        return [NSURL URLWithString:@"http://apple.com/ipad-air-2/"];
+    }];
+    [itemSource setAttachments:@[@"String of text"]];
+    
+    itemSource.title = @"Apple";
     itemSource.attributedContentText = [[NSAttributedString alloc] initWithString:@"iPad Air 2. Change is in the air"];
     itemSource.tags = @[@"apple", @"ipad", @"ios"];
     itemSource.sourceURL = [NSURL URLWithString:@"http://apple.com"];
