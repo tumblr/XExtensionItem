@@ -186,38 +186,24 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
                                                              UIActivityTypeSaveToCameraRoll,
                                                              UIActivityTypeAddToReadingList,
                                                              UIActivityTypeAirDrop,
-                                                             
-                                                             /*
-                                                              I’m guessing that these accept `NSExtensionItem` input but 
-                                                              have not yet been able to verify.
-                                                              */
-                                                             UIActivityTypePostToWeibo,
-                                                             UIActivityTypePostToTencentWeibo
                                                              ]];
     
+    /*
+     The following activities are capable of taking `NSExtensionItem` instances as input. They display system share 
+     sheets that consume the extension item’s `attributedContentText` value.
+     */
     NSSet *acceptingTypes = [[NSSet alloc] initWithArray:@[
+                                                           UIActivityTypePostToTwitter,
+                                                           UIActivityTypePostToVimeo,
+                                                           UIActivityTypePostToWeibo,
+                                                           UIActivityTypePostToTencentWeibo,
+                                                           
                                                            /*
-                                                            The built-in iOS share sheet will pull in `attributedContentText`. 
-                                                            If the official Facebook app is installed, it takes precedent 
-                                                            and does not consume this value.
+                                                            If the official Facebook or Flickr apps are installed, they 
+                                                            take precedent over the system sheets and do *not* consume 
+                                                            `attributedContentText`.
                                                             */
                                                            UIActivityTypePostToFacebook,
-                                                           
-                                                           /*
-                                                            The built-in iOS share sheet will pull in `attributedContentText`.
-                                                            */
-                                                           UIActivityTypePostToTwitter,
-                                                           
-                                                           /*
-                                                            The built-in iOS share sheet will pull in `attributedContentText`.
-                                                            */
-                                                           UIActivityTypePostToVimeo,
-                                                           
-                                                           /*
-                                                            The built-in iOS share sheet will pull in `attributedContentText`. 
-                                                            If the official Flickr app is installed, it takes precedent 
-                                                            and does not consume this value.
-                                                            */
                                                            UIActivityTypePostToFlickr,
                                                            ]];
     
