@@ -1,3 +1,4 @@
+#import <UIKit/UIKit.h>
 #import "XExtensionItemReferrer.h"
 #import "XExtensionItemDictionarySerializing.h"
 
