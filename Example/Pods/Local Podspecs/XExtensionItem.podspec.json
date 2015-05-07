@@ -1,6 +1,6 @@
 {
   "name": "XExtensionItem",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "summary": "Easier sharing between iOS applications and share extensions.",
   "authors": {
     "Bryan Irace": "bryan@irace.me"
@@ -16,9 +16,8 @@
   "requires_arc": true,
   "source": {
     "git": "https://github.com/tumblr/XExtensionItem.git",
-    "tag": "0.1.1"
+    "tag": "0.2.0"
   },
-  "source_files": "Pod/Classes/**/*.{h,m}",
   "frameworks": [
     "Foundation",
     "UIKit"
@@ -26,11 +25,11 @@
   "subspecs": [
     {
       "name": "Core",
-      "source_files": "Pods/Classes/*.{h,m}"
+      "source_files": "Pod/Classes/*.{h,m}"
     },
     {
       "name": "Tumblr",
-      "source_files": "Pods/Classes/Custom/Tumblr/*.{h,m}",
+      "source_files": "Pod/Classes/Custom/Tumblr/*.{h,m}",
       "dependencies": {
         "XExtensionItem/Core": [
 

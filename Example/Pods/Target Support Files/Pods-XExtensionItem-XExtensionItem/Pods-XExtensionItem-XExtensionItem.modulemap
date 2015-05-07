@@ -1,0 +1,6 @@
+framework module XExtensionItem {
+  umbrella header "Pods-XExtensionItem-XExtensionItem-umbrella.h"
+
+  export *
+  module * { export * }
+}
