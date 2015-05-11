@@ -241,6 +241,9 @@ static NSString *typeIdentifierForActivityItem(id item) {
 }
 
 static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
+    if (![NSExtensionItem class])
+        return NO;
+    
     NSSet *unacceptingTypes = [[NSSet alloc] initWithArray:@[
                                                              UIActivityTypeMessage,
                                                              UIActivityTypeMail,
