@@ -8,7 +8,6 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 @interface XExtensionItemSource : NSObject <UIActivityItemSource>
 
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSAttributedString *attributedContentText;
 @property (nonatomic, copy) NSArray *tags;
 @property (nonatomic, copy) NSURL *sourceURL;
 @property (nonatomic) XExtensionItemReferrer *referrer;
@@ -23,10 +22,14 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 
 - (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable;
 
+// Use these methods to add text describing the content being shared. In the case of social activities, for example, this text could be posted alongside a URL
+@property (nonatomic, copy) NSAttributedString *attributedContentText;
+- (void)setAttributedContentText:(NSAttributedString *)attributedContentText forActivityType:(NSString *)activityType;
+
 // Use these methods to add additional attachments to your content. For example, you could add an image attachment to be shared alongside a URL.
 // Attachments can be of type NSString, NSURL, UIImage, or NSItemProvider.
-- (void)setAttachments:(NSArray *)attachments;
-- (void)setAttachments:(NSArray *)attachments forActivityType:(NSString *)activityType;
+@property (nonatomic, copy) NSArray *additionalAttachments;
+- (void)setAdditionalAttachments:(NSArray *)attachments forActivityType:(NSString *)activityType;
 
 // Set this if you can provide a thumbnail for this content.
 - (void)setThumbnailProvider:(XExtensionItemThumbnailProvidingBlock)thumbnailProvider;

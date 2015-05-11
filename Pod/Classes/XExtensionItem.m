@@ -15,7 +15,8 @@ static NSString * const ActivityTypeCatchAll = @"*";
 @property (nonatomic, copy) NSString *typeIdentifier;
 
 @property (nonatomic, copy) XExtensionItemThumbnailProvidingBlock thumbnailBlock;
-@property (nonatomic, strong) NSMutableDictionary *attachmentsByActivityType;
+@property (nonatomic, strong) NSMutableDictionary *additionalAttachmentsByActivityType;
+@property (nonatomic, strong) NSMutableDictionary *attributedContentTextByActivityType;
 
 @end
 
@@ -36,7 +37,8 @@ static NSString * const ActivityTypeCatchAll = @"*";
         else
             _typeIdentifier = [typeIdentifierForActivityItem(placeholderItem) copy];
         
-        _attachmentsByActivityType = [[NSMutableDictionary alloc] init];
+        _additionalAttachmentsByActivityType = [[NSMutableDictionary alloc] init];
+        _attributedContentTextByActivityType = [[NSMutableDictionary alloc] init];
     }
     
     return self;
@@ -78,17 +80,37 @@ static NSString * const ActivityTypeCatchAll = @"*";
     });
 }
 
-- (void)setAttachments:(NSArray *)attachments {
-    [self setAttachments:attachments forActivityType:nil];
+- (void)setAttributedContentText:(NSAttributedString *)attributedContentText {
+    [self setAttributedContentText:attributedContentText forActivityType:nil];
 }
 
-- (void)setAttachments:(NSArray *)attachments forActivityType:(NSString *)activityType {
-    NSParameterAssert(attachments);
+- (NSAttributedString *)attributedContentText {
+    return [self attributedContentTextForActivityType:nil];
+}
+
+- (void)setAttributedContentText:(NSAttributedString *)attributedContentText forActivityType:(NSString *)activityType {
+    if (!activityType)
+        activityType = ActivityTypeCatchAll;
+    
+    if (attributedContentText) {
+        self.attributedContentTextByActivityType[activityType] = (attributedContentText ?: [NSNull null]);
+    }
+}
+
+- (void)setAdditionalAttachments:(NSArray *)attachments {
+    [self setAdditionalAttachments:attachments forActivityType:nil];
+}
+
+- (NSArray *)additionalAttachments {
+    return [self additionalAttachmentsForActivityType:nil];
+}
+
+- (void)setAdditionalAttachments:(NSArray *)attachments forActivityType:(NSString *)activityType {
     if (!activityType)
         activityType = ActivityTypeCatchAll;
     
     if (attachments) {
-        self.attachmentsByActivityType[activityType] = attachments;
+        self.additionalAttachmentsByActivityType[activityType] = (attachments ?: [NSNull null]);
     }
 }
 
@@ -178,7 +200,7 @@ static NSString * const ActivityTypeCatchAll = @"*";
         
         NSMutableArray *attachments = [[NSMutableArray alloc] init];
         [attachments addObject:mainAttachment];
-        for (id attachmentItem in [self attachmentsForActivityType:activityType]) {
+        for (id attachmentItem in [self additionalAttachmentsForActivityType:activityType]) {
             if ([attachmentItem isKindOfClass:[NSItemProvider class]]) {
                 [attachments addObject:attachmentItem];
             } else {
@@ -213,10 +235,24 @@ static NSString * const ActivityTypeCatchAll = @"*";
     }
 }
 
-- (NSArray *)attachmentsForActivityType:(NSString *)activityType {
-    NSArray *attachments = self.attachmentsByActivityType[activityType];
+- (NSAttributedString *)attributedContentTextForActivityType:(NSString *)activityType {
+    NSAttributedString *contentText = self.attributedContentTextByActivityType[activityType];
+    if (!contentText)
+        contentText = self.attributedContentTextByActivityType[ActivityTypeCatchAll];
+    
+    if ([contentText isKindOfClass:[NSNull class]])
+        return nil;
+    
+    return contentText;
+}
+
+- (NSArray *)additionalAttachmentsForActivityType:(NSString *)activityType {
+    NSArray *attachments = self.additionalAttachmentsByActivityType[activityType];
     if (!attachments)
-        attachments = self.attachmentsByActivityType[ActivityTypeCatchAll];
+        attachments = self.additionalAttachmentsByActivityType[ActivityTypeCatchAll];
+    
+    if ([attachments isKindOfClass:[NSNull class]])
+        return nil;
     
     return attachments;
 }
