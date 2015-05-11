@@ -42,31 +42,26 @@ static NSString * const ActivityTypeCatchAll = @"*";
     return self;
 }
 
-- (instancetype)initWithURLProvider:(NSURL *(^)(NSString *activityType))urlProvider {
-    return [self initWithPlaceholderItem:[NSURL URLWithString:@"http://example.com"] typeIdentifier:nil itemBlock:urlProvider];
+- (instancetype)initWithURL:(NSURL *)URL {
+    if ([URL isFileURL]) {
+        NSString *typeIdentifier = nil;
+        [URL getResourceValue:&typeIdentifier forKey:NSURLTypeIdentifierKey error:nil];
+        return [self initWithPlaceholderItem:URL typeIdentifier:typeIdentifier itemBlock:nil];
+    } else {
+        return [self initWithPlaceholderItem:URL typeIdentifier:(id)kUTTypeURL itemBlock:nil];
+    }
 }
 
-- (instancetype)initWithTextProvider:(NSString *(^)(NSString *activityType))textProvider {
-    return [self initWithPlaceholderItem:@"" typeIdentifier:nil itemBlock:textProvider];
+- (instancetype)initWithText:(NSString *)text {
+    return [self initWithPlaceholderItem:text typeIdentifier:(id)kUTTypePlainText itemBlock:nil];
 }
 
-- (instancetype)initWithImageProvider:(UIImage *(^)(NSString *activityType))imageProvider {
-    return [self initWithPlaceholderItem:[UIImage new] typeIdentifier:nil itemBlock:imageProvider];
+- (instancetype)initWithImage:(UIImage *)image {
+    return [self initWithPlaceholderItem:image typeIdentifier:(id)kUTTypeImage itemBlock:nil];
 }
 
-- (instancetype)initWithFileURL:(NSURL *)fileURL {
-    return [self initWithPlaceholderItem:fileURL typeIdentifier:nil itemBlock:^id(NSString *activityType) {
-        return fileURL;
-    }];
-}
-
-// Not sure what to do with this one:
-//- (instancetype)initWithFileURLProvider:(NSURL *(^)(NSString *activityType))fileURLProvider ofType:(NSString *)typeIdentifier {
-//    return [self initWithPlaceholderItem:[NSURL fileURLWithPath:@"/"] typeIdentifier:typeIdentifier itemBlock:fileURLProvider];
-//}
-
-- (instancetype)initWithDataProvider:(NSData *(^)(NSString *activityType))dataProvider ofType:(NSString *)typeIdentifier {
-    return [self initWithPlaceholderItem:[NSData new] typeIdentifier:typeIdentifier itemBlock:dataProvider];
+- (instancetype)initWithData:(NSData *)data ofType:(NSString *)typeIdentifier {
+    return [self initWithPlaceholderItem:data typeIdentifier:typeIdentifier itemBlock:nil];
 }
 
 - (instancetype)init {
@@ -171,7 +166,8 @@ static NSString * const ActivityTypeCatchAll = @"*";
          * `NSExtensionItemAttachmentsKey`.
          
          */
-        NSItemProvider *mainAttachment = [[NSItemProvider alloc] initWithItem:self.activityItemBlock(activityType) typeIdentifier:self.typeIdentifier];
+        id activityItem = [self activityItemForActivityType:activityType];
+        NSItemProvider *mainAttachment = [[NSItemProvider alloc] initWithItem:activityItem typeIdentifier:self.typeIdentifier];
         if (self.thumbnailBlock) {
             mainAttachment.previewImageHandler = ^(NSItemProviderCompletionHandler completionHandler, Class expectedValueClass, NSDictionary *options) {
                 CGSize preferredImageSize = [[options objectForKey:NSItemProviderPreferredImageSizeKey] CGSizeValue];
@@ -203,11 +199,19 @@ static NSString * const ActivityTypeCatchAll = @"*";
         return item;
     }
     else {
-        return self.activityItemBlock(activityType);
+        return [self activityItemForActivityType:activityType];
     }
 }
 
 #pragma mark - Private
+
+- (id)activityItemForActivityType:(NSString *)activityType {
+    if (self.activityItemBlock) {
+        return self.activityItemBlock(activityType);
+    } else {
+        return self.placeholderItem;
+    }
+}
 
 - (NSArray *)attachmentsForActivityType:(NSString *)activityType {
     NSArray *attachments = self.attachmentsByActivityType[activityType];
@@ -229,6 +233,8 @@ static NSString *typeIdentifierForActivityItem(id item) {
         return (id)kUTTypePlainText;
     } else if ([item isKindOfClass:[UIImage class]]) {
         return (id)kUTTypeImage;
+    } else if ([item isKindOfClass:[NSDictionary class]]) {
+        return (id)kUTTypePropertyList;
     } else {
         return nil;
     }
@@ -278,6 +284,29 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
 
 @end
 
+@implementation XExtensionItemSource (ProviderBlockInitializers)
+
+- (instancetype)initWithURLProvider:(NSURL *(^)(NSString *activityType))urlProvider {
+    return [self initWithPlaceholderItem:[NSURL URLWithString:@"http://example.com"] typeIdentifier:(id)kUTTypeURL itemBlock:urlProvider];
+}
+
+- (instancetype)initWithFileURLProvider:(NSURL *(^)(NSString *activityType))fileURLProvider ofType:(NSString *)typeIdentifier {
+    return [self initWithPlaceholderItem:[NSURL fileURLWithPath:@"/"] typeIdentifier:typeIdentifier itemBlock:fileURLProvider];
+}
+
+- (instancetype)initWithTextProvider:(NSString *(^)(NSString *activityType))textProvider {
+    return [self initWithPlaceholderItem:@"" typeIdentifier:(id)kUTTypePlainText itemBlock:textProvider];
+}
+
+- (instancetype)initWithImageProvider:(UIImage *(^)(NSString *activityType))imageProvider {
+    return [self initWithPlaceholderItem:[UIImage new] typeIdentifier:(id)kUTTypeImage itemBlock:imageProvider];
+}
+
+- (instancetype)initWithDataProvider:(NSData *(^)(NSString *activityType))dataProvider ofType:(NSString *)typeIdentifier {
+    return [self initWithPlaceholderItem:[NSData new] typeIdentifier:typeIdentifier itemBlock:dataProvider];
+}
+
+@end
 
 @interface XExtensionItem ()
 

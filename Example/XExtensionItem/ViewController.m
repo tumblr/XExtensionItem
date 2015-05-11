@@ -17,9 +17,7 @@
 #pragma mark - Actions
 
 - (void)action {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURLProvider:^NSURL *(NSString *activityType) {
-        return [NSURL URLWithString:@"http://apple.com/ipad-air-2/"];
-    }];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:[NSURL URLWithString:@"http://apple.com/ipad-air-2/"]];
     [itemSource setAttachments:@[@"String of text"]];
     
     itemSource.title = @"Apple";

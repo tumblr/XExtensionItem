@@ -14,11 +14,10 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 @property (nonatomic) XExtensionItemReferrer *referrer;
 @property (nonatomic, copy) NSDictionary *userInfo;
 
-- (instancetype)initWithURLProvider:(NSURL *(^)(NSString *activityType))urlProvider;
-- (instancetype)initWithTextProvider:(NSString *(^)(NSString *activityType))textProvider;
-- (instancetype)initWithImageProvider:(UIImage *(^)(NSString *activityType))imageProvider;
-- (instancetype)initWithDataProvider:(NSData *(^)(NSString *activityType))dataProvider ofType:(NSString *)typeIdentifier;
-- (instancetype)initWithFileURL:(NSURL *)fileURL;
+- (instancetype)initWithURL:(NSURL *)URL;
+- (instancetype)initWithText:(NSString *)text;
+- (instancetype)initWithImage:(UIImage *)image;
+- (instancetype)initWithData:(NSData *)data ofType:(NSString *)typeIdentifier;
 
 - (instancetype)initWithPlaceholderItem:(id)placeholderItem typeIdentifier:(NSString *)typeIdentifier itemBlock:(XExtensionItemProvidingBlock)itemBlock NS_DESIGNATED_INITIALIZER;
 
@@ -31,6 +30,16 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 
 // Set this if you can provide a thumbnail for this content.
 - (void)setThumbnailProvider:(XExtensionItemThumbnailProvidingBlock)thumbnailProvider;
+
+@end
+
+@interface XExtensionItemSource (ProviderBlockInitializers)
+
+- (instancetype)initWithURLProvider:(NSURL *(^)(NSString *activityType))urlProvider;
+- (instancetype)initWithFileURLProvider:(NSURL *(^)(NSString *activityType))fileURL ofType:(NSString *)typeIdentifier;
+- (instancetype)initWithTextProvider:(NSString *(^)(NSString *activityType))textProvider;
+- (instancetype)initWithImageProvider:(UIImage *(^)(NSString *activityType))imageProvider;
+- (instancetype)initWithDataProvider:(NSData *(^)(NSString *activityType))dataProvider ofType:(NSString *)typeIdentifier;
 
 @end
 
