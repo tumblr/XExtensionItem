@@ -18,7 +18,7 @@
 
 - (void)action {
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:[NSURL URLWithString:@"http://apple.com/ipad-air-2/"]];
-    [itemSource setAttachments:@[@"String of text"]];
+    itemSource.additionalAttachments = @[@"String of text"];
     
     itemSource.title = @"Apple";
     itemSource.attributedContentText = [[NSAttributedString alloc] initWithString:@"iPad Air 2. Change is in the air"];
@@ -30,9 +30,9 @@
                                                                              webURL:[NSURL URLWithString:@"http://myservice.com/a94ks0583k"]
                                                                           iOSAppURL:[NSURL URLWithString:@"myservice://content/a94ks0583k"]
                                                                       androidAppURL:[NSURL URLWithString:@"myservice://content/a94ks0583k"]];
-    [itemSource addEntriesToUserInfo:[[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"want-this-for-xmas"
-                                                                                          requestedPostType:XExtensionItemTumblrPostTypeLink
-                                                                                                consumerKey:@"YOUR_CONSUMER_KEY_HERE"]];
+    [itemSource addCustomParameters:[[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"want-this-for-xmas"
+                                                                                         requestedPostType:XExtensionItemTumblrPostTypeLink
+                                                                                               consumerKey:@"YOUR_CONSUMER_KEY_HERE"]];
     
     [self presentViewController:[[UIActivityViewController alloc] initWithActivityItems:@[itemSource] applicationActivities:nil]
                        animated:YES
