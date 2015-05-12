@@ -18,7 +18,7 @@
 
 - (void)action {
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:[NSURL URLWithString:@"http://apple.com/ipad-air-2/"]];
-    [itemSource setAttachments:@[@"String of text"]];
+    itemSource.additionalAttachments = @[@"String of text"];
     
     itemSource.title = @"Apple";
     itemSource.attributedContentText = [[NSAttributedString alloc] initWithString:@"iPad Air 2. Change is in the air"];
