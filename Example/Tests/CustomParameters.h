@@ -1,5 +1,5 @@
 @import Foundation;
-#import "XExtensionItemDictionarySerializing.h"
+#import "XExtensionItemCustomParameters.h"
 
 /**
  *  Just a unit test helper, a simple class that conforms to `XExtensionItemDictionarySerializing` so we can make sure 

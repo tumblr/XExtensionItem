@@ -3,26 +3,6 @@
 #import "XExtensionItemCustomParameters.h"
 
 /**
- A block that can lazily provide an item of a predetermined type.
- 
- @param activityType The selected activity type.
- 
- @return Item to be provided to the activity.
- */
-typedef id (^XExtensionItemProvidingBlock)(NSString *activityType);
-
-/**
- A block that can lazily provide a thumbnail image.
-
- @param suggestedSize The suggested size for the thumbnail image, in points. You should provide an image using the 
- appropriate scale for the screen. Images provided at the suggested size will result in the best experience.
- @param activityType The selected activity type.
- 
- @return Thumbnail image to be provided to the activity.
- */
-typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, NSString *activityType);
-
-/**
  A data structure that application developers can use to pass well-defined data structures into iOS 8 extensions 
  (extension developers can then use the `XExtensionItem` class to read this data).
  
@@ -63,6 +43,26 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
  ## Extension developers
  */
 @interface XExtensionItemSource : NSObject <UIActivityItemSource>
+
+/**
+ A block that can lazily provide an item of a predetermined type.
+ 
+ @param activityType The selected activity type.
+ 
+ @return Item to be provided to the activity.
+ */
+typedef id (^XExtensionItemProvidingBlock)(NSString *activityType);
+
+/**
+ A block that can lazily provide a thumbnail image.
+ 
+ @param suggestedSize The suggested size for the thumbnail image, in points. You should provide an image using the
+ appropriate scale for the screen. Images provided at the suggested size will result in the best experience.
+ @param activityType The selected activity type.
+ 
+ @return Thumbnail image to be provided to the activity.
+ */
+typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, NSString *activityType);
 
 /**
  An optional title for the item. Also used as the subject for activities that support it (i.e. Mail and Messages)
