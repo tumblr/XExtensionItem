@@ -14,7 +14,6 @@ static NSString * const ActivityTypeCatchAll = @"*";
 @property (nonatomic, copy) XExtensionItemProvidingBlock activityItemBlock;
 @property (nonatomic, copy) NSString *typeIdentifier;
 
-@property (nonatomic, copy) XExtensionItemThumbnailProvidingBlock thumbnailBlock;
 @property (nonatomic, strong) NSMutableDictionary *additionalAttachmentsByActivityType;
 @property (nonatomic, strong) NSMutableDictionary *attributedContentTextByActivityType;
 
@@ -28,7 +27,6 @@ static NSString * const ActivityTypeCatchAll = @"*";
                          typeIdentifier:(NSString *)typeIdentifier
                               itemBlock:(XExtensionItemProvidingBlock)activityItemBlock {
     NSParameterAssert(placeholderItem);
-    NSParameterAssert(typeIdentifier);
     
     self = [super init];
     if (self) {
@@ -147,12 +145,6 @@ static NSString * const ActivityTypeCatchAll = @"*";
     }
 }
 
-- (void)setThumbnailProvider:(XExtensionItemThumbnailProvidingBlock)thumbnailBlock {
-    NSParameterAssert(thumbnailBlock);
-    
-    self.thumbnailBlock = thumbnailBlock;
-}
-
 #pragma mark - UIActivityItemSource
 
 - (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController {
@@ -167,7 +159,7 @@ static NSString * const ActivityTypeCatchAll = @"*";
 - (UIImage *)activityViewController:(UIActivityViewController *)activityViewController
       thumbnailImageForActivityType:(NSString *)activityType
                       suggestedSize:(CGSize)size {
-    XExtensionItemThumbnailProvidingBlock thumbnailBlock = self.thumbnailBlock;
+    XExtensionItemThumbnailProvidingBlock thumbnailBlock = self.thumbnailProvider;
     
     if (thumbnailBlock) {
         return thumbnailBlock(size, activityType);
@@ -225,10 +217,10 @@ static NSString * const ActivityTypeCatchAll = @"*";
             
             NSItemProvider *mainAttachment = [[NSItemProvider alloc] initWithItem:activityItem typeIdentifier:self.typeIdentifier];
             
-            if (self.thumbnailBlock) {
+            if (self.thumbnailProvider) {
                 mainAttachment.previewImageHandler = ^(NSItemProviderCompletionHandler completionHandler, Class expectedValueClass, NSDictionary *options) {
                     CGSize preferredImageSize = [[options objectForKey:NSItemProviderPreferredImageSizeKey] CGSizeValue];
-                    UIImage *thumbnail = self.thumbnailBlock(preferredImageSize, activityType);
+                    UIImage *thumbnail = self.thumbnailProvider(preferredImageSize, activityType);
                     completionHandler(thumbnail, nil);
                 };
             }

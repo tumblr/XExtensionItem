@@ -3,21 +3,21 @@
 #import "XExtensionItemDictionarySerializing.h"
 
 /**
- *  <#Description#>
+ *  A block that can lazily provide an item of a predetermined type.
  *
- *  @param activityType <#activityType description#>
+ *  @param activityType Type of the activity that the item will be provided to.
  *
- *  @return <#return value description#>
+ *  @return Item to be provided to the activity.
  */
 typedef id (^XExtensionItemProvidingBlock)(NSString *activityType);
 
 /**
- *  <#Description#>
+ *  A block that can lazily provide a thumbnail image.
  *
  *  @param suggestedSize <#suggestedSize description#>
  *  @param activityType <#activityType description#>
  *
- *  @return <#return value description#>
+ *  @return Thumbnail image to be provided to the activity.
  */
 typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, NSString *activityType);
 
@@ -74,17 +74,19 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
  An optional string describing the item content. In the case of social activities, for example, this text could be
  shared alongside a URL.
  
- Calling this setter is analogous to calling `setAttribuetdContentText:forActivityType:` with a `nil` activity type.
+ Calling this setter is analogous to calling `setAttribuetdContentText:forActivityType:` with a `nil` activity type, 
+ causing the provided content text to be used for all types.
  
  @see `NSExtensionItem`
  */
 @property (nonatomic, copy) NSAttributedString *attributedContentText;
 
 /**
- *  <#Description#>
- *
- *  @param attributedContentText <#attributedContentText description#>
- *  @param activityType          <#activityType description#>
+ Specify attributed content text to be used for a specific activity type only. Passing `nil` for the activity type will 
+ cause the provided content text to be used for all types.
+ 
+ @param attributedContentText Attributed content text.
+ @param activityType          Activity type to use attribuetd content text for.
  */
 - (void)setAttributedContentText:(NSAttributedString *)attributedContentText forActivityType:(NSString *)activityType;
 
@@ -93,17 +95,19 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
  `UIImage`, or `NSItemProvider` and will be passed to the selected activity/extension. For example, you could add
  an image attachment to be shared alongside a URL.
  
- Calling this setter is analogous to calling `setAdditionalAttachments:forActivityType:` with a `nil` activity type.
+ Calling this setter is analogous to calling `setAdditionalAttachments:forActivityType:` with a `nil` activity type, 
+ causing the provided attachments to be used for all types.
  
  @see `NSExtensionItem`
  */
 @property (nonatomic, copy) NSArray *additionalAttachments;
 
 /**
- *  <#Description#>
- *
- *  @param attachments  <#attachments description#>
- *  @param activityType <#activityType description#>
+ Specify additional attachments to be used for a specific activity type only. Passing `nil` for the activity type will
+ cause the provided attachments to be used for all types.
+ 
+ @param additionalAttachments Attachments.
+ @param activityType          Activity type to use attachments for.
  */
 - (void)setAdditionalAttachments:(NSArray *)attachments forActivityType:(NSString *)activityType;
 
@@ -150,7 +154,7 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 #pragma mark - Initialization
 
 /**
- Initialize an item source from a URL.
+ Initialize an item source with a URL.
  
  @param URL (Required) URL to be shared.
  
@@ -159,7 +163,7 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 - (instancetype)initWithURL:(NSURL *)URL;
 
 /**
- Initialize an item source from a string.
+ Initialize an item source with a string.
  
  @param text (Required) Text to be shared.
  
@@ -168,7 +172,7 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 - (instancetype)initWithText:(NSString *)text;
 
 /**
- Initialize an item source from an image.
+ Initialize an item source with an image.
  
  @param image (Required) Image to be shared.
  
@@ -177,7 +181,7 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 - (instancetype)initWithImage:(UIImage *)image;
 
 /**
- Initialize an item source from data.
+ Initialize an item source with data.
  
  @param data           (Required) Data to be shared.
  @param typeIdentifier (Required) Type of data.
@@ -208,58 +212,86 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
  */
 @interface XExtensionItemSource (ProviderBlockInitializers)
 
+/**
+ *  A block that can lazily provide a URL.
+ *
+ *  @param activityType Type of the activity that the URL will be provided to.
+ *
+ *  @return URL to be provided to the activity.
+ */
 typedef NSURL *(^XExtensionItemURLProvidingBlock)(NSString *activityType);
 
+/**
+ *  A block that can lazily provide a string.
+ *
+ *  @param activityType Type of the activity that the string will be provided to.
+ *
+ *  @return String to be provided to the activity.
+ */
 typedef NSString *(^XExtensionItemStringProvidingBlock)(NSString *activityType);
 
+/**
+ *  A block that can lazily provide an image.
+ *
+ *  @param activityType Activity type the image will be provided to.
+ *
+ *  @return Image to be provided to the activity.
+ */
 typedef UIImage *(^XExtensionItemImageProvidingBlock)(NSString *activityType);
 
+/**
+ *  A block that can lazily provide data of a predetermined type.
+ *
+ *  @param activityType Activity type the data will be provided to.
+ *
+ *  @return Data to be provided to the activity.
+ */
 typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
 
 /**
- *  <#Description#>
- *
- *  @param URLProvider <#URLProvider description#>
- *
- *  @return <#return value description#>
+ Initialize an item source with a block that can provide a URL.
+ 
+ @param URLProvider (Required) URL-providing block.
+ 
+ @return New item source instance.
  */
 - (instancetype)initWithURLProvider:(XExtensionItemURLProvidingBlock)URLProvider;
 
 /**
- *  <#Description#>
- *
- *  @param fileURL        <#fileURL description#>
- *  @param typeIdentifier <#typeIdentifier description#>
- *
- *  @return <#return value description#>
+ Initialize an item source with a block that can provide a file URL.
+ 
+ @param fileURL        (Required) File URL-providing block.
+ @param typeIdentifier (Required) Type identifier for the data that the file consists of.
+ 
+ @return New item source instance.
  */
 - (instancetype)initWithFileURLProvider:(XExtensionItemURLProvidingBlock)fileURL typeIdentifier:(NSString *)typeIdentifier;
 
 /**
- *  <#Description#>
- *
- *  @param textProvider <#textProvider description#>
- *
- *  @return <#return value description#>
+ Initialize an item source with a block that can provide a string.
+ 
+ @param textProvider (Required) Text-providing block.
+ 
+ @return New item source instance.
  */
 - (instancetype)initWithTextProvider:(XExtensionItemStringProvidingBlock)textProvider;
 
 /**
- *  <#Description#>
- *
- *  @param imageProvider <#imageProvider description#>
- *
- *  @return <#return value description#>
+ Initialize an item source with a block that can provide an image.
+ 
+ @param imageProvider (Required) Image-providing block.
+ 
+ @return New item source instance.
  */
 - (instancetype)initWithImageProvider:(XExtensionItemImageProvidingBlock)imageProvider;
 
 /**
- *  <#Description#>
- *
- *  @param dataProvider   <#dataProvider description#>
- *  @param typeIdentifier <#typeIdentifier description#>
- *
- *  @return <#return value description#>
+ Initialize an item source with a block that can provide data.
+ 
+ @param dataProvider   (Required) Data-providing block.
+ @param typeIdentifier (Required) Type identifier for the data
+ 
+ @return New item source instance.
  */
 - (instancetype)initWithDataProvider:(XExtensionItemDataProvidingBlock)dataProvider typeIdentifier:(NSString *)typeIdentifier;
 
