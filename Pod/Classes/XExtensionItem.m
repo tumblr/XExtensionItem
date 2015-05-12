@@ -439,8 +439,8 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
     return self.extensionItem.attachments;
 }
 
-- (NSAttributedString *)attributedTitle {
-    return self.extensionItem.attributedTitle;
+- (NSString *)title {
+    return self.extensionItem.attributedTitle.string;
 }
 
 - (NSAttributedString *)attributedContentText {
@@ -457,8 +457,8 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
     NSMutableString *mutableDescription = [[NSMutableString alloc] initWithFormat:@"%@ { attachments: %@",
                                            [super description], self.attachments];
     
-    if (self.attributedTitle) {
-        [mutableDescription appendFormat:@", attributedTitle: %@", self.attributedTitle];
+    if (self.title) {
+        [mutableDescription appendFormat:@", title: %@", self.title];
     }
     
     if (self.attributedContentText) {

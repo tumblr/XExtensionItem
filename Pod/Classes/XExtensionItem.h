@@ -3,21 +3,22 @@
 #import "XExtensionItemDictionarySerializing.h"
 
 /**
- *  A block that can lazily provide an item of a predetermined type.
- *
- *  @param activityType Type of the activity that the item will be provided to.
- *
- *  @return Item to be provided to the activity.
+ A block that can lazily provide an item of a predetermined type.
+ 
+ @param activityType The selected activity type.
+ 
+ @return Item to be provided to the activity.
  */
 typedef id (^XExtensionItemProvidingBlock)(NSString *activityType);
 
 /**
- *  A block that can lazily provide a thumbnail image.
- *
- *  @param suggestedSize <#suggestedSize description#>
- *  @param activityType <#activityType description#>
- *
- *  @return Thumbnail image to be provided to the activity.
+ A block that can lazily provide a thumbnail image.
+
+ @param suggestedSize The suggested size for the thumbnail image, in points. You should provide an image using the 
+ appropriate scale for the screen. Images provided at the suggested size will result in the best experience.
+ @param activityType The selected activity type.
+ 
+ @return Thumbnail image to be provided to the activity.
  */
 typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, NSString *activityType);
 
@@ -208,43 +209,43 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 @end
 
 /**
- *  A set of convenience initializers that allow items to be provided lazily rather than upfront.
+ A set of convenience initializers that allow items to be provided lazily rather than upfront.
  */
 @interface XExtensionItemSource (ProviderBlockInitializers)
 
 /**
- *  A block that can lazily provide a URL.
- *
- *  @param activityType Type of the activity that the URL will be provided to.
- *
- *  @return URL to be provided to the activity.
+ A block that can lazily provide a URL.
+
+ @param activityType The selected activity type.
+
+ @return URL to be provided to the activity.
  */
 typedef NSURL *(^XExtensionItemURLProvidingBlock)(NSString *activityType);
 
 /**
- *  A block that can lazily provide a string.
- *
- *  @param activityType Type of the activity that the string will be provided to.
- *
- *  @return String to be provided to the activity.
+ A block that can lazily provide a string.
+
+ @param activityType The selected activity type.
+
+ @return String to be provided to the activity.
  */
 typedef NSString *(^XExtensionItemStringProvidingBlock)(NSString *activityType);
 
 /**
- *  A block that can lazily provide an image.
- *
- *  @param activityType Activity type the image will be provided to.
- *
- *  @return Image to be provided to the activity.
+ A block that can lazily provide an image.
+
+ @param activityType The selected activity type.
+
+ @return Image to be provided to the activity.
  */
 typedef UIImage *(^XExtensionItemImageProvidingBlock)(NSString *activityType);
 
 /**
- *  A block that can lazily provide data of a predetermined type.
- *
- *  @param activityType Activity type the data will be provided to.
- *
- *  @return Data to be provided to the activity.
+ A block that can lazily provide data of a predetermined type.
+
+ @param activityType The selected activity type.
+
+ @return Data to be provided to the activity.
  */
 typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
 
@@ -319,37 +320,37 @@ typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
 @interface XExtensionItem : NSObject
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSArray/*<NSItemProvider>*/ *attachments;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
-@property (nonatomic, readonly) NSAttributedString *attributedTitle;
+@property (nonatomic, readonly) NSString *title;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSAttributedString *attributedContentText;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSArray/*<NSString>*/ *tags;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSURL *sourceURL;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) XExtensionItemReferrer *referrer;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSDictionary *userInfo;
 
