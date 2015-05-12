@@ -199,7 +199,7 @@ static NSString * const ActivityTypeCatchAll = @"*";
                 mutableUserInfo[ParameterKeyXExtensionItem] = [mutableParameters copy];
             }
             
-            [mutableUserInfo copy];
+            mutableUserInfo;
         });
         
         /*
@@ -243,7 +243,7 @@ static NSString * const ActivityTypeCatchAll = @"*";
                 }
             }
             
-            [attachments copy];
+            attachments;
         });
         
         item.attributedContentText = self.attributedContentText;
