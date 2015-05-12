@@ -3,12 +3,12 @@
 
 static NSString * const InfoPlistBundleDisplayNameKey = @"CFBundleDisplayName";
 
-static NSString * const ParameterKeyReferrerName = @"referrer-name";
-static NSString * const ParameterKeyReferrerAppStoreID = @"referrer-app-store-id";
-static NSString * const ParameterKeyReferrerGooglePlayID = @"referrer-google-play-id";
-static NSString * const ParameterKeyReferrerWebURL = @"referrer-web-url";
-static NSString * const ParameterKeyReferreriOSAppURL = @"referrer-ios-app-url";
-static NSString * const ParameterKeyReferrerAndroidAppURL = @"referrer-android-app-url";
+static NSString * const ParameterKeyReferrerName = @"x-extension-item-referrer-name";
+static NSString * const ParameterKeyReferrerAppStoreID = @"x-extension-item-referrer-app-store-id";
+static NSString * const ParameterKeyReferrerGooglePlayID = @"x-extension-item-referrer-google-play-id";
+static NSString * const ParameterKeyReferrerWebURL = @"x-extension-item-referrer-web-url";
+static NSString * const ParameterKeyReferreriOSAppURL = @"x-extension-item-referrer-ios-app-url";
+static NSString * const ParameterKeyReferrerAndroidAppURL = @"x-extension-item-referrer-android-app-url";
 
 @implementation XExtensionItemReferrer
 

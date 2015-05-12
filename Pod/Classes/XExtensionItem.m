@@ -10,12 +10,13 @@ static NSString * const ActivityTypeCatchAll = @"*";
 
 @interface XExtensionItemSource ()
 
-@property (nonatomic, strong) id placeholderItem;
+@property (nonatomic) id placeholderItem;
 @property (nonatomic, copy) XExtensionItemProvidingBlock activityItemBlock;
 @property (nonatomic, copy) NSString *typeIdentifier;
 
-@property (nonatomic, strong) NSMutableDictionary *additionalAttachmentsByActivityType;
-@property (nonatomic, strong) NSMutableDictionary *attributedContentTextByActivityType;
+@property (nonatomic) NSMutableDictionary *additionalAttachmentsByActivityType;
+@property (nonatomic) NSMutableDictionary *attributedContentTextByActivityType;
+@property (nonatomic) NSMutableDictionary *customParameters;
 
 @end
 
@@ -23,9 +24,7 @@ static NSString * const ActivityTypeCatchAll = @"*";
 
 #pragma mark - Initialization
 
-- (instancetype)initWithPlaceholderItem:(id)placeholderItem
-                         typeIdentifier:(NSString *)typeIdentifier
-                              itemBlock:(XExtensionItemProvidingBlock)activityItemBlock {
+- (instancetype)initWithPlaceholderItem:(id)placeholderItem typeIdentifier:(NSString *)typeIdentifier itemBlock:(XExtensionItemProvidingBlock)activityItemBlock {
     NSParameterAssert(placeholderItem);
     
     self = [super init];
@@ -44,6 +43,7 @@ static NSString * const ActivityTypeCatchAll = @"*";
         
         _additionalAttachmentsByActivityType = [[NSMutableDictionary alloc] init];
         _attributedContentTextByActivityType = [[NSMutableDictionary alloc] init];
+        _customParameters = [[NSMutableDictionary alloc] init];
     }
     
     return self;
@@ -99,12 +99,8 @@ static NSString * const ActivityTypeCatchAll = @"*";
 
 #pragma mark - XExtensionItemSource
 
-- (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable {
-    self.userInfo = ({
-        NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] initWithDictionary:self.userInfo];
-        [mutableUserInfo addEntriesFromDictionary:dictionarySerializable.dictionaryRepresentation];
-        [mutableUserInfo copy];
-    });
+- (void)addCustomParameters:(id<XExtensionItemCustomParameters>)dictionarySerializable {
+    [self.customParameters addEntriesFromDictionary:dictionarySerializable.dictionaryRepresentation];
 }
 
 - (void)setAttributedContentText:(NSAttributedString *)attributedContentText {
@@ -151,14 +147,11 @@ static NSString * const ActivityTypeCatchAll = @"*";
     return self.placeholderItem;
 }
 
-- (NSString *)activityViewController:(UIActivityViewController *)activityViewController
-              subjectForActivityType:(NSString *)activityType {
+- (NSString *)activityViewController:(UIActivityViewController *)activityViewController subjectForActivityType:(NSString *)activityType {
     return self.title;
 }
 
-- (UIImage *)activityViewController:(UIActivityViewController *)activityViewController
-      thumbnailImageForActivityType:(NSString *)activityType
-                      suggestedSize:(CGSize)size {
+- (UIImage *)activityViewController:(UIActivityViewController *)activityViewController thumbnailImageForActivityType:(NSString *)activityType suggestedSize:(CGSize)size {
     XExtensionItemThumbnailProvidingBlock thumbnailBlock = self.thumbnailProvider;
     
     if (thumbnailBlock) {
@@ -188,6 +181,7 @@ static NSString * const ActivityTypeCatchAll = @"*";
         NSExtensionItem *item = [[NSExtensionItem alloc] init];
         item.userInfo = ({
             NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] init];
+            [mutableUserInfo addEntriesFromDictionary:self.customParameters];
             [mutableUserInfo addEntriesFromDictionary:self.userInfo];
             
             NSMutableDictionary *mutableParameters = [[NSMutableDictionary alloc] init];
@@ -386,8 +380,7 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
                                itemBlock:imageProvider];
 }
 
-- (instancetype)initWithDataProvider:(XExtensionItemDataProvidingBlock)dataProvider
-                      typeIdentifier:(NSString *)typeIdentifier {
+- (instancetype)initWithDataProvider:(XExtensionItemDataProvidingBlock)dataProvider typeIdentifier:(NSString *)typeIdentifier {
     NSParameterAssert(dataProvider);
     NSParameterAssert(typeIdentifier);
     

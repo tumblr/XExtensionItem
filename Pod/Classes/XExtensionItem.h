@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "XExtensionItemReferrer.h"
-#import "XExtensionItemDictionarySerializing.h"
+#import "XExtensionItemCustomParameters.h"
 
 /**
  A block that can lazily provide an item of a predetermined type.
@@ -138,19 +138,28 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 @property (nonatomic, copy) XExtensionItemThumbnailProvidingBlock thumbnailProvider;
 
 /**
- An optional dictionary of keys and values. Individual applications can add advertise whatever custom parameters they
- support, and extension developers can add values for those parameters in this dictionary.
+ Add parameters from a dictionary-serializable custom parameters object.
  
- Custom user info keys should *not* start with `x-extension-item`, as those will be used internally by this library.
+ @param dictionarySerializable A custom parameters object.
  */
-@property (nonatomic, copy) NSDictionary *userInfo;
+- (void)addCustomParameters:(id <XExtensionItemCustomParameters>)dictionarySerializable;
 
 /**
- Add entries from a dictionary-serializable custom object to this paramter object’s `userInfo` dictionary.
+ An optional dictionary of keys and values.
  
- @param dictionarySerializable Object whose entries should be added to this paramter object’s `userInfo` dictionary.
+ @discussion Please look at `addCustomParameters` and the `XExtensionItemCustomParameters` protocol before considering
+ populating this dictionary directly.
+ 
+ Individual applications can add advertise the custom parameter keys that they support, and extension developers can add 
+ values for those parameters to this dictionary, but a better solution is for third-party developers to create an object 
+ that conforms to `XExtensionItemCustomParameters`, and open a pull request to add it to the `XExtensionItem` 
+ repository. See `XExtensionItemTumblrParameters` for an example of this.
+ 
+ Custom user info keys should *not* start with `x-extension-item`, as those are used internally by this library. Custom 
+ user info keys are also at risk of colliding with keys found in the dictionary representations of custom parameters 
+ objects added via `addCustomParameters:`.
  */
-- (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable;
+@property (nonatomic, copy) NSDictionary *userInfo;
 
 #pragma mark - Initialization
 
