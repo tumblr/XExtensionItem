@@ -1,4 +1,4 @@
-#import "XExtensionItemDictionarySerializing.h"
+#import "XExtensionItemCustomParameters.h"
 
 typedef NS_ENUM(NSUInteger, XExtensionItemTumblrPostType) {
     XExtensionItemTumblrPostTypeAny,
@@ -11,9 +11,9 @@ typedef NS_ENUM(NSUInteger, XExtensionItemTumblrPostType) {
 };
 
 /**
- *  Custom parameters that will be consumed by the Tumblr share extension.
+ Custom parameters that will be consumed by the Tumblr share extension.
  */
-@interface XExtensionItemTumblrParameters : NSObject <XExtensionItemDictionarySerializing>
+@interface XExtensionItemTumblrParameters : NSObject <XExtensionItemCustomParameters>
 
 /**
  Provide a custom path component for the post being created, e.g. the “pancakes” in http://bryan.io/post/116820149416/pancakes
