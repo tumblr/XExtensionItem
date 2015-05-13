@@ -37,13 +37,13 @@
 }
 
 - (void)testStringInitializerThrowsIfNil {
-    XCTAssertThrows([[XExtensionItemSource alloc] initWithText:nil]);
+    XCTAssertThrows([[XExtensionItemSource alloc] initWithString:nil]);
 }
 
 - (void)testStringInitializerProducesExtensionItemWithStringAttachment {
     NSString *string = @"foo";
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:string];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:string];
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:string typeIdentifier:(NSString *)kUTTypePlainText]];
     
@@ -135,7 +135,7 @@
 }
 
 - (void)testPlaceholderTypeIdentifierIsInferredForString {
-    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithText:@"Foo"];
+    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithString:@"Foo"];
     
     XCTAssertEqualObjects((NSString *)kUTTypePlainText, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
 }
@@ -151,7 +151,7 @@
 - (void)testTextReturnedForSystemActivityThatCannotProcessExtensionItemInput {
     NSString *text = @"Foo";
     
-    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithText:text];
+    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithString:text];
     source.additionalAttachments = @[[[NSItemProvider alloc] initWithItem:@"Bar" typeIdentifier:(NSString *)kUTTypeText]];
     
     XCTAssertEqualObjects(text, [source activityViewController:nil itemForActivityType:UIActivityTypeMail]);
@@ -160,7 +160,7 @@
 - (void)testExtensionItemReturnedForSystemActivityThatCanProcessExtensionItemInput {
     NSArray *attachments = @[[[NSItemProvider alloc] initWithItem:@"Bar" typeIdentifier:(NSString *)kUTTypeText]];
     
-    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithString:@""];
     source.additionalAttachments = attachments;
     
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
@@ -174,7 +174,7 @@
 - (void)testExtensionItemReturnedForNonSystemExtension {
     NSArray *attachments = @[[[NSItemProvider alloc] initWithItem:@"Bar" typeIdentifier:(NSString *)kUTTypeText]];
     
-    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithString:@""];
     source.additionalAttachments = attachments;
     
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
@@ -188,7 +188,7 @@
 #pragma mark - Title/content text
 
 - (void)testTitle {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.title = @"Foo";
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
@@ -199,14 +199,14 @@
 - (void)testTitleReturnedForSubject {
     NSString *subject = @"Subject";
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.title = subject;
     
     XCTAssertEqualObjects(subject, [itemSource activityViewController:nil subjectForActivityType:UIActivityTypeMail]);
 }
 
 - (void)testAttributedContentText {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.attributedContentText = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
@@ -218,7 +218,7 @@
     NSAttributedString *defaultContentText = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     NSAttributedString *twitterContentText = [[NSAttributedString alloc] initWithString:@"Bar" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:10] }];
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.attributedContentText = defaultContentText;
     [itemSource setAttributedContentText:twitterContentText forActivityType:UIActivityTypePostToTwitter];
 
@@ -237,7 +237,7 @@
     NSAttributedString *defaultContentText = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     NSAttributedString *twitterContentText = [[NSAttributedString alloc] initWithString:@"Bar" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:10] }];
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.attributedContentText = defaultContentText;
     [itemSource setAttributedContentText:twitterContentText forActivityType:UIActivityTypePostToTwitter];
     
@@ -293,7 +293,7 @@
     NSString *text = @"foo";
     NSURL *URL = [NSURL URLWithString:@"http://tumblr.com"];
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@"foo"];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@"foo"];
     itemSource.additionalAttachments = @[URL];
     
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
@@ -307,7 +307,7 @@
     NSString *text = @"foo";
     NSURL *URL = [NSURL fileURLWithPath:[[NSBundle bundleForClass:self.class] pathForResource:@"mountain"
                                                                                        ofType:@"png"]];
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@"foo"];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@"foo"];
     itemSource.additionalAttachments = @[URL];
     
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
@@ -321,7 +321,7 @@
     NSString *text = @"foo";
     NSString *text2 = @"bar";
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@"foo"];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@"foo"];
     itemSource.additionalAttachments = @[text2];
     
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
@@ -335,7 +335,7 @@
     NSString *text = @"foo";
     UIImage *image = [[UIImage alloc] init];
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@"foo"];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@"foo"];
     itemSource.additionalAttachments = @[image];
     
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
@@ -368,7 +368,7 @@
 }
 
 - (void)testAdditionalAttachmentsForActivityTypeClearedByPassingNil {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     [itemSource setAdditionalAttachments:@[@"String"] forActivityType:UIActivityTypeMail];
     [itemSource setAdditionalAttachments:nil forActivityType:UIActivityTypeMail];
     
@@ -379,7 +379,7 @@
 #pragma mark - Parameters
 
 - (void)testTags {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.tags = @[@"foo", @"bar", @"baz"];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
@@ -388,7 +388,7 @@
 }
 
 - (void)testSourceURL {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
@@ -397,7 +397,7 @@
 }
 
 - (void)testReferrer {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
 
     itemSource.referrer = [[XExtensionItemReferrer alloc] initWithAppName:@"Tumblr"
                                                                appStoreID:@"12345"
@@ -412,7 +412,7 @@
 }
 
 - (void)testReferrerFromBundle {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.referrer = [[XExtensionItemReferrer alloc] initWithAppNameFromBundle:[NSBundle bundleForClass:[self class]]
                                                                          appStoreID:@"12345"
                                                                        googlePlayID:@"54321"
@@ -429,7 +429,7 @@
     UIImage *emailImage = [[UIImage alloc] initWithData:[@"123" dataUsingEncoding:NSUTF8StringEncoding]];
     UIImage *defaultImage = [[UIImage alloc] initWithData:[@"456" dataUsingEncoding:NSUTF8StringEncoding]];
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.thumbnailProvider = ^(CGSize suggestedSize, NSString *activityType) {
         if (activityType == UIActivityTypeMail) {
             return emailImage;
@@ -445,7 +445,7 @@
 }
 
 - (void)testActivityItemSourceDelegateDoesNotThrowIfNoThumbnailBlock {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
 
     XCTAssertNoThrow([itemSource activityViewController:nil thumbnailImageForActivityType:UIActivityTypePostToTwitter suggestedSize:CGSizeZero]);
 }
@@ -453,7 +453,7 @@
 #pragma mark - Custom parameters
 
 - (void)testUserInfo {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     itemSource.userInfo = @{ @"foo": @"bar" };
     
@@ -470,7 +470,7 @@
     CustomParameters *inputCustomParameters = [[CustomParameters alloc] init];
     inputCustomParameters.customParameter = @"Value";
 
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     [itemSource addCustomParameters:inputCustomParameters];
     
     XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
@@ -481,7 +481,7 @@
 }
 
 - (void)testUserInfoAndCustomParameters {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithText:@""];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.userInfo = @{ @"foo": @"bar" };
     
     CustomParameters *inputCustomParameters = [[CustomParameters alloc] init];

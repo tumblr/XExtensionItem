@@ -178,11 +178,11 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 /**
  Initialize an item source with a string.
  
- @param text (Required) Text to be shared.
+ @param string (Required) String to be shared.
  
  @return New item source instance.
  */
-- (instancetype)initWithText:(NSString *)text;
+- (instancetype)initWithString:(NSString *)string;
 
 /**
  Initialize an item source with an image.
@@ -283,11 +283,11 @@ typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
 /**
  Initialize an item source with a block that can provide a string.
  
- @param textProvider (Required) Text-providing block.
+ @param stringProvider (Required) String-providing block.
  
  @return New item source instance.
  */
-- (instancetype)initWithTextProvider:(XExtensionItemStringProvidingBlock)textProvider;
+- (instancetype)initWithStringProvider:(XExtensionItemStringProvidingBlock)stringProvider;
 
 /**
  Initialize an item source with a block that can provide an image.

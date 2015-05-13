@@ -55,8 +55,8 @@ static NSString * const ActivityTypeCatchAll = @"*";
                                itemBlock:nil];
 }
 
-- (instancetype)initWithText:(NSString *)text {
-    return [self initWithPlaceholderItem:text
+- (instancetype)initWithString:(NSString *)string {
+    return [self initWithPlaceholderItem:string
                           typeIdentifier:(NSString *)kUTTypePlainText
                                itemBlock:nil];
 }
@@ -343,12 +343,12 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
                                itemBlock:fileURLProvider];
 }
 
-- (instancetype)initWithTextProvider:(XExtensionItemStringProvidingBlock)textProvider {
-    NSParameterAssert(textProvider);
+- (instancetype)initWithStringProvider:(XExtensionItemStringProvidingBlock)stringProvider {
+    NSParameterAssert(stringProvider);
     
     return [self initWithPlaceholderItem:[[NSString alloc] init]
                           typeIdentifier:(NSString *)kUTTypePlainText
-                               itemBlock:textProvider];
+                               itemBlock:stringProvider];
 }
 
 - (instancetype)initWithImageProvider:(XExtensionItemImageProvidingBlock)imageProvider {
