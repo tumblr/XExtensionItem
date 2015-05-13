@@ -50,40 +50,24 @@ static NSString * const ActivityTypeCatchAll = @"*";
 }
 
 - (instancetype)initWithURL:(NSURL *)URL {
-    NSParameterAssert(URL);
-    
-    NSString *typeIdentifier = ^{
-        if (URL.isFileURL) {
-            NSString *typeIdentifier;
-            [URL getResourceValue:&typeIdentifier forKey:NSURLTypeIdentifierKey error:nil];
-            return typeIdentifier;
-        }
-        else {
-            return (NSString *)kUTTypeURL;
-        }
-    }();
-    
-    return [self initWithPlaceholderItem:URL typeIdentifier:typeIdentifier itemBlock:nil];
+    return [self initWithPlaceholderItem:URL
+                          typeIdentifier:nil // This will be either `kUTTypeURL` or, if a file URL, derived from the file on disk
+                               itemBlock:nil];
 }
 
 - (instancetype)initWithText:(NSString *)text {
-    NSParameterAssert(text);
-    
     return [self initWithPlaceholderItem:text
                           typeIdentifier:(NSString *)kUTTypePlainText
                                itemBlock:nil];
 }
 
 - (instancetype)initWithImage:(UIImage *)image {
-    NSParameterAssert(image);
-    
     return [self initWithPlaceholderItem:image
                           typeIdentifier:(NSString *)kUTTypeImage
                                itemBlock:nil];
 }
 
 - (instancetype)initWithData:(NSData *)data typeIdentifier:(NSString *)typeIdentifier {
-    NSParameterAssert(data);
     NSParameterAssert(typeIdentifier);
     
     return [self initWithPlaceholderItem:data
@@ -99,8 +83,8 @@ static NSString * const ActivityTypeCatchAll = @"*";
 
 #pragma mark - XExtensionItemSource
 
-- (void)addCustomParameters:(id<XExtensionItemCustomParameters>)dictionarySerializable {
-    [self.customParameters addEntriesFromDictionary:dictionarySerializable.dictionaryRepresentation];
+- (void)addCustomParameters:(id<XExtensionItemCustomParameters>)customParameters {
+    [self.customParameters addEntriesFromDictionary:customParameters.dictionaryRepresentation];
 }
 
 - (void)setAttributedContentText:(NSAttributedString *)attributedContentText {
@@ -228,19 +212,17 @@ static NSString * const ActivityTypeCatchAll = @"*";
                 else {
                     NSString *typeIdentifier = typeIdentifierForActivityItem(attachmentItem);
                     
-                    if (!typeIdentifier) {
-                        continue;
+                    if (typeIdentifier) {
+                        NSItemProvider *attachmentProvider = [[NSItemProvider alloc] initWithItem:attachmentItem typeIdentifier:typeIdentifier];
+                        [attachments addObject:attachmentProvider];
                     }
-                    
-                    NSItemProvider *attachmentProvider = [[NSItemProvider alloc] initWithItem:attachmentItem typeIdentifier:typeIdentifier];
-                    [attachments addObject:attachmentProvider];
                 }
             }
             
             attachments;
         });
         
-        item.attributedContentText = self.attributedContentText;
+        item.attributedContentText = [self attributedContentTextForActivityType:activityType];
         
         if (self.title) {
             item.attributedTitle = [[NSAttributedString alloc] initWithString:self.title];
@@ -289,9 +271,6 @@ static NSString *typeIdentifierForActivityItem(id item) {
     }
     else if ([item isKindOfClass:[UIImage class]]) {
         return (NSString *)kUTTypeImage;
-    }
-    else if ([item isKindOfClass:[NSDictionary class]]) {
-        return (NSString *)kUTTypePropertyList;
     }
     else {
         return nil;

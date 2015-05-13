@@ -138,11 +138,14 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 @property (nonatomic, copy) XExtensionItemThumbnailProvidingBlock thumbnailProvider;
 
 /**
- Add parameters from a dictionary-serializable custom parameters object.
+ Add parameters from a custom parameters object.
  
- @param dictionarySerializable A custom parameters object.
+ @discussion third-party developers to create an object that conforms to `XExtensionItemCustomParameters`, and open a 
+ pull request to add it to the `XExtensionItem` repository. See `XExtensionItemTumblrParameters` for an example of this.
+ 
+ @param customParameters A custom parameters object.
  */
-- (void)addCustomParameters:(id <XExtensionItemCustomParameters>)dictionarySerializable;
+- (void)addCustomParameters:(id <XExtensionItemCustomParameters>)customParameters;
 
 /**
  An optional dictionary of keys and values.
