@@ -9,9 +9,7 @@
 
 XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a [`UIActivityViewController`](https://developer.apple.com/library/ios/documentation/Uikit/reference/UIActivityViewController_Class/index.html).
 
-We’d love your [thoughts](https://github.com/tumblr/XExtensionItem/issues) on how XExtensionItem could better allow apps to provide generically useful metadata parameters to share extensions. This library’s value comes from how useful it is for *all* apps and extensions. Having been developed by a single contributor thus far, your feedback will be hugely beneficial to me.
-
-:warning::warning::warning: ***XExtensionItem is very much a rough work in progress. We’d love to incorporate feedback from app and extension developers alike, but I’d warn against shipping any code that depends on it until 1.0 is released, signifying that the API has stabilized.*** :warning::warning::warning:
+We’d love your [thoughts](https://github.com/tumblr/XExtensionItem/issues) on how XExtensionItem could be made more useful. This library’s value comes from how useful it is for apps and extensions of all shapes and sizes.
 
 * [Why?](#why)
 * [Getting started](#getting-started)
@@ -35,19 +33,55 @@ Currently, share extensions have an [unfortunate limitation](https://github.com/
 * The application displays a `UIActivityViewController` and puts both an `NSURL` and `NSString` in its activity items array.
 * Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr would be displayed in the activity controller but Instapaper would not.
 
-Rather than populating `activityItems` with multiple objects and losing support for inflexible extensions, its best to use a single `NSExtensionItem` with multiple attachments and metadata added to it. This can be difficult to get exactly right, however. XExtensionItem makes this easy by exposing an API that provides type-safe access to generic metadata parameters that applications and extensions can populate without needing to worry about the implementation details of the app or extension on the other side of the handshake.
+Rather than passing in multiple activity items and losing support for inflexible extensions, its best to use a single `NSExtensionItem` that encapsulates multiple attachments and additional metadata as well. This can be difficult to get exactly right, however. XExtensionItem makes this easy by providing a layer of abstraction on these compmlicated APIs, dealing with all of their intricacies so you don’t have to.
+
+Apps should be able to pass rich, structured attachments and metadata to extensions without worrying about the implementation details on the other end of the handshake. XExtensionItem facilitates exactly this.
 
 ## Getting started
 
-XExtensionItem is available via [CocoaPods](http://cocoapods.org).
+XExtensionItem is available through your Objective-C package manager of choice:
+
+### CocoaPods
+
+Simply add the following to your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 
 ```
 pod 'XExtensionItem'
 ```
 
-Documentation can also be found at [CocoaDocs](http://cocoadocs.org/docsets/XExtensionItem).
+### Carthage
+
+Simply add the following to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
+
+```
+github "tumblr/XExtensionItem"
+```
 
 ## Usage
+
+You may currently be initializing your `UIActivityViewController` instances like this:
+
+```objc
+[[UIActivityViewController alloc] initWithActivityItems:@[URL, string, image] applicationActivities:nil];
+```
+
+As outlined above, this is problematic because your users will only be presented with extensions that explicitly accept URLs _and_ strings _and_ images. XExtensionItem provides a better way.
+
+```objc
+XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:URL];
+itemSource.additionalAttachments = @[string, image];
+
+[[UIActivityViewController alloc] initWithActivityItems:@[itemSource] applicationActivities:nil];
+```
+
+Now, all extensions and system activities that at least accept URLs will be displayed, but all three attachments will be passed to the one that the user selects.
+
+
+
+
+
+
+
 
 Simply populate an `XExtensionItemSource` with a placeholder item and an array of attachments. The placeholder’s type will determine which system activities and share extensions are available for the user to choose from, while the whole array of attachments will be passed to whichever one the user ends up selecting.
 
