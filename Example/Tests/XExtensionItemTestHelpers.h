@@ -46,6 +46,16 @@
         XExtensionItemAssertEqualItemProviderArrays(item1.attachments, item2.attachments); \
     }
 
+static NSDictionary *dictionaryByRemovingExtensionItemSystemKeys(NSDictionary *dictionary) {
+    NSMutableDictionary *mutableDictionary = [dictionary mutableCopy];
+    
+    for (NSString *key in @[NSExtensionItemAttributedTitleKey, NSExtensionItemAttributedContentTextKey, NSExtensionItemAttachmentsKey]) {
+        [mutableDictionary removeObjectForKey:key];
+    }
+    
+    return [mutableDictionary copy];
+}
+
 static void itemsForItemProvider(NSItemProvider *provider, void (^block)(NSArray *items)) {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSMutableArray *items = [[NSMutableArray alloc] init];
