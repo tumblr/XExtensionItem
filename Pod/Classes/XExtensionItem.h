@@ -138,11 +138,14 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 @property (nonatomic, copy) XExtensionItemThumbnailProvidingBlock thumbnailProvider;
 
 /**
- Add parameters from a dictionary-serializable custom parameters object.
+ Add parameters from a custom parameters object.
  
- @param dictionarySerializable A custom parameters object.
+ @discussion third-party developers to create an object that conforms to `XExtensionItemCustomParameters`, and open a 
+ pull request to add it to the `XExtensionItem` repository. See `XExtensionItemTumblrParameters` for an example of this.
+ 
+ @param customParameters A custom parameters object.
  */
-- (void)addCustomParameters:(id <XExtensionItemCustomParameters>)dictionarySerializable;
+- (void)addCustomParameters:(id <XExtensionItemCustomParameters>)customParameters;
 
 /**
  An optional dictionary of keys and values.
@@ -175,11 +178,11 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 /**
  Initialize an item source with a string.
  
- @param text (Required) Text to be shared.
+ @param string (Required) String to be shared.
  
  @return New item source instance.
  */
-- (instancetype)initWithText:(NSString *)text;
+- (instancetype)initWithString:(NSString *)string;
 
 /**
  Initialize an item source with an image.
@@ -280,11 +283,11 @@ typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
 /**
  Initialize an item source with a block that can provide a string.
  
- @param textProvider (Required) Text-providing block.
+ @param stringProvider (Required) String-providing block.
  
  @return New item source instance.
  */
-- (instancetype)initWithTextProvider:(XExtensionItemStringProvidingBlock)textProvider;
+- (instancetype)initWithStringProvider:(XExtensionItemStringProvidingBlock)stringProvider;
 
 /**
  Initialize an item source with a block that can provide an image.
