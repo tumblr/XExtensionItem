@@ -114,13 +114,15 @@ The following parameters are currently supported (more information on each can b
 
 * A title
 * Attributed content text (can also be specific on a per-activity type basis)
-* A thumbanil image
+* A thumbnail image
 * Tags
 * A source URL
 * Referrer information
     * App Name
     * App store IDs (iTunes and Google Play)
     * URLs where the content being shared can be linked to on the web, or natively deep-linked on iOS and Android
+
+Some built-in activities (e.g. `UIActivityTypePostToTwitter`) will consume the attributed content text field (if populated), while others (e.g. “Copy” or “Add to Reading List”) only know how to accept a single attachment. XExtensionItem is smart enough to handle this for you.
 
 If you have an idea for a parameter that would be broadly useful (i.e. not specific to any particular share extension or service), please create an [issue](https://github.com/tumblr/XExtensionItem/issues) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
 
