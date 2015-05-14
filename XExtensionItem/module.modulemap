@@ -4,7 +4,7 @@ framework module XExtensionItem {
   export *
   module * { export * }
 
-  header "XExtensionItemTypeSafeDictionaryValue.h"
+  header "XExtensionItemTypeSafeDictionaryValues.h"
 
   exclude header "XExtensionItem+Tumblr.h"
   exclude header "XExtensionItemTumblrParameters.h"
