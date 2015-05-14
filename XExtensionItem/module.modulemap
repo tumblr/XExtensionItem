@@ -7,7 +7,7 @@ framework module XExtensionItem {
   exclude header "XExtensionItem+Tumblr.h"
   exclude header "XExtensionItemTumblrParameters.h"
 
-  module Tumblr {
+  explicit module Tumblr {
     header "XExtensionItem+Tumblr.h"
     header "XExtensionItemTumblrParameters.h"
   }
