@@ -83,7 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				93E53BFB1B0405D700A74760 /* XExtensionItem */,
-				93E53C081B0405D700A74760 /* XExtensionItemTests */,
+				93E53C081B0405D700A74760 /* Tests */,
 				93E53BFA1B0405D700A74760 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -122,7 +122,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		93E53C081B0405D700A74760 /* XExtensionItemTests */ = {
+		93E53C081B0405D700A74760 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				93E53C251B04071600A74760 /* CustomParameters.h */,
@@ -132,7 +132,6 @@
 				93E53C0B1B0405D700A74760 /* XExtensionItemTests.m */,
 				93E53C091B0405D700A74760 /* Supporting Files */,
 			);
-			name = XExtensionItemTests;
 			path = Tests;
 			sourceTree = "<group>";
 		};

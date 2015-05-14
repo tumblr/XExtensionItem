@@ -1,13 +1,13 @@
 @interface XExtensionItemSource (Testing)
 
-@property (nonatomic, readonly) id item;
+@property (nonatomic, readonly) id facebookItem;
 
 @end
 
 @implementation XExtensionItemSource (Testing)
 
-- (id)item {
-    return [self activityViewController:nil itemForActivityType:nil];
+- (id)facebookItem {
+    return [self activityViewController:nil itemForActivityType:UIActivityTypePostToFacebook];
 }
 
 @end

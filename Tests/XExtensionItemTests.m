@@ -23,7 +23,7 @@
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:URL typeIdentifier:(NSString *)kUTTypeURL]];
 
-    XExtensionItemAssertEqualItems(itemSource.item, expected);
+    XExtensionItemAssertEqualItems(itemSource.facebookItem, expected);
 }
 
 - (void)testURLInitializerProducesExtensionItemWithFileURLAttachment {
@@ -33,7 +33,7 @@
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:URL typeIdentifier:(NSString *)kUTTypePNG]];
     
-    XExtensionItemAssertEqualItems(itemSource.item, expected);
+    XExtensionItemAssertEqualItems(itemSource.facebookItem, expected);
 }
 
 - (void)testStringInitializerThrowsIfNil {
@@ -47,7 +47,7 @@
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:string typeIdentifier:(NSString *)kUTTypePlainText]];
     
-    XExtensionItemAssertEqualItems(itemSource.item, expected);
+    XExtensionItemAssertEqualItems(itemSource.facebookItem, expected);
 }
 
 - (void)testImageInitializerThrowsIfNil {
@@ -61,7 +61,7 @@
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:image typeIdentifier:(NSString *)kUTTypePNG]];
     
-    XExtensionItemAssertEqualItems(itemSource.item, expected);
+    XExtensionItemAssertEqualItems(itemSource.facebookItem, expected);
 }
 
 - (void)testDataInitializerThrowsIfNil {
@@ -79,7 +79,7 @@
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:data typeIdentifier:(NSString *)kUTTypePNG]];
     
-    XExtensionItemAssertEqualItems(itemSource.item, expected);
+    XExtensionItemAssertEqualItems(itemSource.facebookItem, expected);
 }
 
 - (void)testPlaceholderInitializerThrowsIfNil {
@@ -191,7 +191,7 @@
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.title = @"Foo";
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     
     XCTAssertEqualObjects(itemSource.title, xExtensionItem.title);
 }
@@ -209,7 +209,7 @@
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.attributedContentText = [[NSAttributedString alloc] initWithString:@"Foo" attributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:20] }];
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     
     XCTAssertEqual(itemSource.attributedContentText.hash, xExtensionItem.attributedContentText.hash);
 }
@@ -277,7 +277,7 @@
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:URL];
     itemSource.additionalAttachments = additionalAttachments;
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
 
     NSArray *expected = ({
         NSMutableArray *array = [[NSMutableArray alloc] init];
@@ -300,7 +300,7 @@
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:text typeIdentifier:(NSString *)kUTTypePlainText],
                              [[NSItemProvider alloc] initWithItem:URL typeIdentifier:(NSString *)kUTTypeURL]];
     
-    XExtensionItemAssertEqualItems(itemSource.item, expected);
+    XExtensionItemAssertEqualItems(itemSource.facebookItem, expected);
 }
 
 - (void)testItemProviderCreatedFromFileURLAdditionalAttachment {
@@ -314,7 +314,7 @@
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:text typeIdentifier:(NSString *)kUTTypePlainText],
                              [[NSItemProvider alloc] initWithItem:URL typeIdentifier:(NSString *)kUTTypePNG]];
     
-    XExtensionItemAssertEqualItems(itemSource.item, expected);
+    XExtensionItemAssertEqualItems(itemSource.facebookItem, expected);
 }
 
 - (void)testItemProviderCreatedFromStringAdditionalAttachment {
@@ -328,7 +328,7 @@
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:text typeIdentifier:(NSString *)kUTTypePlainText],
                              [[NSItemProvider alloc] initWithItem:text2 typeIdentifier:(NSString *)kUTTypePlainText]];
     
-    XExtensionItemAssertEqualItems(itemSource.item, expected);
+    XExtensionItemAssertEqualItems(itemSource.facebookItem, expected);
 }
 
 - (void)testItemProviderCreatedFromImageAdditionalAttachment {
@@ -342,7 +342,7 @@
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:text typeIdentifier:(NSString *)kUTTypePlainText],
                              [[NSItemProvider alloc] initWithItem:image typeIdentifier:(NSString *)kUTTypePNG]];
     
-    XExtensionItemAssertEqualItems(itemSource.item, expected);
+    XExtensionItemAssertEqualItems(itemSource.facebookItem, expected);
 }
 
 - (void)testSeparateAdditionalAttachmentsForTwitter {
@@ -372,7 +372,7 @@
     [itemSource setAdditionalAttachments:@[@"String"] forActivityType:UIActivityTypeMail];
     [itemSource setAdditionalAttachments:nil forActivityType:UIActivityTypeMail];
     
-    XExtensionItem *extensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *extensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     XCTAssertEqual(extensionItem.attachments.count, 1);
 }
 
@@ -382,7 +382,7 @@
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.tags = @[@"foo", @"bar", @"baz"];
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     
     XCTAssertEqualObjects(itemSource.tags, xExtensionItem.tags);
 }
@@ -391,7 +391,7 @@
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     
     XCTAssertEqualObjects(itemSource.sourceURL, xExtensionItem.sourceURL);
 }
@@ -406,7 +406,7 @@
                                                                 iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
                                                             androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     
     XCTAssertEqualObjects(itemSource.referrer, xExtensionItem.referrer);
 }
@@ -420,7 +420,7 @@
                                                                           iOSAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]
                                                                       androidAppURL:[NSURL URLWithString:@"tumblr://a94kan4"]];
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     
     XCTAssertEqualObjects(itemSource.referrer, xExtensionItem.referrer);
 }
@@ -457,7 +457,7 @@
     itemSource.sourceURL = [NSURL URLWithString:@"http://tumblr.com"];
     itemSource.userInfo = @{ @"foo": @"bar" };
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     
     // Output params user info dictionary should be a superset of input params user info dictionary
     
@@ -473,7 +473,7 @@
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     [itemSource addCustomParameters:inputCustomParameters];
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     
     CustomParameters *outputCustomParameters = [[CustomParameters alloc] initWithDictionary:xExtensionItem.userInfo];
     
@@ -489,7 +489,7 @@
 
     [itemSource addCustomParameters:inputCustomParameters];
     
-    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.item];
+    XExtensionItem *xExtensionItem = [[XExtensionItem alloc] initWithExtensionItem:itemSource.facebookItem];
     
     // Output params user info dictionary should be a superset of input params user info dictionary
     
