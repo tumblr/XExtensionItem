@@ -1,1 +1,1 @@
-../../../../../Pod/Classes/Custom/Tumblr/XExtensionItem+Tumblr.h
+../../../../../XExtensionItem/Custom/Tumblr/XExtensionItem+Tumblr.h

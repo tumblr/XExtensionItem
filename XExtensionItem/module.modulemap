@@ -1,0 +1,12 @@
+framework module XExtensionItem {
+  umbrella header "XExtensionItem.h"
+
+  export *
+  module * { export * }
+
+  exclude header "XExtensionItem/Custom/Tumblr/XExtensionItem+Tumblr.h"
+
+  module Tumblr {
+    header "XExtensionItem/Custom/Tumblr/XExtensionItem+Tumblr.h"
+  }
+}
