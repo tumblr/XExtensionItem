@@ -66,7 +66,8 @@ github "tumblr/XExtensionItem"
 You may currently be initializing your `UIActivityViewController` instances like this:
 
 ```objc
-[[UIActivityViewController alloc] initWithActivityItems:@[URL, string, image] applicationActivities:nil];
+[[UIActivityViewController alloc] initWithActivityItems:@[URL, string, image] 
+                                  applicationActivities:nil];
 ```
 
 As outlined above, this is problematic because your users will only be presented with extensions that explicitly accept URLs _and_ strings _and_ images. XExtensionItem provides a better way.
@@ -75,10 +76,11 @@ As outlined above, this is problematic because your users will only be presented
 XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:URL];
 itemSource.additionalAttachments = @[string, image];
 
-[[UIActivityViewController alloc] initWithActivityItems:@[itemSource] applicationActivities:nil];
+[[UIActivityViewController alloc] initWithActivityItems:@[itemSource] 
+                                  applicationActivities:nil];
 ```
 
-`XExtensionItemSource` needs to be initialized with a main attachment; in this case, an `NSURL`. The main attachment’s type will determine which system activities and extensions are presented to the user. In this case, all extensions and system activities that at least accept URLs will be displayed, but **all three attachments will be passed to the one that the user selects**. 
+`XExtensionItemSource` needs to be initialized with a main attachment (an `NSURL` in the above example). The main attachment’s type will determine which system activities and extensions are presented to the user. In this case, all extensions and system activities that at least accept URLs will be displayed, but **all three attachments will be passed to the one that the user selects**. 
 
 In addition to a URL, an `XExtensionItemSource` instance can also be initialized with:
 
@@ -98,19 +100,20 @@ itemSource.additionalAttachments = @[string, image];
 As well as on a per-activity type basis:
 
 ```objc
-[itemSource setAdditionalAttachments:@[tweetLengthString, image] forActivityType:UIActivityTypePostToTwitter];
+[itemSource setAdditionalAttachments:@[tweetLengthString, image] 
+                     forActivityType:UIActivityTypePostToTwitter];
 ```
 
 In addition to `NSURL`, `NSString`, and `UIImage`, the additional attachments array can also include `NSItemProvider` instances, which gives applications some more flexibility around lazy item loading. See the [`NSItemProvider`’s Class Reference](https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSItemProvider_Class/index.html) for more details.
 
 #### Generic parameters
 
-In addition to multiple attachments, XExtensionItem also allows applications pass generic metadata paremters to extensions. 
+In addition to multiple attachments, XExtensionItem also allows applications to pass generic metadata paremters to extensions.
 
-It currently includes support for the following parameters (more information on each can be found in the `XExtensionItemSource` [header documentation](XExtensionItem/XExtensionItem.h)):
+The following parameters are currently supported (more information on each can be found in the `XExtensionItemSource` [header documentation](XExtensionItem/XExtensionItem.h)):
 
 * A title
-* Attributed content text
+* Attributed content text (can also be specific on a per-activity type basis)
 * A thumbanil image
 * Tags
 * A source URL
@@ -119,13 +122,13 @@ It currently includes support for the following parameters (more information on 
     * App store IDs (iTunes and Google Play)
     * URLs where the content being shared can be linked to on the web, or natively deep-linked on iOS and Android
 
-If you have an idea for a parameter that would be broadly useful (e.g. not specific to any particular share extension or service), please create an [issue](https://github.com/tumblr/XExtensionItem/issues) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
+If you have an idea for a parameter that would be broadly useful (i.e. not specific to any particular share extension or service), please create an [issue](https://github.com/tumblr/XExtensionItem/issues) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
 
 #### Custom parameters
 
-Generic parameters are great, in that they allow applications and share extensions to interoperate without knowing the specifics about how the other is implemented. But XExtensionItem also makes it trivial for extension developers to add support for custom parameters that application developers can then optionally populate.
+Generic parameters are great, in that they allow applications and share extensions to interoperate without knowing the specifics about how the other is implemented. But XExtensionItem also makes it trivial for extension developers to add support for custom parameters as well.
 
-Third-party extension developers can create a class that conforms to the `XExtensionItemCustomParameters`, which application developers will then be able to populate. Here’s a Tumblr-specific example:
+Extension developers can create a class that conforms to the `XExtensionItemCustomParameters`, which application developers will then be able to populate. Here’s a Tumblr-specific example:
 
 ```objc
 XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:URL];
@@ -139,11 +142,11 @@ XExtensionItemTumblrParameters *tumblrParameters = [[XExtensionItemTumblrParamet
 [itemSource addCustomParameters:tumblrParameters];
 ```
 
-If you’re an extension developer and would like to add custom parameters for your extension to XExtensionItem, please see this guide with more information on how to do so.
+If you’re an extension developer and would like to add custom parameters for your extension to XExtensionItem, please see [this guide](https://github.com/tumblr/XExtensionItem/wiki/Guide-to-adding-custom-parameters) containing more information on how to do so.
+
+By default, all custom parameter classes will be included when you pull XExtensionItem into your application. If you want more granular control over what is included, we’ve added support for this in the form of subspecs (CocoaPods) and submodules (Carthage).
 
 Have a look at the [apps that use XExtensionItem](#apps-that-use-xextensionitem) section for a list of all supported custom parameters.
-
-By default, all custom parameters classes will be included when you pull XExtensionItem into your application. If you want more granular control over what is included, we’ve added support for this in the form of subspecs (CocoaPods) and submodules (Carthage).
 
 ### Extensions
 
@@ -153,10 +156,13 @@ objects:
 ```objc
  for (NSExtensionItem *inputItem in self.extensionContext.inputItems) {
     XExtensionItem *extensionItem = [[XExtensionItem alloc] initWithExtensionItem:inputItem];
-    NSAttributedString *title = extensionItem.attributedTitle;
+
+    NSString *title = extensionItem.title;
     NSAttributedString *contentText = extensionItem.attributedContentText;
+
     NSArray *tags = extensionItem.tags;
-    NSString *customTumblrURL = extensionItem.userInfo[@"tumblr-custom-url"];
+
+    NSString *tumblrCustomURLPathComponent = extensionItem.tumblrParameters.customURLPathComponent;
  }
 ```
 
