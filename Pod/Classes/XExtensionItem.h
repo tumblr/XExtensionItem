@@ -1,21 +1,6 @@
+#import <UIKit/UIKit.h>
 #import "XExtensionItemReferrer.h"
-#import "XExtensionItemDictionarySerializing.h"
-
-/**
- *  <#Description#>
- *
- *  @return <#return value description#>
- */
-typedef id (^XExtensionItemProvidingBlock)();
-
-/**
- *  <#Description#>
- *
- *  @param suggestedSize <#suggestedSize description#>
- *
- *  @return <#return value description#>
- */
-typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
+#import "XExtensionItemCustomParameters.h"
 
 /**
  A data structure that application developers can use to pass well-defined data structures into iOS 8 extensions 
@@ -43,19 +28,16 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
  // receiving app knows to look for those, but this URL will be what activities and extensions receive by default.
  
  NSURL *URL = [NSURL URLWithString:@"http://apple.com/featured"];
+ 
  UIImage *image = [UIImage imageNamed:@"tumblr-featured-on-apple-homepage.png"];
  
- XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholder:URL
-                                                                          attachments:@[
-    [[NSItemProvider alloc] initWithItem:URL typeIdentifier:(__bridge NSString *)kUTTypeURL],
-    [[NSItemProvider alloc] initWithItem:image typeIdentifier:(__bridge NSString *)kUTTypeImage],
- ]];
- 
- itemSource.attributedTitle = [[NSAttributedString alloc] initWithString:@"Tumblr featured on Apple.com!"];
+ XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:URL];
+ itemSource.additionalAttachments = @[image];
+ itemSource.title = @"Tumblr featured on Apple.com!";
  itemSource.tags = @[@"tumblr", @"featured", @"so cool"];
  
  UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[itemSource]
-                                                                          applicationActivities:nil];
+ applicationActivities:nil];
  ```
  
  ## Extension developers
@@ -63,18 +45,72 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
 @interface XExtensionItemSource : NSObject <UIActivityItemSource>
 
 /**
- An optional title for the item.
+ A block that can lazily provide an item of a predetermined type.
+ 
+ @param activityType The selected activity type.
+ 
+ @return Item to be provided to the activity.
+ */
+typedef id (^XExtensionItemProvidingBlock)(NSString *activityType);
+
+/**
+ A block that can lazily provide a thumbnail image.
+ 
+ @param suggestedSize The suggested size for the thumbnail image, in points. You should provide an image using the
+ appropriate scale for the screen. Images provided at the suggested size will result in the best experience.
+ @param activityType The selected activity type.
+ 
+ @return Thumbnail image to be provided to the activity.
+ */
+typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, NSString *activityType);
+
+/**
+ An optional title for the item. Also used as the subject for activities that support it (i.e. Mail and Messages)
  
  @see `NSExtensionItem`
  */
-@property (nonatomic, copy) NSAttributedString *attributedTitle;
+@property (nonatomic, copy) NSString *title;
 
 /**
- An optional string describing the item content.
+ An optional string describing the item content. In the case of social activities, for example, this text could be
+ shared alongside a URL.
+ 
+ Calling this setter is analogous to calling `setAttribuetdContentText:forActivityType:` with a `nil` activity type, 
+ causing the provided content text to be used for all types.
  
  @see `NSExtensionItem`
  */
 @property (nonatomic, copy) NSAttributedString *attributedContentText;
+
+/**
+ Specify attributed content text to be used for a specific activity type only. Passing `nil` for the activity type will 
+ cause the provided content text to be used for all types.
+ 
+ @param attributedContentText Attributed content text.
+ @param activityType          Activity type to use attribuetd content text for.
+ */
+- (void)setAttributedContentText:(NSAttributedString *)attributedContentText forActivityType:(NSString *)activityType;
+
+/**
+ An array of additional media associated with the extension item. These items must be of type `NSString`, `NSURL`,
+ `UIImage`, or `NSItemProvider` and will be passed to the selected activity/extension. For example, you could add
+ an image attachment to be shared alongside a URL.
+ 
+ Calling this setter is analogous to calling `setAdditionalAttachments:forActivityType:` with a `nil` activity type, 
+ causing the provided attachments to be used for all types.
+ 
+ @see `NSExtensionItem`
+ */
+@property (nonatomic, copy) NSArray *additionalAttachments;
+
+/**
+ Specify additional attachments to be used for a specific activity type only. Passing `nil` for the activity type will
+ cause the provided attachments to be used for all types.
+ 
+ @param additionalAttachments Attachments.
+ @param activityType          Activity type to use attachments for.
+ */
+- (void)setAdditionalAttachments:(NSArray *)attachments forActivityType:(NSString *)activityType;
 
 /**
  An optional array of tag metadata, like on Twitter/Instagram/Tumblr.
@@ -95,84 +131,182 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
 @property (nonatomic) XExtensionItemReferrer *referrer;
 
 /**
- An optional dictionary of keys and values. Individual applications can add advertise whatever custom parameters they
- support, and extension developers can add values for those parameters in this dictionary.
+ A block that will be called with the suggested size for the thumbnail image, in points, and the activity type chosen by 
+ the user. It should return an image using the appropriate scale for the screen. Images provided at the suggested size 
+ will result in the best experience.
+ */
+@property (nonatomic, copy) XExtensionItemThumbnailProvidingBlock thumbnailProvider;
+
+/**
+ Add parameters from a custom parameters object.
  
- Custom user info keys should *not* start with `x-extension-item`, as those will be used internally by this library.
+ @discussion third-party developers to create an object that conforms to `XExtensionItemCustomParameters`, and open a 
+ pull request to add it to the `XExtensionItem` repository. See `XExtensionItemTumblrParameters` for an example of this.
+ 
+ @param customParameters A custom parameters object.
+ */
+- (void)addCustomParameters:(id <XExtensionItemCustomParameters>)customParameters;
+
+/**
+ An optional dictionary of keys and values.
+ 
+ @discussion Please look at `addCustomParameters` and the `XExtensionItemCustomParameters` protocol before considering
+ populating this dictionary directly.
+ 
+ Individual applications can add advertise the custom parameter keys that they support, and extension developers can add 
+ values for those parameters to this dictionary, but a better solution is for third-party developers to create an object 
+ that conforms to `XExtensionItemCustomParameters`, and open a pull request to add it to the `XExtensionItem` 
+ repository. See `XExtensionItemTumblrParameters` for an example of this.
+ 
+ Custom user info keys should *not* start with `x-extension-item`, as those are used internally by this library. Custom 
+ user info keys are also at risk of colliding with keys found in the dictionary representations of custom parameters 
+ objects added via `addCustomParameters:`.
  */
 @property (nonatomic, copy) NSDictionary *userInfo;
 
+#pragma mark - Initialization
+
+/**
+ Initialize an item source with a URL.
+ 
+ @param URL (Required) URL to be shared.
+ 
+ @return New item source instance.
+ */
+- (instancetype)initWithURL:(NSURL *)URL;
+
+/**
+ Initialize an item source with a string.
+ 
+ @param string (Required) String to be shared.
+ 
+ @return New item source instance.
+ */
+- (instancetype)initWithString:(NSString *)string;
+
+/**
+ Initialize an item source with an image.
+ 
+ @param image (Required) Image to be shared.
+ 
+ @return New item source instance.
+ */
+- (instancetype)initWithImage:(UIImage *)image;
+
+/**
+ Initialize an item source with data.
+ 
+ @param data           (Required) Data to be shared.
+ @param typeIdentifier (Required) Type of data.
+ 
+ @return New item source instance.
+ */
+- (instancetype)initWithData:(NSData *)data typeIdentifier:(NSString *)typeIdentifier;
+
 /**
  Initialize a new instance with a placeholder item, whose type will be used by the activity controller to determine
- which activities and extensions are displayed, and an array of attachments that will actually be passed to the selected 
- activity/extension.
+ which activities and extensions are displayed.
  
  @param placeholderItem (Required) A placeholder item whose type will be used by the activity controller to determine
- which activities and extensions are displayed. System activities that do not accept `NSExtensionItem` input will 
- receive this placeholder instead.
- @param attachments     An array of media data associated with the extension item. These items must be of
- type `NSItemProvider` and will be passed to the selected activity/extension.
+ which activities and extensions are displayed.
+ @param typeIdentifier  (Optional) A uniform type identifier describing the type of content being shared.
+ @param itemBlock       (Optional) A block that can provide the item to be shared given the activity type.
  
  @return New item source instance.
  */
 - (instancetype)initWithPlaceholderItem:(id)placeholderItem
-                            attachments:(NSArray/*<NSItemProvider>*/ *)attachments NS_DESIGNATED_INITIALIZER;
+                         typeIdentifier:(NSString *)typeIdentifier
+                              itemBlock:(XExtensionItemProvidingBlock)itemBlock NS_DESIGNATED_INITIALIZER;
+
+@end
 
 /**
- Initialize a new instance with placeholder data and a type identifier which will be used by the activity controller to 
- determine which activities and extensions are displayed, and an array of attachments that will actually be passed to 
- the selected activity/extension.
+ A set of convenience initializers that allow items to be provided lazily rather than upfront.
+ */
+@interface XExtensionItemSource (ProviderBlockInitializers)
+
+/**
+ A block that can lazily provide a URL.
+
+ @param activityType The selected activity type.
+
+ @return URL to be provided to the activity.
+ */
+typedef NSURL *(^XExtensionItemURLProvidingBlock)(NSString *activityType);
+
+/**
+ A block that can lazily provide a string.
+
+ @param activityType The selected activity type.
+
+ @return String to be provided to the activity.
+ */
+typedef NSString *(^XExtensionItemStringProvidingBlock)(NSString *activityType);
+
+/**
+ A block that can lazily provide an image.
+
+ @param activityType The selected activity type.
+
+ @return Image to be provided to the activity.
+ */
+typedef UIImage *(^XExtensionItemImageProvidingBlock)(NSString *activityType);
+
+/**
+ A block that can lazily provide data of a predetermined type.
+
+ @param activityType The selected activity type.
+
+ @return Data to be provided to the activity.
+ */
+typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
+
+/**
+ Initialize an item source with a block that can provide a URL.
  
- @param placeholderData    (Required) Placeholder data. System activities that do not accept `NSExtensionItem` input
- will receive this placeholder instead.
- @param dataTypeIdentifier (Required) The UTI for the placeholder data.
- @param attachments        An array of media data associated with the extension item. These items must be of
+ @param URLProvider (Required) URL-providing block.
  
  @return New item source instance.
  */
-- (instancetype)initWithPlaceholderData:(id)placeholderData
-                     dataTypeIdentifier:(NSString *)dataTypeIdentifier
-                            attachments:(NSArray/*<NSItemProvider>*/ *)attachments;
+- (instancetype)initWithURLProvider:(XExtensionItemURLProvidingBlock)URLProvider;
 
 /**
- Add entries from a dictionary-serializable custom object to this paramter object’s `userInfo` dictionary.
+ Initialize an item source with a block that can provide a file URL.
  
- @param dictionarySerializable Object whose entries should be added to this paramter object’s `userInfo` dictionary.
+ @param fileURL        (Required) File URL-providing block.
+ @param typeIdentifier (Required) Type identifier for the data that the file consists of.
+ 
+ @return New item source instance.
  */
-- (void)addEntriesToUserInfo:(id <XExtensionItemDictionarySerializing>)dictionarySerializable;
+- (instancetype)initWithFileURLProvider:(XExtensionItemURLProvidingBlock)fileURL typeIdentifier:(NSString *)typeIdentifier;
 
 /**
- *  Register an item to be provided if a specific activity is selected e.g. `UIActivityTypePostToFacebook`. 
- *  
- *  @discussion By default, this class provides an `NSExtensionItem` that includes all of the attachments passed to this 
- *  instance’s initializer, plus any of this class’s other properties which have been populated. This method should be 
- *  used if you’d like to provide an alternative item on a per-activity basis. 
- *  
- *  A good example usage would be to provide a special HTML string in the event that `UIActivityTypeMail` is selected.
- *
- *  @param itemBlock    (Required) A block that will be called if the activity with the specified type is selected. It
- *  should return the item to be provided to this activity.
- *  @param activityType (Required) The activity type that the subject should be provided to.
+ Initialize an item source with a block that can provide a string.
+ 
+ @param stringProvider (Required) String-providing block.
+ 
+ @return New item source instance.
  */
-- (void)registerItemProvidingBlock:(XExtensionItemProvidingBlock)itemBlock forActivityType:(NSString *)activityType;
+- (instancetype)initWithStringProvider:(XExtensionItemStringProvidingBlock)stringProvider;
 
 /**
- *  Registers a subject for activities that support separate subject and data fields.
- *
- *  @param subject      (Required) A string to use as the contents of the subject field.
- *  @param activityType (Required) The activity type that the subject should be provided to.
+ Initialize an item source with a block that can provide an image.
+ 
+ @param imageProvider (Required) Image-providing block.
+ 
+ @return New item source instance.
  */
-- (void)registerSubject:(NSString *)subject forActivityType:(NSString *)activityType;
+- (instancetype)initWithImageProvider:(XExtensionItemImageProvidingBlock)imageProvider;
 
 /**
- *  Registers a thumbnail preview image for activities that support a preview image.
- *
- *  @param thumbnailBlock    (Required) A block that will be called with the suggested size for the thumbnail image, in
- *  points. It should return an image using the appropriate scale for the screen. Images provided at the suggested size 
- *  will result in the best experience.
- *  @param activityType      (Required) The activity type that the subject should be provided to.
+ Initialize an item source with a block that can provide data.
+ 
+ @param dataProvider   (Required) Data-providing block.
+ @param typeIdentifier (Required) Type identifier for the data
+ 
+ @return New item source instance.
  */
-- (void)registerThumbnailProvidingBlock:(XExtensionItemThumbnailProvidingBlock)thumbnailBlock forActivityType:(NSString *)activityType;
+- (instancetype)initWithDataProvider:(XExtensionItemDataProvidingBlock)dataProvider typeIdentifier:(NSString *)typeIdentifier;
 
 @end
 
@@ -198,37 +332,37 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize);
 @interface XExtensionItem : NSObject
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSArray/*<NSItemProvider>*/ *attachments;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
-@property (nonatomic, readonly) NSAttributedString *attributedTitle;
+@property (nonatomic, readonly) NSString *title;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSAttributedString *attributedContentText;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSArray/*<NSString>*/ *tags;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSURL *sourceURL;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) XExtensionItemReferrer *referrer;
 
 /**
- *  @see `XExtensionItemSource`
+ @see `XExtensionItemSource`
  */
 @property (nonatomic, readonly) NSDictionary *userInfo;
 

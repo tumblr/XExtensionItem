@@ -19,7 +19,7 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		9384B3E21AF15E2700960EF7 /* CustomParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3DF1AF15E2700960EF7 /* CustomParameters.m */; };
-		9384B3E31AF15E2700960EF7 /* XExtensionItemParametersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3E01AF15E2700960EF7 /* XExtensionItemParametersTests.m */; };
+		9384B3E31AF15E2700960EF7 /* XExtensionItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3E01AF15E2700960EF7 /* XExtensionItemTests.m */; };
 		9384B3E41AF15E2700960EF7 /* XExtensionItemTypeSafeDictionaryValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3E11AF15E2700960EF7 /* XExtensionItemTypeSafeDictionaryValuesTests.m */; };
 		9384B3E61AF15E4100960EF7 /* XExtensionItem.podspec.json in Resources */ = {isa = PBXBuildFile; fileRef = 9384B3E51AF15E4100960EF7 /* XExtensionItem.podspec.json */; };
 		9384B3EE1AF15EFE00960EF7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3E81AF15EFE00960EF7 /* AppDelegate.m */; };
@@ -28,6 +28,7 @@
 		9384B3FE1AF1614100960EF7 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9384B3FD1AF1614100960EF7 /* ShareViewController.m */; };
 		9384B4001AF1614100960EF7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9384B3FF1AF1614100960EF7 /* MainInterface.storyboard */; };
 		9384B4031AF1614100960EF7 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9384B3F81AF1614100960EF7 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		93FDC15D1B03FBF100BBD70A /* mountain.png in Resources */ = {isa = PBXBuildFile; fileRef = 93FDC15C1B03FBF100BBD70A /* mountain.png */; };
 		984F574C2FA43194C8C80DD4 /* libPods-XExtensionItem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 522AC9D97FEA882750D86BD6 /* libPods-XExtensionItem.a */; };
 		9DAE8AE3708DB46E11453D97 /* libPods-ShareExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A40DEC0AFFF91D68B1774179 /* libPods-ShareExtension.a */; };
 /* End PBXBuildFile section */
@@ -85,7 +86,7 @@
 		919595DC6830CD020E7182D9 /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9384B3DE1AF15E2700960EF7 /* CustomParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomParameters.h; sourceTree = "<group>"; };
 		9384B3DF1AF15E2700960EF7 /* CustomParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomParameters.m; sourceTree = "<group>"; };
-		9384B3E01AF15E2700960EF7 /* XExtensionItemParametersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemParametersTests.m; sourceTree = "<group>"; };
+		9384B3E01AF15E2700960EF7 /* XExtensionItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemTests.m; sourceTree = "<group>"; };
 		9384B3E11AF15E2700960EF7 /* XExtensionItemTypeSafeDictionaryValuesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemTypeSafeDictionaryValuesTests.m; sourceTree = "<group>"; };
 		9384B3E51AF15E4100960EF7 /* XExtensionItem.podspec.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = XExtensionItem.podspec.json; path = ../XExtensionItem.podspec.json; sourceTree = "<group>"; };
 		9384B3E71AF15EFE00960EF7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -98,6 +99,8 @@
 		9384B3FC1AF1614100960EF7 /* ShareViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		9384B3FD1AF1614100960EF7 /* ShareViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		9384B3FF1AF1614100960EF7 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		9388E66F1B03966D00775CC9 /* XExtensionItemTestHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XExtensionItemTestHelpers.h; sourceTree = "<group>"; };
+		93FDC15C1B03FBF100BBD70A /* mountain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mountain.png; sourceTree = "<group>"; };
 		9A6E84F017B092F5A19805F8 /* Pods-XExtensionItem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XExtensionItem.release.xcconfig"; path = "Pods/Target Support Files/Pods-XExtensionItem/Pods-XExtensionItem.release.xcconfig"; sourceTree = "<group>"; };
 		A40DEC0AFFF91D68B1774179 /* libPods-ShareExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ShareExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF8BB31896275DB3F779A30B /* Pods-ShareExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExtension/Pods-ShareExtension.release.xcconfig"; sourceTree = "<group>"; };
@@ -201,7 +204,8 @@
 			children = (
 				9384B3DE1AF15E2700960EF7 /* CustomParameters.h */,
 				9384B3DF1AF15E2700960EF7 /* CustomParameters.m */,
-				9384B3E01AF15E2700960EF7 /* XExtensionItemParametersTests.m */,
+				9384B3E01AF15E2700960EF7 /* XExtensionItemTests.m */,
+				9388E66F1B03966D00775CC9 /* XExtensionItemTestHelpers.h */,
 				9384B3E11AF15E2700960EF7 /* XExtensionItemTypeSafeDictionaryValuesTests.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
 			);
@@ -211,6 +215,7 @@
 		6003F5B6195388D20070C39A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				93FDC15C1B03FBF100BBD70A /* mountain.png */,
 				6003F5B7195388D20070C39A /* Tests-Info.plist */,
 				6003F5B8195388D20070C39A /* InfoPlist.strings */,
 				606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */,
@@ -391,6 +396,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93FDC15D1B03FBF100BBD70A /* mountain.png in Resources */,
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
 				9384B3E61AF15E4100960EF7 /* XExtensionItem.podspec.json in Resources */,
 			);
@@ -515,7 +521,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9384B3E21AF15E2700960EF7 /* CustomParameters.m in Sources */,
-				9384B3E31AF15E2700960EF7 /* XExtensionItemParametersTests.m in Sources */,
+				9384B3E31AF15E2700960EF7 /* XExtensionItemTests.m in Sources */,
 				9384B3E41AF15E2700960EF7 /* XExtensionItemTypeSafeDictionaryValuesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -718,7 +724,6 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -736,7 +741,6 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

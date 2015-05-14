@@ -17,12 +17,10 @@
 #pragma mark - Actions
 
 - (void)action {
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:[NSURL URLWithString:@"http://apple.com/ipad-air-2/"]
-                                                                                 attachments:@[[[NSItemProvider alloc] initWithItem:[NSURL URLWithString:@"https://www.apple.com/ipad-air-2/"]
-                                                                                                                     typeIdentifier:(__bridge NSString *)kUTTypeURL],
-                                                                                               [[NSItemProvider alloc] initWithItem:@"String of text"
-                                                                                                                     typeIdentifier:(__bridge NSString *)kUTTypeText]]];
-    itemSource.attributedTitle = [[NSAttributedString alloc] initWithString:@"Apple"];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:[NSURL URLWithString:@"http://apple.com/ipad-air-2/"]];
+    itemSource.additionalAttachments = @[@"String of text"];
+    
+    itemSource.title = @"Apple";
     itemSource.attributedContentText = [[NSAttributedString alloc] initWithString:@"iPad Air 2. Change is in the air"];
     itemSource.tags = @[@"apple", @"ipad", @"ios"];
     itemSource.sourceURL = [NSURL URLWithString:@"http://apple.com"];
@@ -32,9 +30,9 @@
                                                                              webURL:[NSURL URLWithString:@"http://myservice.com/a94ks0583k"]
                                                                           iOSAppURL:[NSURL URLWithString:@"myservice://content/a94ks0583k"]
                                                                       androidAppURL:[NSURL URLWithString:@"myservice://content/a94ks0583k"]];
-    [itemSource addEntriesToUserInfo:[[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"want-this-for-xmas"
-                                                                                          requestedPostType:XExtensionItemTumblrPostTypeLink
-                                                                                                consumerKey:@"YOUR_CONSUMER_KEY_HERE"]];
+    [itemSource addCustomParameters:[[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"want-this-for-xmas"
+                                                                                         requestedPostType:XExtensionItemTumblrPostTypeLink
+                                                                                               consumerKey:@"YOUR_CONSUMER_KEY_HERE"]];
     
     [self presentViewController:[[UIActivityViewController alloc] initWithActivityItems:@[itemSource] applicationActivities:nil]
                        animated:YES

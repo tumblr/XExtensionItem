@@ -1,9 +1,9 @@
-#import "XExtensionItemDictionarySerializing.h"
+#import "XExtensionItemCustomParameters.h"
 
 /**
  A model object containing information about the application where the content is being passed from.
  */
-@interface XExtensionItemReferrer : NSObject <XExtensionItemDictionarySerializing>
+@interface XExtensionItemReferrer : NSObject <XExtensionItemCustomParameters>
 
 /**
  Name of the application that is passing data into the share extension.
