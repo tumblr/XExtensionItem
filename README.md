@@ -185,6 +185,8 @@ Please see [CONTRIBUTING.md](https://github.com/tumblr/XExtensionItem/blob/maste
 
 [Bryan Irace](mailto:bryan@tumblr.com)
 
+### Thank you
+
 Many thanks to [Ari Weinstein](https://github.com/arix) for his contributions towards shaping XExtensionItem’s API, as well as [Matt Bischoff](https://github.com/mattbischoff), [Oisín Prendiville](https://github.com/prendio2), and [Padraig Kennedy](https://github.com/padraigk) for their invaluable feedback.
 
 ## License
