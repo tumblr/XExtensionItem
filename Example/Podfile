@@ -5,3 +5,7 @@ use_frameworks!
 target 'App', :exclusive => true do
   pod "XExtensionItem", :path => "../"
 end
+
+target 'Extension', :exclusive => true do
+  pod "XExtensionItem", :path => "../"
+end

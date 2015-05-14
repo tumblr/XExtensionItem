@@ -247,11 +247,27 @@ static NSString * const ActivityTypeCatchAll = @"*";
 }
 
 - (NSAttributedString *)attributedContentTextForActivityType:(NSString *)activityType {
-    return self.attributedContentTextByActivityType[activityType ?: ActivityTypeCatchAll];
+    if (activityType) {
+        NSAttributedString *contentTextForActivity = self.attributedContentTextByActivityType[activityType];
+        
+        if (contentTextForActivity) {
+            return contentTextForActivity;
+        }
+    }
+    
+    return self.attributedContentTextByActivityType[ActivityTypeCatchAll];
 }
 
 - (NSArray *)additionalAttachmentsForActivityType:(NSString *)activityType {
-    return self.additionalAttachmentsByActivityType[activityType ?: ActivityTypeCatchAll];
+    if (activityType) {
+        NSArray *attachmentsForActivity = self.additionalAttachmentsByActivityType[activityType];
+        
+        if (attachmentsForActivity) {
+            return attachmentsForActivity;
+        }
+    }
+    
+    return self.additionalAttachmentsByActivityType[ActivityTypeCatchAll];
 }
 
 static NSString *typeIdentifierForActivityItem(id item) {

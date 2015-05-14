@@ -4,7 +4,7 @@ framework module XExtensionItem {
   export *
   module * { export * }
 
-  exclude header "XExtensionItem/Custom/Tumblr/XExtensionItem+Tumblr.h"
+  exclude header "XExtensionItem/Custom/**/*.h"
 
   module Tumblr {
     header "XExtensionItem/Custom/Tumblr/XExtensionItem+Tumblr.h"
