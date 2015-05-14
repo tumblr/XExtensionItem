@@ -136,8 +136,9 @@ itemSource.additionalAttachments = @[string, image];
 itemSource.tags = @[@"lol", @"haha"];
 
 // Provided by Tumblr’s developers. If you’re an extension developer, you can provide your own!
-XExtensionItemTumblrParameters *tumblrParameters = [[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"best-post-ever"
-                                                                                                              consumerKey:nil];
+XExtensionItemTumblrParameters *tumblrParameters = 
+    [[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"best-post-ever"
+                                                               consumerKey:nil];
 
 [itemSource addCustomParameters:tumblrParameters];
 ```
