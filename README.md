@@ -147,9 +147,9 @@ XExtensionItemTumblrParameters *tumblrParameters =
 [itemSource addCustomParameters:tumblrParameters];
 ```
 
-If you’re an extension developer and would like to add custom parameters for your extension to XExtensionItem, please see [this guide](https://github.com/tumblr/XExtensionItem/wiki/Guide-to-adding-custom-parameters) containing more information on how to do so.
-
 By default, all custom parameter classes will be included when you pull XExtensionItem into your application. If you want more granular control over what is included, we’ve added support for this in the form of subspecs (CocoaPods) and submodules (Carthage).
+
+If you’re an extension developer and would like to add custom parameters for your extension to XExtensionItem, please see the [Custom Parameters Guide](https://github.com/tumblr/XExtensionItem/wiki/Custom-parameters-guide).
 
 Have a look at the [apps that use XExtensionItem](#apps-that-use-xextensionitem) section for a list of all supported custom parameters.
 
