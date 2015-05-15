@@ -102,7 +102,7 @@ An included `XExtensionItemSource` category provides additional convenience iden
 
 ```objc
 XExtensionItemSource *itemSource = 
-     [[XExtensionItemSource alloc] initWithImageProvider:^(NSString *activityType) {
+     [[XExtensionItemSource alloc] initWithImageProvider:^UIImage *(NSString *activityType) {
         if (activityType == UIActivityTypePostToTwitter) {
             return twitterImage;
         }
