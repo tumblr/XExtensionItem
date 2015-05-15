@@ -1,145 +1,211 @@
-![XExtensionItem](https://github.com/tumblr/XExtensionItem/blob/master/Assets/logo.png)
+<p align="center"><img src="https://github.com/tumblr/XExtensionItem/blob/master/Assets/logo.png"></p>
 
-# XExtensionItem
+<h1 align="center">XExtensionItem</p>
 
-[![Build Status](https://img.shields.io/travis/tumblr/XExtensionItem.svg?style=flat)](https://travis-ci.org/tumblr/XExtensionItem)
-[![Version](http://img.shields.io/cocoapods/v/XExtensionItem.svg?style=flat)](http://cocoapods.org/?q=XExtensionItem)
-[![Platform](http://img.shields.io/cocoapods/p/XExtensionItem.svg?style=flat)]()
-[![License](http://img.shields.io/cocoapods/l/XExtensionItem.svg?style=flat)](https://github.com/tumblr/XExtensionItem/blob/master/LICENSE)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+<p align="center">
+<a href="https://travis-ci.org/tumblr/XExtensionItem"><img src="https://img.shields.io/travis/tumblr/XExtensionItem.svg?style=flat" alt="Build Status"></a>
+<a href="http://cocoapods.org/?q=XExtensionItem"><img src="http://img.shields.io/cocoapods/v/XExtensionItem.svg?style=flat" alt="Version"></a>
+<img src="http://img.shields.io/cocoapods/p/XExtensionItem.svg?style=flat" alt="Platform">
+<a href="https://github.com/tumblr/XExtensionItem/blob/master/LICENSE"><img src="http://img.shields.io/cocoapods/l/XExtensionItem.svg?style=flat" alt="License"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatibile"></a>
+</p>
 
 XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a [`UIActivityViewController`](https://developer.apple.com/library/ios/documentation/Uikit/reference/UIActivityViewController_Class/index.html).
 
-We’d love your [thoughts](https://github.com/tumblr/XExtensionItem/issues) on how XExtensionItem could better allow apps to provide generically useful metadata parameters to share extensions. This library’s value comes from how useful it is for *all* apps and extensions. Having been developed by a single contributor thus far, your feedback will be hugely beneficial to me.
+We’d love your [thoughts](https://github.com/tumblr/XExtensionItem/issues) on how XExtensionItem could be made more useful. This library’s value comes from how useful it is for apps and extensions of all shapes and sizes.
 
-:warning::warning::warning: ***XExtensionItem is very much a rough work in progress. We’d love to incorporate feedback from app and extension developers alike, but I’d warn against shipping any code that depends on it until 1.0 is released, signifying that the API has stabilized.*** :warning::warning::warning:
-
-* [Why?](#why)
-* [Getting started](#getting-started)
-* [Usage](#usage)
-    * [Generic parameters](#generic-parameters)
-    * [Custom parameters](#custom-parameters)
-        * [Custom parameter classes](#custom-parameter-classes)
-    * [Examples](#examples)
-        * [Applications](#applications)
-        * [Extensions](#extensions)
-* [Apps that use XExtensionItem](#apps-that-use-xextensionitem)
-* [Contributing](#contributing)
-* [Contact](#contact)
-* [License](#license)
+- [Why?](#why)
+- [Getting started](#getting-started)
+    - [CocoaPods](#cocoapods)
+    - [Carthage](#carthage)
+- [Usage](#usage)
+    - [Applications](#applications)
+        - [Advanced attachments](#advanced-attachments)
+        - [Generic parameters](#generic-parameters)
+        - [Custom parameters](#custom-parameters)
+    - [Extensions](#extensions)
+- [Apps that use XExtensionItem](#apps-that-use-xextensionitem)
+    - [Apps](#apps)
+    - [Extensions](#extensions)
+- [Contributing](#contributing)
+- [Contact](#contact)
+    - [Thank you](#thank-you)
+- [License](#license)
 
 ## Why?
 
-Currently, share extensions have an [unfortunate limitation](https://github.com/tumblr/ios-extension-issues/issues/5) which causes only applications that explicitly accept *all* provided activity item types to show up in a `UIActivityViewController`. This makes it difficult to share multiple pieces of data without causing extensions that aren’t as flexible with their allowed inputs to not show up at all. Consider the following example:
+Currently, iOS has an [unfortunate limitation](https://github.com/tumblr/ios-extension-issues/issues/5) which causes only share extensions that explicitly accept *all* provided activity item types to show up in a `UIActivityViewController`. This makes it difficult for an application to share multiple pieces of data without causing extensions that aren’t as flexible with their allowed inputs to not show up at all. Consider the following example:
 
-* A developer wants their app’s users to be able to share a URL as well as some text to go along with it (perhaps the title of the page, or an excerpt from it). An extension for a read later service like Instapaper might only save the URL, but one for a social network like Tumblr or Twitter could incorporate both.
+* A developer wants their app’s users to be able to share a URL as well as some text to go along with it (perhaps the title of the page, or an excerpt from it). An extension for a read later service (like Instapaper or Pocket) might only save the URL, but one for a social network (like Tumblr or Twitter) could incorporate both.
 * The application displays a `UIActivityViewController` and puts both an `NSURL` and `NSString` in its activity items array.
-* Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr would be displayed in the activity controller but Instapaper would not.
+* Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr/Twitter would be displayed in the activity controller but Instapaper/Pocket would not.
 
-Rather than populating `activityItems` with multiple objects and losing support for inflexible extensions, its best to use a single `NSExtensionItem` with multiple attachments and metadata added to it. This can be difficult to get exactly right, however. XExtensionItem makes this easy by exposing an API that provides type-safe access to generic metadata parameters that applications and extensions can populate without needing to worry about the implementation details of the app or extension on the other side of the handshake.
+Rather than passing in multiple activity items and losing support for inflexible extensions, its best to use a single `NSExtensionItem` that encapsulates multiple attachments and additional metadata as well. This can be difficult to get exactly right, however. XExtensionItem makes this easy by providing a layer of abstraction on these complicated APIs, dealing with all of their intricacies so you don’t have to.
+
+Apps should be able to pass rich, structured attachments and metadata to extensions without worrying about the implementation details on the other end of the handshake. XExtensionItem facilitates exactly this.
 
 ## Getting started
 
-XExtensionItem is available via [CocoaPods](http://cocoapods.org).
+XExtensionItem is available through your Objective-C package manager of choice:
+
+### CocoaPods
+
+Simply add the following to your [Podfile](https://guides.cocoapods.org/syntax/podfile.html):
 
 ```
 pod 'XExtensionItem'
 ```
 
-Documentation can also be found at [CocoaDocs](http://cocoadocs.org/docsets/XExtensionItem).
+### Carthage
+
+Simply add the following to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
+
+```
+github "tumblr/XExtensionItem"
+```
 
 ## Usage
 
-Simply populate an `XExtensionItemSource` with a placeholder item and an array of attachments. The placeholder’s type will determine which system activities and share extensions are available for the user to choose from, while the whole array of attachments will be passed to whichever one the user ends up selecting.
+This repository includes a [sample project](Example) which should help explain how the library is used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](Example/App/ViewController.m#L20) get [passed through to the extension](Example/Extension/ShareViewController.m#L12).
 
-### Generic parameters
+### Applications
 
-XExtensionItem currently supports the following generic parameters (more information on each parameter can be found in the `XExtensionItemParameters` [header documentation](XExtensionItem/XExtensionItemParameters.h)):
+You may currently be initializing your `UIActivityViewController` instances like this:
 
+```objc
+[[UIActivityViewController alloc] initWithActivityItems:@[URL, string, image] 
+                                  applicationActivities:nil];
+```
+
+As outlined above, this is problematic because your users will only be presented with extensions that explicitly accept URLs _and_ strings _and_ images. XExtensionItem provides a better way.
+
+```objc
+XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:URL];
+itemSource.additionalAttachments = @[string, image];
+
+[[UIActivityViewController alloc] initWithActivityItems:@[itemSource] 
+                                  applicationActivities:nil];
+```
+
+`XExtensionItemSource` needs to be initialized with a main attachment (an `NSURL` in the above example). The main attachment’s type will determine which system activities and extensions are presented to the user. In this case, all extensions and system activities that at least accept URLs will be displayed, but **all three attachments will be passed to the one that the user selects**. 
+
+In addition to a URL, an `XExtensionItemSource` instance can also be initialized with:
+
+* An `NSString`
+* A `UIImage`
+* `NSData` along with a type identifier
+* A placeholder item and a block to lazily provide the actual item (once an activity has been chosen)
+
+#### Advanced attachments
+
+An included `XExtensionItemSource` category provides additional convenience identifiers for lazily supplying URLs, strings, images, or data:
+
+```objc
+XExtensionItemSource *itemSource = 
+     [[XExtensionItemSource alloc] initWithImageProvider:^(NSString *activityType) {
+        if (activityType == UIActivityTypePostToTwitter) {
+            return twitterImage;
+        }
+        else {
+            return defaultImage;
+        }
+     }];
+```
+
+Additional attachments can be provided for all activity types:
+
+```objc
+itemSource.additionalAttachments = @[string, image];
+```
+
+As well as on a per-activity type basis:
+
+```objc
+[itemSource setAdditionalAttachments:@[tweetLengthString, image] 
+                     forActivityType:UIActivityTypePostToTwitter];
+```
+
+In addition to `NSURL`, `NSString`, and `UIImage`, the additional attachments array can also include `NSItemProvider` instances, which gives applications some more flexibility around lazy item loading. See the [`NSItemProvider` Class Reference](https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSItemProvider_Class/index.html) for more details.
+
+#### Generic parameters
+
+In addition to multiple attachments, XExtensionItem also allows applications to pass generic metadata parameters to extensions.
+
+The following parameters are currently supported (more information on each can be found in the `XExtensionItemSource` [header documentation](XExtensionItem/XExtensionItem.h)):
+
+* A title
+* Attributed content text (can also be specific on a per-activity type basis)
+* A thumbnail image
 * Tags
-* Source URL
-* Source application
-    * Name
-    * App store ID
+* A source URL
+* Referrer information
+    * App Name
+    * App store IDs (iTunes and Google Play)
+    * URLs where the content being shared can be linked to on the web, or natively deep-linked on iOS and Android
 
-If you have an idea for a parameter that would be broadly useful (e.g. not specific to a specific share extension or service), please create an [issue](https://github.com/tumblr/XExtensionItem/issues) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
+Some built-in activities (e.g. `UIActivityTypePostToTwitter`) will consume the attributed content text field (if populated), while others (e.g. “Copy” or “Add to Reading List”) only know how to accept a single attachment. XExtensionItem is smart enough to handle this for you.
 
-### Custom parameters
+If you have an idea for a parameter that would be broadly useful (i.e. not specific to any particular share extension or service), please [create an issue](https://github.com/tumblr/XExtensionItem/issues/new) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
 
-Extension developers can also publicize support for custom parameters that apps can pass in an extension item’s “user info” dictionary. For example, the Tumblr extension might allow an app to pass in a custom URL using a user info dictionary that looks as follows:
+#### Custom parameters
 
-```objc
-@{ @"tumblr-custom-url": @"/post/123/best-post-ever" }
-```
+Generic parameters are great, as they allow applications and share extensions to interoperate without knowing the specifics about how the other is implemented. But XExtensionItem also makes it trivial for extension developers to add support for custom parameters as well.
 
-Custom parameter keys *should* be name-spaced and *should not* start with `x-extension-item-`, as parameters with this prefix are reserved for use by this library internally.
-
-Have a look at the [apps that use XExtensionItem](#apps-that-use-xextensionitem) section for a list of the supported custom parameters that we know about.
-
-#### Custom parameter classes
-
-Extension developers can provide concrete implementations of classes that conform to `XExtensionItemDictionarySerializing` to make it even easier for application developers to add support for their custom parameters.
+Extension developers can create a class that conforms to the `XExtensionItemCustomParameters`, which application developers will then be able to populate. Here’s a Tumblr-specific example:
 
 ```objc
-// Provided by Tumblr. Allows app developers to avoid hardcoding key names
-TumblrExtensionItemParameters *tumblrParameters = [[TumblrExtensionItemParameters alloc] initWithCustomURLSlug:@"new-years-resolutions"];
+XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithURL:URL];
+itemSource.additionalAttachments = @[string, image];
+itemSource.tags = @[@"lol", @"haha"];
 
-XExtensionItemSource *itemSource = …;
-[itemSource addEntriesToUserInfo:tumblrParameters];
+// Provided by Tumblr’s developers. If you’re an extension developer, you can provide your own!
+XExtensionItemTumblrParameters *tumblrParameters = 
+    [[XExtensionItemTumblrParameters alloc] initWithCustomURLPathComponent:@"best-post-ever"
+                                                               consumerKey:nil];
+
+[itemSource addCustomParameters:tumblrParameters];
 ```
 
-We’ll likely include custom parameter classes in this repository in the future, made available in the form of CocoaPods [subspecs](http://guides.cocoapods.org/syntax/podspec.html#group_subspecs).
+By default, all custom parameter classes will be included when you pull XExtensionItem into your application. If you want more granular control over what is included, we’ve added support for this in the form of subspecs (CocoaPods) and submodules (Carthage).
 
-### Examples
+If you’re an extension developer and would like to add custom parameters for your extension to XExtensionItem, please see the [Custom Parameters Guide](https://github.com/tumblr/XExtensionItem/wiki/Custom-parameters-guide).
 
-This repository includes a [sample project](https://github.com/tumblr/XExtensionItem/tree/master/Example) which may help explain how the library is to be used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemExample/ViewController.m#L23) get [passed through to the extension](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemShareExtensionExample/ShareViewController.m#L10).
+Have a look at the [Apps that use XExtensionItem](#apps-that-use-xextensionitem) section for additional documentation on how to integrate with specific extensions.
 
-Here’s a [hypothetical example](https://github.com/tumblr/XExtensionItem/wiki/Hypothetical-Tumblr-XExtensionItem-integration-documentation) of how XExtensionItem’s parameters could map to values that the Tumblr iOS share extension would consume.
+### Extensions
 
-#### Applications
-
-Application developers can use an `XExtensionItemParameters` object when presenting a `UIActivityViewController`:
-
-```objc
-/*
- At the very least, we want to share a URL outwards. We’ll also send a photo and some other metadata in case the 
-receiving app knows to look for those, but this URL will be what activities and extensions receive by default.
-*/
- 
-NSURL *URL = [NSURL URLWithString:@"http://apple.com/featured"];
-UIImage *image = [UIImage imageNamed:@"tumblr-featured-on-apple-homepage.png"];
-
-XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholder:URL
-                                                                         attachments:@[
-   [[NSItemProvider alloc] initWithItem:URL typeIdentifier:(__bridge NSString *)kUTTypeURL],
-   [[NSItemProvider alloc] initWithItem:image typeIdentifier:(__bridge NSString *)kUTTypeImage],
-]];
-
-itemSource.attributedTitle = [[NSAttributedString alloc] initWithString:@"Tumblr featured on Apple.com!"];
-itemSource.tags = @[@"tumblr", @"featured", @"so cool"];
-
-UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[itemSource]
-                                                                         applicationActivities:nil];
-```
-
-#### Extensions
-
-Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItemParameters` 
+Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItem` 
 objects:
 
 ```objc
  for (NSExtensionItem *inputItem in self.extensionContext.inputItems) {
     XExtensionItem *extensionItem = [[XExtensionItem alloc] initWithExtensionItem:inputItem];
-    NSAttributedString *title = extensionItem.attributedTitle;
+
+    NSString *title = extensionItem.title;
     NSAttributedString *contentText = extensionItem.attributedContentText;
+
     NSArray *tags = extensionItem.tags;
-    NSString *customTumblrURL = extensionItem.userInfo[@"tumblr-custom-url"];
+
+    NSString *tumblrCustomURLPathComponent = extensionItem.tumblrParameters.customURLPathComponent;
  }
 ```
 
 ## Apps that use XExtensionItem
 
-Please create a [pull request](https://github.com/tumblr/XExtensionItem/pulls) or [let us know](#contact) if you're using XExtensionItem in either your application or your extension.
+If you're using XExtensionItem in either your application or extension, create a [pull request](https://github.com/tumblr/XExtensionItem/pulls) to add yourself here.
+
+### Apps
+
+The following apps use XExtensionItem to pass flexible data to share extensions:
+
+* [Tumblr](http://appstore.com/tumblr)
+* [Unread](http://supertop.co/download/unread)
+
+### Extensions
+
+The following share extensions use XExtensionItem to parse incoming data:
+
+* [Tumblr](http://appstore.com/tumblr) ([integration guide](https://github.com/tumblr/XExtensionItem/wiki/Integration-guide:-Tumblr))
 
 ## Contributing
 
@@ -148,6 +214,10 @@ Please see [CONTRIBUTING.md](https://github.com/tumblr/XExtensionItem/blob/maste
 ## Contact
 
 [Bryan Irace](mailto:bryan@tumblr.com)
+
+### Thank you
+
+Many thanks to [Ari Weinstein](https://github.com/arix) for his contributions towards shaping XExtensionItem’s API, as well as [Matt Bischoff](https://github.com/mattbischoff), [Oisín Prendiville](https://github.com/prendio2), and [Padraig Kennedy](https://github.com/padraigk) for their invaluable feedback.
 
 ## License
 
