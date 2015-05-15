@@ -6,11 +6,9 @@ framework module XExtensionItem {
 
   header "XExtensionItemTypeSafeDictionaryValues.h"
 
-  exclude header "XExtensionItem+Tumblr.h"
   exclude header "XExtensionItemTumblrParameters.h"
 
   explicit module Tumblr {
-    header "XExtensionItem+Tumblr.h"
     header "XExtensionItemTumblrParameters.h"
   }
 }

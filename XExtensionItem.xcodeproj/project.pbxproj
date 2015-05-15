@@ -18,8 +18,6 @@
 		93E53C201B0406C200A74760 /* XExtensionItemTypeSafeDictionaryValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E53C1A1B0406C200A74760 /* XExtensionItemTypeSafeDictionaryValues.m */; };
 		93E53C2F1B04074200A74760 /* CustomParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E53C261B04071600A74760 /* CustomParameters.m */; };
 		93E53C301B04074B00A74760 /* XExtensionItemTypeSafeDictionaryValuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E53C291B04071600A74760 /* XExtensionItemTypeSafeDictionaryValuesTests.m */; };
-		93E53C371B04079A00A74760 /* XExtensionItem+Tumblr.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E53C331B04079A00A74760 /* XExtensionItem+Tumblr.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93E53C381B04079A00A74760 /* XExtensionItem+Tumblr.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E53C341B04079A00A74760 /* XExtensionItem+Tumblr.m */; };
 		93E53C391B04079A00A74760 /* XExtensionItemTumblrParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E53C351B04079A00A74760 /* XExtensionItemTumblrParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93E53C3A1B04079A00A74760 /* XExtensionItemTumblrParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E53C361B04079A00A74760 /* XExtensionItemTumblrParameters.m */; };
 		93E53C6F1B04E82A00A74760 /* mountain.png in Resources */ = {isa = PBXBuildFile; fileRef = 93E53C271B04071600A74760 /* mountain.png */; };
@@ -53,8 +51,6 @@
 		93E53C271B04071600A74760 /* mountain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mountain.png; sourceTree = "<group>"; };
 		93E53C281B04071600A74760 /* XExtensionItemTestHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XExtensionItemTestHelpers.h; sourceTree = "<group>"; };
 		93E53C291B04071600A74760 /* XExtensionItemTypeSafeDictionaryValuesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemTypeSafeDictionaryValuesTests.m; sourceTree = "<group>"; };
-		93E53C331B04079A00A74760 /* XExtensionItem+Tumblr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XExtensionItem+Tumblr.h"; sourceTree = "<group>"; };
-		93E53C341B04079A00A74760 /* XExtensionItem+Tumblr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XExtensionItem+Tumblr.m"; sourceTree = "<group>"; };
 		93E53C351B04079A00A74760 /* XExtensionItemTumblrParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XExtensionItemTumblrParameters.h; sourceTree = "<group>"; };
 		93E53C361B04079A00A74760 /* XExtensionItemTumblrParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XExtensionItemTumblrParameters.m; sourceTree = "<group>"; };
 		93E53C3B1B04E14300A74760 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -155,8 +151,6 @@
 		93E53C321B04078600A74760 /* Tumblr */ = {
 			isa = PBXGroup;
 			children = (
-				93E53C331B04079A00A74760 /* XExtensionItem+Tumblr.h */,
-				93E53C341B04079A00A74760 /* XExtensionItem+Tumblr.m */,
 				93E53C351B04079A00A74760 /* XExtensionItemTumblrParameters.h */,
 				93E53C361B04079A00A74760 /* XExtensionItemTumblrParameters.m */,
 			);
@@ -172,7 +166,6 @@
 			files = (
 				93E53C1C1B0406C200A74760 /* XExtensionItemCustomParameters.h in Headers */,
 				93E53C1F1B0406C200A74760 /* XExtensionItemTypeSafeDictionaryValues.h in Headers */,
-				93E53C371B04079A00A74760 /* XExtensionItem+Tumblr.h in Headers */,
 				93E53C1D1B0406C200A74760 /* XExtensionItemReferrer.h in Headers */,
 				93E53C391B04079A00A74760 /* XExtensionItemTumblrParameters.h in Headers */,
 				93E53BFF1B0405D700A74760 /* XExtensionItem.h in Headers */,
@@ -280,7 +273,6 @@
 				93E53C1E1B0406C200A74760 /* XExtensionItemReferrer.m in Sources */,
 				93E53C201B0406C200A74760 /* XExtensionItemTypeSafeDictionaryValues.m in Sources */,
 				93E53C1B1B0406C200A74760 /* XExtensionItem.m in Sources */,
-				93E53C381B04079A00A74760 /* XExtensionItem+Tumblr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

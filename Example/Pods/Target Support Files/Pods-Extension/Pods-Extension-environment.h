@@ -9,18 +9,18 @@
 // XExtensionItem
 #define COCOAPODS_POD_AVAILABLE_XExtensionItem
 #define COCOAPODS_VERSION_MAJOR_XExtensionItem 0
-#define COCOAPODS_VERSION_MINOR_XExtensionItem 2
+#define COCOAPODS_VERSION_MINOR_XExtensionItem 9
 #define COCOAPODS_VERSION_PATCH_XExtensionItem 0
 
 // XExtensionItem/Core
 #define COCOAPODS_POD_AVAILABLE_XExtensionItem_Core
 #define COCOAPODS_VERSION_MAJOR_XExtensionItem_Core 0
-#define COCOAPODS_VERSION_MINOR_XExtensionItem_Core 2
+#define COCOAPODS_VERSION_MINOR_XExtensionItem_Core 9
 #define COCOAPODS_VERSION_PATCH_XExtensionItem_Core 0
 
 // XExtensionItem/Tumblr
 #define COCOAPODS_POD_AVAILABLE_XExtensionItem_Tumblr
 #define COCOAPODS_VERSION_MAJOR_XExtensionItem_Tumblr 0
-#define COCOAPODS_VERSION_MINOR_XExtensionItem_Tumblr 2
+#define COCOAPODS_VERSION_MINOR_XExtensionItem_Tumblr 9
 #define COCOAPODS_VERSION_PATCH_XExtensionItem_Tumblr 0
 
