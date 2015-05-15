@@ -134,7 +134,7 @@ In addition to multiple attachments, XExtensionItem also allows applications to 
 The following parameters are currently supported (more information on each can be found in the `XExtensionItemSource` [header documentation](XExtensionItem/XExtensionItem.h)):
 
 * A title
-* Attributed content text (can also be specific on a per-activity type basis)
+* Attributed content text (can also be specified on a per-activity type basis)
 * A thumbnail image
 * Tags
 * A source URL
