@@ -7,6 +7,7 @@
 <a href="http://cocoapods.org/?q=XExtensionItem"><img src="http://img.shields.io/cocoapods/v/XExtensionItem.svg?style=flat" alt="Version"></a>
 <img src="http://img.shields.io/cocoapods/p/XExtensionItem.svg?style=flat" alt="Platform">
 <a href="https://github.com/tumblr/XExtensionItem/blob/master/LICENSE"><img src="http://img.shields.io/cocoapods/l/XExtensionItem.svg?style=flat" alt="License"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatibile"></a>
 </p>
 
 XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a [`UIActivityViewController`](https://developer.apple.com/library/ios/documentation/Uikit/reference/UIActivityViewController_Class/index.html).
