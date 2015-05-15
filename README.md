@@ -180,7 +180,7 @@ Here’s a [hypothetical example](https://github.com/tumblr/XExtensionItem/wiki/
 
 ## Apps that use XExtensionItem
 
-Please create a [pull request](https://github.com/tumblr/XExtensionItem/pulls) or [let us know](#contact) if you're using XExtensionItem in either your application or your extension.
+If you're using XExtensionItem in either your application or extension, create a [pull request](https://github.com/tumblr/XExtensionItem/pulls) to add yourself here.
 
 ### Apps
 
