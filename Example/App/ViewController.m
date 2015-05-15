@@ -1,6 +1,7 @@
 @import MobileCoreServices;
 #import "ViewController.h"
-#import <XExtensionItem/XExtensionItem+Tumblr.h>
+#import <XExtensionItem/XExtensionItem.h>
+#import <XExtensionItem/XExtensionItemTumblrParameters.h>
 
 @implementation ViewController
 
