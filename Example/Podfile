@@ -1,13 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-target 'XExtensionItem', :exclusive => true do
+use_frameworks!
+
+target 'App', :exclusive => true do
   pod "XExtensionItem", :path => "../"
 end
 
-target 'ShareExtension', :exclusive => true do
-  pod "XExtensionItem", :path => "../"
-end
-
-target 'Tests', :exclusive => true do
+target 'Extension', :exclusive => true do
   pod "XExtensionItem", :path => "../"
 end

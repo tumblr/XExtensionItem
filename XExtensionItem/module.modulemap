@@ -1,0 +1,16 @@
+framework module XExtensionItem {
+  umbrella header "XExtensionItem.h"
+
+  export *
+  module * { export * }
+
+  header "XExtensionItemTypeSafeDictionaryValues.h"
+
+  exclude header "XExtensionItem+Tumblr.h"
+  exclude header "XExtensionItemTumblrParameters.h"
+
+  explicit module Tumblr {
+    header "XExtensionItem+Tumblr.h"
+    header "XExtensionItemTumblrParameters.h"
+  }
+}
