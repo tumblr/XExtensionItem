@@ -66,7 +66,7 @@ github "tumblr/XExtensionItem"
 
 ## Usage
 
-This repository includes a [sample project](Example) which should help explain how the library is used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](Example/App/ViewController.m#L20) get [passed through to the extension](Example/Extension/ShareViewController.m#L12).
+This repository includes a [sample project](Example) which should help explain how the library is used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](Example/App/ViewController.m#L31) get [passed through to the extension](Example/Extension/ShareViewController.m#L16).
 
 ### Applications
 
