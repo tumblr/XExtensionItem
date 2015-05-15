@@ -14,6 +14,6 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  XExtensionItem: 0d6a1701f071bce2fe0a14b6360156c93680b44f
+  XExtensionItem: 0bf37932e1ad0b616425f402eecb6d7c6595a9b7
 
 COCOAPODS: 0.37.1

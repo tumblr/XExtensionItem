@@ -25,11 +25,13 @@
   "subspecs": [
     {
       "name": "Core",
-      "source_files": "Pod/Classes/*.{h,m}"
+      "source_files": "XExtensionItem/*.{h,m}",
+      "public_header_files": "XExtensionItem/*.h"
     },
     {
       "name": "Tumblr",
-      "source_files": "Pod/Classes/Custom/Tumblr/*.{h,m}",
+      "source_files": "XExtensionItem/Custom/Tumblr/*.{h,m}",
+      "public_header_files": "XExtensionItem/Custom/Tumblr/*.h",
       "dependencies": {
         "XExtensionItem/Core": [
 
