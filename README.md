@@ -34,11 +34,11 @@ We’d love your [thoughts](https://github.com/tumblr/XExtensionItem/issues) on 
 
 Currently, iOS has an [unfortunate limitation](https://github.com/tumblr/ios-extension-issues/issues/5) which causes only share extensions that explicitly accept *all* provided activity item types to show up in a `UIActivityViewController`. This makes it difficult for an application to share multiple pieces of data without causing extensions that aren’t as flexible with their allowed inputs to not show up at all. Consider the following example:
 
-* A developer wants their app’s users to be able to share a URL as well as some text to go along with it (perhaps the title of the page, or an excerpt from it). An extension for a read later service like Instapaper might only save the URL, but one for a social network like Tumblr or Twitter could incorporate both.
+* A developer wants their app’s users to be able to share a URL as well as some text to go along with it (perhaps the title of the page, or an excerpt from it). An extension for a read later service (like Instapaper or Pocket) might only save the URL, but one for a social network (like Tumblr or Twitter) could incorporate both.
 * The application displays a `UIActivityViewController` and puts both an `NSURL` and `NSString` in its activity items array.
-* Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr would be displayed in the activity controller but Instapaper would not.
+* Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr/Twitter would be displayed in the activity controller but Instapaper/Pocket would not.
 
-Rather than passing in multiple activity items and losing support for inflexible extensions, its best to use a single `NSExtensionItem` that encapsulates multiple attachments and additional metadata as well. This can be difficult to get exactly right, however. XExtensionItem makes this easy by providing a layer of abstraction on these compmlicated APIs, dealing with all of their intricacies so you don’t have to.
+Rather than passing in multiple activity items and losing support for inflexible extensions, its best to use a single `NSExtensionItem` that encapsulates multiple attachments and additional metadata as well. This can be difficult to get exactly right, however. XExtensionItem makes this easy by providing a layer of abstraction on these complicated APIs, dealing with all of their intricacies so you don’t have to.
 
 Apps should be able to pass rich, structured attachments and metadata to extensions without worrying about the implementation details on the other end of the handshake. XExtensionItem facilitates exactly this.
 
@@ -111,7 +111,7 @@ In addition to `NSURL`, `NSString`, and `UIImage`, the additional attachments ar
 
 #### Generic parameters
 
-In addition to multiple attachments, XExtensionItem also allows applications to pass generic metadata paremters to extensions.
+In addition to multiple attachments, XExtensionItem also allows applications to pass generic metadata parameters to extensions.
 
 The following parameters are currently supported (more information on each can be found in the `XExtensionItemSource` [header documentation](XExtensionItem/XExtensionItem.h)):
 
@@ -127,7 +127,7 @@ The following parameters are currently supported (more information on each can b
 
 Some built-in activities (e.g. `UIActivityTypePostToTwitter`) will consume the attributed content text field (if populated), while others (e.g. “Copy” or “Add to Reading List”) only know how to accept a single attachment. XExtensionItem is smart enough to handle this for you.
 
-If you have an idea for a parameter that would be broadly useful (i.e. not specific to any particular share extension or service), please create an [issue](https://github.com/tumblr/XExtensionItem/issues) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
+If you have an idea for a parameter that would be broadly useful (i.e. not specific to any particular share extension or service), please create an [issue](https://github.com/tumblr/XExtensionItem/issues/new) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
 
 #### Custom parameters
 
@@ -181,6 +181,19 @@ Here’s a [hypothetical example](https://github.com/tumblr/XExtensionItem/wiki/
 ## Apps that use XExtensionItem
 
 Please create a [pull request](https://github.com/tumblr/XExtensionItem/pulls) or [let us know](#contact) if you're using XExtensionItem in either your application or your extension.
+
+### Apps
+
+The following apps use XExtensionItem to pass flexible data to share extensions:
+
+* [Tumblr](http://appstore.com/tumblr)
+* [Unread](http://supertop.co/download/unread)
+
+### Extensions
+
+The following share extensions use XExtensionItem to parse incoming data:
+
+* [Tumblr](http://appstore.com/tumblr) ([integration guide](https://github.com/tumblr/XExtensionItem/wiki/Integration-guide:-Tumblr))
 
 ## Contributing
 
