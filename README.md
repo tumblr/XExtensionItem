@@ -90,9 +90,23 @@ In addition to a URL, an `XExtensionItemSource` instance can also be initialized
 * An `NSString`
 * A `UIImage`
 * `NSData` along with a type identifier
-* A placeholder item and a block to lazily provide the actual item, once an activity has been chosen (an included `XExtensionItemSource` category provides additional convenience identifiers for lazily supplying URLs, strings, images, or data)
+* A placeholder item and a block to lazily provide the actual item (once an activity has been chosen)
 
 #### Advanced attachments
+
+An included `XExtensionItemSource` category provides additional convenience identifiers for lazily supplying URLs, strings, images, or data:
+
+```objc
+XExtensionItemSource *itemSource = 
+     [[XExtensionItemSource alloc] initWithImageProvider:^(NSString *activityType) {
+        if (activityType == UIActivityTypePostToTwitter) {
+            return twitterImage;
+        }
+        else {
+            return defaultImage;
+        }
+     }];
+```
 
 Additional attachments can be provided for all activity types:
 
@@ -127,11 +141,11 @@ The following parameters are currently supported (more information on each can b
 
 Some built-in activities (e.g. `UIActivityTypePostToTwitter`) will consume the attributed content text field (if populated), while others (e.g. “Copy” or “Add to Reading List”) only know how to accept a single attachment. XExtensionItem is smart enough to handle this for you.
 
-If you have an idea for a parameter that would be broadly useful (i.e. not specific to any particular share extension or service), please create an [issue](https://github.com/tumblr/XExtensionItem/issues/new) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
+If you have an idea for a parameter that would be broadly useful (i.e. not specific to any particular share extension or service), please [create an issue](https://github.com/tumblr/XExtensionItem/issues/new) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
 
 #### Custom parameters
 
-Generic parameters are great, in that they allow applications and share extensions to interoperate without knowing the specifics about how the other is implemented. But XExtensionItem also makes it trivial for extension developers to add support for custom parameters as well.
+Generic parameters are great, as they allow applications and share extensions to interoperate without knowing the specifics about how the other is implemented. But XExtensionItem also makes it trivial for extension developers to add support for custom parameters as well.
 
 Extension developers can create a class that conforms to the `XExtensionItemCustomParameters`, which application developers will then be able to populate. Here’s a Tumblr-specific example:
 
