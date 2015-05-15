@@ -2,20 +2,12 @@
 
 <h1 align="center">XExtensionItem</p>
 
-<<<<<<< HEAD
 <p align="center">
 <a href="https://travis-ci.org/tumblr/XExtensionItem"><img src="https://img.shields.io/travis/tumblr/XExtensionItem.svg?style=flat" alt="Build Status"></a>
 <a href="http://cocoapods.org/?q=XExtensionItem"><img src="http://img.shields.io/cocoapods/v/XExtensionItem.svg?style=flat" alt="Version"></a>
 <img src="http://img.shields.io/cocoapods/p/XExtensionItem.svg?style=flat" alt="Platform">
 <a href="https://github.com/tumblr/XExtensionItem/blob/master/LICENSE"><img src="http://img.shields.io/cocoapods/l/XExtensionItem.svg?style=flat" alt="License"></a>
 </p>
-=======
-[![Build Status](https://img.shields.io/travis/tumblr/XExtensionItem.svg?style=flat)](https://travis-ci.org/tumblr/XExtensionItem)
-[![Version](http://img.shields.io/cocoapods/v/XExtensionItem.svg?style=flat)](http://cocoapods.org/?q=XExtensionItem)
-[![Platform](http://img.shields.io/cocoapods/p/XExtensionItem.svg?style=flat)]()
-[![License](http://img.shields.io/cocoapods/l/XExtensionItem.svg?style=flat)](https://github.com/tumblr/XExtensionItem/blob/master/LICENSE)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
->>>>>>> master
 
 XExtensionItem is a tiny library allowing for easier sharing of structured data between iOS applications and share extensions. It is targeted at developers of both share extensions and apps that display a [`UIActivityViewController`](https://developer.apple.com/library/ios/documentation/Uikit/reference/UIActivityViewController_Class/index.html).
 
