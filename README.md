@@ -66,7 +66,7 @@ github "tumblr/XExtensionItem"
 
 ## Usage
 
-This repository includes a [sample project](https://github.com/tumblr/XExtensionItem/tree/master/Example) which should help explain how the library is used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemExample/ViewController.m#L23) get [passed through to the extension](https://github.com/tumblr/XExtensionItem/blob/master/Example/XExtensionItemShareExtensionExample/ShareViewController.m#L10).
+This repository includes a [sample project](Example) which should help explain how the library is used. It has targets for both a share extension and an application; you can run the former using the latter as the host application and see [the data from the application](Example/App/ViewController.m#L20) get [passed through to the extension](Example/Extension/ShareViewController.m#L12).
 
 ### Applications
 
@@ -170,11 +170,11 @@ By default, all custom parameter classes will be included when you pull XExtensi
 
 If you’re an extension developer and would like to add custom parameters for your extension to XExtensionItem, please see the [Custom Parameters Guide](https://github.com/tumblr/XExtensionItem/wiki/Custom-parameters-guide).
 
-Have a look at the [apps that use XExtensionItem](#apps-that-use-xextensionitem) section for a list of all supported custom parameters.
+Have a look at the [Apps that use XExtensionItem](#apps-that-use-xextensionitem) section for additional documentation on how to integrate with specific extensions.
 
 ### Extensions
 
-Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItemParameters` 
+Convert incoming `NSExtensionItem` instances retrieved from an extension context into `XExtensionItem` 
 objects:
 
 ```objc
