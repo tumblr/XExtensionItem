@@ -15,14 +15,16 @@ XExtensionItem is a tiny library allowing for easier sharing of structured data 
 We’d love your [thoughts](https://github.com/tumblr/XExtensionItem/issues) on how XExtensionItem could be made more useful. This library’s value comes from how useful it is for apps and extensions of all shapes and sizes.
 
 - [Why?](#why)
+    - [Multiple attachments](#multiple-attachments)
+    - [Metadata parameters](#metadata-parameters)
 - [Getting started](#getting-started)
     - [CocoaPods](#cocoapods)
     - [Carthage](#carthage)
 - [Usage](#usage)
     - [Applications](#applications)
         - [Advanced attachments](#advanced-attachments)
-        - [Generic parameters](#generic-parameters)
-        - [Custom parameters](#custom-parameters)
+        - [Generic metadata parameters](#generic-metadata-parameters)
+        - [Custom metadata parameters](#custom-metadata-parameters)
     - [Extensions](#extensions)
 - [Apps that use XExtensionItem](#apps-that-use-xextensionitem)
     - [Apps](#apps)
@@ -34,15 +36,21 @@ We’d love your [thoughts](https://github.com/tumblr/XExtensionItem/issues) on 
 
 ## Why?
 
+### Multiple attachments
+
 Currently, iOS has an [unfortunate limitation](https://github.com/tumblr/ios-extension-issues/issues/5) which causes only share extensions that explicitly accept *all* provided activity item types to show up in a `UIActivityViewController`. This makes it difficult for an application to share multiple pieces of data without causing extensions that aren’t as flexible with their allowed inputs to not show up at all. Consider the following example:
 
 * A developer wants their app’s users to be able to share a URL as well as some text to go along with it (perhaps the title of the page, or an excerpt from it). An extension for a read later service (like Instapaper or Pocket) might only save the URL, but one for a social network (like Tumblr or Twitter) could incorporate both.
 * The application displays a `UIActivityViewController` and puts both an `NSURL` and `NSString` in its activity items array.
 * Only extensions that are explicitly defined to accept both URLs *and* strings will be displayed in the activity controller. To continue the examples from above, Tumblr/Twitter would be displayed in the activity controller but Instapaper/Pocket would not.
 
-Rather than passing in multiple activity items and losing support for inflexible extensions, its best to use a single `NSExtensionItem` that encapsulates multiple attachments and additional metadata as well. This can be difficult to get exactly right, however. XExtensionItem makes this easy by providing a layer of abstraction on these complicated APIs, dealing with all of their intricacies so you don’t have to.
+Rather than passing in multiple activity items and losing support for inflexible extensions, its best to use a single `NSExtensionItem` that encapsulates multiple attachments. This can be difficult to get exactly right, however. XExtensionItem makes this easy by providing a layer of abstraction on these complicated APIs, dealing with all of their intricacies so you don’t have to.
 
-Apps should be able to pass rich, structured attachments and metadata to extensions without worrying about the implementation details on the other end of the handshake. XExtensionItem facilitates exactly this.
+### Metadata parameters
+
+Being able to pass metadata parameters to a share extension is extremely useful, but the iOS SDK doesn’t currently provide a generic way to do so. Individual developers would need to come up with a contract, such that the extension knows how to deserialize and parse the parameters that the application has passed to it. 
+
+XExtensionItem [defines this generic contract](#generic-metadata-parameters), allowing application to pass metadata that extensions can easily read, each without worrying about the implementation details on the other end of the handshake. It even provides hooks for extension developers at add support for [custom metadata parameters](#custom-metadata-parameters).
 
 ## Getting started
 
@@ -127,13 +135,13 @@ As well as on a per-activity type basis:
 
 In addition to `NSURL`, `NSString`, and `UIImage`, the additional attachments array can also include `NSItemProvider` instances, which gives applications some more flexibility around lazy item loading. See the [`NSItemProvider` Class Reference](https://developer.apple.com/library/prerelease/ios/documentation/Foundation/Reference/NSItemProvider_Class/index.html) for more details.
 
-#### Generic parameters
+#### Generic metadata parameters
 
 In addition to multiple attachments, XExtensionItem also allows applications to pass generic metadata parameters to extensions.
 
 The following parameters are currently supported (more information on each can be found in the `XExtensionItemSource` [header documentation](XExtensionItem/XExtensionItem.h)):
 
-* A title
+* A title (also used as the subject for system activities such as Mail and Messages)
 * Attributed content text (can also be specified on a per-activity type basis)
 * A thumbnail image
 * Tags
@@ -147,7 +155,7 @@ Some built-in activities (e.g. `UIActivityTypePostToTwitter`) will consume the a
 
 If you have an idea for a parameter that would be broadly useful (i.e. not specific to any particular share extension or service), please [create an issue](https://github.com/tumblr/XExtensionItem/issues/new) or open a [pull request](https://github.com/tumblr/XExtensionItem/pulls).
 
-#### Custom parameters
+#### Custom metadata parameters
 
 Generic parameters are great, as they allow applications and share extensions to interoperate without knowing the specifics about how the other is implemented. But XExtensionItem also makes it trivial for extension developers to add support for custom parameters as well.
 
