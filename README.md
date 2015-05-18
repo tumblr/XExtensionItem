@@ -50,7 +50,7 @@ Rather than passing in multiple activity items and losing support for inflexible
 
 Being able to pass metadata parameters to a share extension is extremely useful, but the iOS SDK doesn’t currently provide a generic way to do so. Individual developers would need to come up with a contract, such that the extension knows how to deserialize and parse the parameters that the application has passed to it. 
 
-XExtensionItem [defines this generic contract](#generic-parameters), allowing application to pass metadata that extensions can easily read, each without worrying about the implementation details on the other end of the handshake. It even provides hooks for extension developers at add support for [custom metadata parameters](#custom-parameters).
+XExtensionItem [defines this generic contract](#generic-metadata-parameters), allowing application to pass metadata that extensions can easily read, each without worrying about the implementation details on the other end of the handshake. It even provides hooks for extension developers at add support for [custom metadata parameters](#custom-metadata-parameters).
 
 ## Getting started
 
