@@ -194,7 +194,10 @@ static NSString * const ActivityTypeCatchAll = @"*";
             id activityItem = [self activityItemForActivityType:activityType];
             
             NSString *typeIdentifier = ^NSString *{
-                if (![[activityItem class] isSubclassOfClass:[self.placeholderItem class]]) {
+                BOOL classHasChanged = ![[activityItem class] isSubclassOfClass:[self.placeholderItem class]];
+                // Always re-check the type of URL objects, because they could be either file or regular URLs
+                BOOL isURL = [[activityItem class] isSubclassOfClass:[NSURL class]];
+                if (classHasChanged || isURL) {
                     NSString *derivedTypeIdentifier = typeIdentifierForActivityItem(activityItem);
                     
                     if (derivedTypeIdentifier) {
