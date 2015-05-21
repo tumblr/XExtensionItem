@@ -1,6 +1,6 @@
 {
   "name": "XExtensionItem",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "summary": "Easier sharing between iOS applications and share extensions.",
   "authors": { 
     "Bryan Irace": "bryan@irace.me"
@@ -16,7 +16,7 @@
   "requires_arc": true,
   "source": {
     "git": "https://github.com/tumblr/XExtensionItem.git",
-    "tag": "0.9.1"
+    "tag": "0.9.2"
   },
   "frameworks": [
     "Foundation", 

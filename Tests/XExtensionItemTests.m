@@ -65,17 +65,13 @@
 }
 
 - (void)testDataInitializerThrowsIfNil {
-    XCTAssertThrows([[XExtensionItemSource alloc] initWithData:nil typeIdentifier:(NSString *)kUTTypeGIF]);
-}
-
-- (void)testDataInitializerThrowsIfTypeIdentifierIsNil {
-    XCTAssertThrows([[XExtensionItemSource alloc] initWithData:[[NSData alloc] init] typeIdentifier:nil]);
+    XCTAssertThrows([[XExtensionItemSource alloc] initWithData:nil]);
 }
 
 - (void)testDataInitializerProducesExtensionItemWithDataAttachment {
     NSData *data = [NSData dataWithContentsOfFile:[[NSBundle bundleForClass:self.class] pathForResource:@"mountain" ofType:@"png"]];
 
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithData:data typeIdentifier:(NSString *)kUTTypePNG];
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithData:data];
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
     expected.attachments = @[[[NSItemProvider alloc] initWithItem:data typeIdentifier:(NSString *)kUTTypePNG]];
     
@@ -83,14 +79,14 @@
 }
 
 - (void)testPlaceholderInitializerThrowsIfNil {
-    XCTAssertThrows([[XExtensionItemSource alloc] initWithPlaceholderItem:nil typeIdentifier:nil itemBlock:nil]);
+    XCTAssertThrows([[XExtensionItemSource alloc] initWithPlaceholderItem:nil itemBlock:nil]);
 }
 
 - (void)testPlaceholderInitializerProducesDifferentItemsBasedOnActivityType {
     NSString *defaultString = @"foo";
     NSString *twitterString = @"bar";
     
-    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"placeholder" typeIdentifier:nil itemBlock:^id(NSString *activityType) {
+    XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithPlaceholderItem:@"placeholder" itemBlock:^id(NSString *activityType) {
         if (activityType == UIActivityTypePostToTwitter) {
             return twitterString;
         }
@@ -108,42 +104,6 @@
     expectedNonTwitter.attachments = @[[[NSItemProvider alloc] initWithItem:defaultString typeIdentifier:(NSString *)kUTTypePlainText]];
     
     XExtensionItemAssertEqualItems(expectedNonTwitter, [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToFacebook]);
-}
-
-- (void)testPlaceholderProvidedTypeIdentifierIsReturnedByActivityItemSourceDelegateMethod {
-    NSString *dataTypeIdentifier = (NSString *)kUTTypeVideo;
-    
-    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithPlaceholderItem:[[NSData alloc] init]
-                                                                          typeIdentifier:dataTypeIdentifier
-                                                                               itemBlock:nil];
-    
-    XCTAssertEqualObjects(dataTypeIdentifier, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
-}
-
-- (void)testPlaceholderTypeIdentifierIsInferredForURL {
-    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithURL:[NSURL URLWithString:@"http://irace.me"]];
-    
-    XCTAssertEqualObjects((NSString *)kUTTypeURL, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
-}
-
-- (void)testPlaceholderTypeIdentifierIsInferredForFileURL {
-    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithURL:
-                                    [NSURL fileURLWithPath:[[NSBundle bundleForClass:self.class] pathForResource:@"mountain"
-                                                                                                          ofType:@"png"]]];
-    
-    XCTAssertEqualObjects((NSString *)kUTTypePNG, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
-}
-
-- (void)testPlaceholderTypeIdentifierIsInferredForString {
-    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithString:@"Foo"];
-    
-    XCTAssertEqualObjects((NSString *)kUTTypePlainText, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
-}
-
-- (void)testPlaceholderTypeIdentifierIsInferredForImage {
-    XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithImage:[[UIImage alloc] init]];
-    
-    XCTAssertEqualObjects((NSString *)kUTTypeImage, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
 }
 
 #pragma mark - Output verification

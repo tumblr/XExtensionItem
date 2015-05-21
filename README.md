@@ -101,12 +101,12 @@ In addition to a URL, an `XExtensionItemSource` instance can also be initialized
 
 * An `NSString`
 * A `UIImage`
-* `NSData` along with a type identifier
+* `NSData`
 * A placeholder item and a block to lazily provide the actual item (once an activity has been chosen)
 
 #### Advanced attachments
 
-An included `XExtensionItemSource` category provides additional convenience identifiers for lazily supplying URLs, strings, images, or data:
+An included `XExtensionItemSource` category provides additional convenience initializers for lazily supplying URLs, strings, images, or data:
 
 ```objc
 XExtensionItemSource *itemSource = 

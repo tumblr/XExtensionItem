@@ -197,11 +197,10 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
  Initialize an item source with data.
  
  @param data           (Required) Data to be shared.
- @param typeIdentifier (Required) Type of data.
  
  @return New item source instance.
  */
-- (instancetype)initWithData:(NSData *)data typeIdentifier:(NSString *)typeIdentifier;
+- (instancetype)initWithData:(NSData *)data;
 
 /**
  Initialize a new instance with a placeholder item, whose type will be used by the activity controller to determine
@@ -209,13 +208,11 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
  
  @param placeholderItem (Required) A placeholder item whose type will be used by the activity controller to determine
  which activities and extensions are displayed.
- @param typeIdentifier  (Optional) A uniform type identifier describing the type of content being shared.
  @param itemBlock       (Optional) A block that can provide the item to be shared given the activity type.
  
  @return New item source instance.
  */
 - (instancetype)initWithPlaceholderItem:(id)placeholderItem
-                         typeIdentifier:(NSString *)typeIdentifier
                               itemBlock:(XExtensionItemProvidingBlock)itemBlock NS_DESIGNATED_INITIALIZER;
 
 @end
@@ -230,36 +227,36 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 
  @param activityType The selected activity type.
 
- @return URL to be provided to the activity.
+ @return Item to be provided to the activity. Can be something other than a URL if you know the selected activity type accepts it.
  */
-typedef NSURL *(^XExtensionItemURLProvidingBlock)(NSString *activityType);
+typedef id (^XExtensionItemURLProvidingBlock)(NSString *activityType);
 
 /**
  A block that can lazily provide a string.
 
  @param activityType The selected activity type.
 
- @return String to be provided to the activity.
+ @return String to be provided to the activity. Can be something other than a string if you know the selected activity type accepts it.
  */
-typedef NSString *(^XExtensionItemStringProvidingBlock)(NSString *activityType);
+typedef id (^XExtensionItemStringProvidingBlock)(NSString *activityType);
 
 /**
  A block that can lazily provide an image.
 
  @param activityType The selected activity type.
 
- @return Image to be provided to the activity.
+ @return Image to be provided to the activity. Can be something other than an image if you know the selected activity type accepts it.
  */
-typedef UIImage *(^XExtensionItemImageProvidingBlock)(NSString *activityType);
+typedef id (^XExtensionItemImageProvidingBlock)(NSString *activityType);
 
 /**
  A block that can lazily provide data of a predetermined type.
 
  @param activityType The selected activity type.
 
- @return Data to be provided to the activity.
+ @return Data to be provided to the activity. Can be something other than data if you know the selected activity type accepts it.
  */
-typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
+typedef id (^XExtensionItemDataProvidingBlock)(NSString *activityType);
 
 /**
  Initialize an item source with a block that can provide a URL.
@@ -274,11 +271,10 @@ typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
  Initialize an item source with a block that can provide a file URL.
  
  @param fileURL        (Required) File URL-providing block.
- @param typeIdentifier (Required) Type identifier for the data that the file consists of.
  
  @return New item source instance.
  */
-- (instancetype)initWithFileURLProvider:(XExtensionItemURLProvidingBlock)fileURL typeIdentifier:(NSString *)typeIdentifier;
+- (instancetype)initWithFileURLProvider:(XExtensionItemURLProvidingBlock)fileURL;
 
 /**
  Initialize an item source with a block that can provide a string.
@@ -302,11 +298,10 @@ typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
  Initialize an item source with a block that can provide data.
  
  @param dataProvider   (Required) Data-providing block.
- @param typeIdentifier (Required) Type identifier for the data
  
  @return New item source instance.
  */
-- (instancetype)initWithDataProvider:(XExtensionItemDataProvidingBlock)dataProvider typeIdentifier:(NSString *)typeIdentifier;
+- (instancetype)initWithDataProvider:(XExtensionItemDataProvidingBlock)dataProvider;
 
 @end
 
