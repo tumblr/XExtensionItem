@@ -193,10 +193,17 @@ static NSString * const ActivityTypeCatchAll = @"*";
         item.attachments = ({
             id activityItem = [self activityItemForActivityType:activityType];
             
-            NSString *typeIdentifier = self.typeIdentifier;
-            if (![[activityItem class] isSubclassOfClass:[self.placeholderItem class]]) {
-                typeIdentifier = typeIdentifierForActivityItem(activityItem) ?: typeIdentifier;
-            }
+            NSString *typeIdentifier = ^NSString *{
+                if (![[activityItem class] isSubclassOfClass:[self.placeholderItem class]]) {
+                    NSString *derivedTypeIdentifier = typeIdentifierForActivityItem(activityItem);
+                    
+                    if (derivedTypeIdentifier) {
+                        return derivedTypeIdentifier;
+                    }
+                }
+                
+                return self.typeIdentifier;
+            }();
             
             NSItemProvider *mainAttachment = [[NSItemProvider alloc] initWithItem:activityItem typeIdentifier:typeIdentifier];
             
