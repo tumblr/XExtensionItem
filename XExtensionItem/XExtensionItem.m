@@ -193,7 +193,22 @@ static NSString * const ActivityTypeCatchAll = @"*";
         item.attachments = ({
             id activityItem = [self activityItemForActivityType:activityType];
             
-            NSItemProvider *mainAttachment = [[NSItemProvider alloc] initWithItem:activityItem typeIdentifier:self.typeIdentifier];
+            NSString *typeIdentifier = ^NSString *{
+                BOOL classHasChanged = ![[activityItem class] isSubclassOfClass:[self.placeholderItem class]];
+                // Always re-check the type of URL objects, because they could be either file or regular URLs
+                BOOL isURL = [[activityItem class] isSubclassOfClass:[NSURL class]];
+                if (classHasChanged || isURL) {
+                    NSString *derivedTypeIdentifier = typeIdentifierForActivityItem(activityItem);
+                    
+                    if (derivedTypeIdentifier) {
+                        return derivedTypeIdentifier;
+                    }
+                }
+                
+                return self.typeIdentifier;
+            }();
+            
+            NSItemProvider *mainAttachment = [[NSItemProvider alloc] initWithItem:activityItem typeIdentifier:typeIdentifier];
             
             if (self.thumbnailProvider) {
                 mainAttachment.previewImageHandler = ^(NSItemProviderCompletionHandler completionHandler, Class expectedValueClass, NSDictionary *options) {
@@ -342,7 +357,7 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
 
 @implementation XExtensionItemSource (ProviderBlockInitializers)
 
-- (instancetype)initWithURLProvider:(XExtensionItemURLProvidingBlock)URLProvider {
+- (instancetype)initWithURLProvider:(XExtensionItemProvidingBlock)URLProvider {
     NSParameterAssert(URLProvider);
     
     return [self initWithPlaceholderItem:[NSURL URLWithString:@"http://example.com"]
@@ -350,7 +365,7 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
                                itemBlock:URLProvider];
 }
 
-- (instancetype)initWithFileURLProvider:(XExtensionItemURLProvidingBlock)fileURLProvider typeIdentifier:(NSString *)typeIdentifier {
+- (instancetype)initWithFileURLProvider:(XExtensionItemProvidingBlock)fileURLProvider typeIdentifier:(NSString *)typeIdentifier {
     NSParameterAssert(fileURLProvider);
     NSParameterAssert(typeIdentifier);
     
@@ -359,7 +374,7 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
                                itemBlock:fileURLProvider];
 }
 
-- (instancetype)initWithStringProvider:(XExtensionItemStringProvidingBlock)stringProvider {
+- (instancetype)initWithStringProvider:(XExtensionItemProvidingBlock)stringProvider {
     NSParameterAssert(stringProvider);
     
     return [self initWithPlaceholderItem:[[NSString alloc] init]
@@ -367,7 +382,7 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
                                itemBlock:stringProvider];
 }
 
-- (instancetype)initWithImageProvider:(XExtensionItemImageProvidingBlock)imageProvider {
+- (instancetype)initWithImageProvider:(XExtensionItemProvidingBlock)imageProvider {
     NSParameterAssert(imageProvider);
     
     return [self initWithPlaceholderItem:[[UIImage alloc] init]
@@ -375,7 +390,7 @@ static BOOL isExtensionItemInputAcceptedByActivityType(NSString *activityType) {
                                itemBlock:imageProvider];
 }
 
-- (instancetype)initWithDataProvider:(XExtensionItemDataProvidingBlock)dataProvider typeIdentifier:(NSString *)typeIdentifier {
+- (instancetype)initWithDataProvider:(XExtensionItemProvidingBlock)dataProvider typeIdentifier:(NSString *)typeIdentifier {
     NSParameterAssert(dataProvider);
     NSParameterAssert(typeIdentifier);
     

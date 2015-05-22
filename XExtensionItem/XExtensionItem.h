@@ -226,87 +226,56 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 @interface XExtensionItemSource (ProviderBlockInitializers)
 
 /**
- A block that can lazily provide a URL.
-
- @param activityType The selected activity type.
-
- @return URL to be provided to the activity.
- */
-typedef NSURL *(^XExtensionItemURLProvidingBlock)(NSString *activityType);
-
-/**
- A block that can lazily provide a string.
-
- @param activityType The selected activity type.
-
- @return String to be provided to the activity.
- */
-typedef NSString *(^XExtensionItemStringProvidingBlock)(NSString *activityType);
-
-/**
- A block that can lazily provide an image.
-
- @param activityType The selected activity type.
-
- @return Image to be provided to the activity.
- */
-typedef UIImage *(^XExtensionItemImageProvidingBlock)(NSString *activityType);
-
-/**
- A block that can lazily provide data of a predetermined type.
-
- @param activityType The selected activity type.
-
- @return Data to be provided to the activity.
- */
-typedef NSData *(^XExtensionItemDataProvidingBlock)(NSString *activityType);
-
-/**
- Initialize an item source with a block that can provide a URL.
+ Initialize an item source with a block that can provide an NSURL object, or another
+ object that is compatible with the specified activity.
  
  @param URLProvider (Required) URL-providing block.
  
  @return New item source instance.
  */
-- (instancetype)initWithURLProvider:(XExtensionItemURLProvidingBlock)URLProvider;
+- (instancetype)initWithURLProvider:(XExtensionItemProvidingBlock)URLProvider;
 
 /**
- Initialize an item source with a block that can provide a file URL.
+ Initialize an item source with a block that can provide a file URL, or another object
+ that is compatible with the specified activity.
  
  @param fileURL        (Required) File URL-providing block.
  @param typeIdentifier (Required) Type identifier for the data that the file consists of.
  
  @return New item source instance.
  */
-- (instancetype)initWithFileURLProvider:(XExtensionItemURLProvidingBlock)fileURL typeIdentifier:(NSString *)typeIdentifier;
+- (instancetype)initWithFileURLProvider:(XExtensionItemProvidingBlock)fileURL typeIdentifier:(NSString *)typeIdentifier;
 
 /**
- Initialize an item source with a block that can provide a string.
+ Initialize an item source with a block that can provide an NSString object, or another
+ object that is compatible with the specified activity.
  
  @param stringProvider (Required) String-providing block.
  
  @return New item source instance.
  */
-- (instancetype)initWithStringProvider:(XExtensionItemStringProvidingBlock)stringProvider;
+- (instancetype)initWithStringProvider:(XExtensionItemProvidingBlock)stringProvider;
 
 /**
- Initialize an item source with a block that can provide an image.
+ Initialize an item source with a block that can provide a UIImage object, or another
+ object that is compatible with the specified activity.
  
  @param imageProvider (Required) Image-providing block.
  
  @return New item source instance.
  */
-- (instancetype)initWithImageProvider:(XExtensionItemImageProvidingBlock)imageProvider;
+- (instancetype)initWithImageProvider:(XExtensionItemProvidingBlock)imageProvider;
 
 /**
- Initialize an item source with a block that can provide data.
+ Initialize an item source with a block that can provide an NSData object, or another
+ object that is compatible with the specified activity.
  
  @param dataProvider   (Required) Data-providing block.
  @param typeIdentifier (Required) Type identifier for the data
  
  @return New item source instance.
  */
-- (instancetype)initWithDataProvider:(XExtensionItemDataProvidingBlock)dataProvider typeIdentifier:(NSString *)typeIdentifier;
+- (instancetype)initWithDataProvider:(XExtensionItemProvidingBlock)dataProvider typeIdentifier:(NSString *)typeIdentifier;
 
 @end
 
