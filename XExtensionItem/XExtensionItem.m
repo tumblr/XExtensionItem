@@ -194,9 +194,11 @@ static NSString * const ActivityTypeCatchAll = @"*";
             id activityItem = [self activityItemForActivityType:activityType];
             
             NSString *typeIdentifier = ^NSString *{
-                BOOL classHasChanged = ![[activityItem class] isSubclassOfClass:[self.placeholderItem class]];
+                BOOL classHasChanged = ![activityItem isKindOfClass:[self.placeholderItem class]];
+                
                 // Always re-check the type of URL objects, because they could be either file or regular URLs
-                BOOL isURL = [[activityItem class] isSubclassOfClass:[NSURL class]];
+                BOOL isURL = [activityItem isKindOfClass:[NSURL class]];
+                
                 if (classHasChanged || isURL) {
                     NSString *derivedTypeIdentifier = typeIdentifierForActivityItem(activityItem);
                     
@@ -225,10 +227,11 @@ static NSString * const ActivityTypeCatchAll = @"*";
                     [attachments addObject:attachmentItem];
                 }
                 else {
-                    NSString *typeIdentifier = typeIdentifierForActivityItem(attachmentItem);
+                    NSString *additionalAttachmentTypeIdentifier = typeIdentifierForActivityItem(attachmentItem);
                     
                     if (typeIdentifier) {
-                        NSItemProvider *attachmentProvider = [[NSItemProvider alloc] initWithItem:attachmentItem typeIdentifier:typeIdentifier];
+                        NSItemProvider *attachmentProvider = [[NSItemProvider alloc] initWithItem:attachmentItem
+                                                                                   typeIdentifier:additionalAttachmentTypeIdentifier];
                         [attachments addObject:attachmentProvider];
                     }
                 }
