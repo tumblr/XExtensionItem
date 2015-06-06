@@ -1,6 +1,6 @@
 <p align="center"><img src="https://github.com/tumblr/XExtensionItem/blob/master/Assets/logo.png"></p>
 
-<h1 align="center">XExtensionItem</p>
+<h1 align="center">XExtensionItem</p></h1>
 
 <p align="center">
 <a href="https://travis-ci.org/tumblr/XExtensionItem"><img src="https://img.shields.io/travis/tumblr/XExtensionItem.svg?style=flat" alt="Build Status"></a>
