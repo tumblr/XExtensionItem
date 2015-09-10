@@ -7,7 +7,8 @@
 @implementation XExtensionItemSource (Testing)
 
 - (id)facebookItem {
-    return [self activityViewController:nil itemForActivityType:UIActivityTypePostToFacebook];
+    return [self activityViewController:[[UIActivityViewController alloc] initWithActivityItems:@[] applicationActivities:@[]]
+                    itemForActivityType:UIActivityTypePostToFacebook];
 }
 
 @end

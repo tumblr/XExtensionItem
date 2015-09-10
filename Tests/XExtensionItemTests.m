@@ -102,12 +102,12 @@
     NSExtensionItem *expectedTwitter = [[NSExtensionItem alloc] init];
     expectedTwitter.attachments = @[[[NSItemProvider alloc] initWithItem:twitterString typeIdentifier:(NSString *)kUTTypePlainText]];
     
-    XExtensionItemAssertEqualItems(expectedTwitter, [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter]);
+    XExtensionItemAssertEqualItems(expectedTwitter, [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToTwitter]);
     
     NSExtensionItem *expectedNonTwitter = [[NSExtensionItem alloc] init];
     expectedNonTwitter.attachments = @[[[NSItemProvider alloc] initWithItem:defaultString typeIdentifier:(NSString *)kUTTypePlainText]];
     
-    XExtensionItemAssertEqualItems(expectedNonTwitter, [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToFacebook]);
+    XExtensionItemAssertEqualItems(expectedNonTwitter, [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToFacebook]);
 }
 
 - (void)testPlaceholderProvidedTypeIdentifierIsReturnedByActivityItemSourceDelegateMethod {
@@ -117,13 +117,13 @@
                                                                           typeIdentifier:dataTypeIdentifier
                                                                                itemBlock:nil];
     
-    XCTAssertEqualObjects(dataTypeIdentifier, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
+    XCTAssertEqualObjects(dataTypeIdentifier, [source activityViewController:[[self class] activityViewController] dataTypeIdentifierForActivityType:nil]);
 }
 
 - (void)testPlaceholderTypeIdentifierIsInferredForURL {
     XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithURL:[NSURL URLWithString:@"http://irace.me"]];
     
-    XCTAssertEqualObjects((NSString *)kUTTypeURL, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
+    XCTAssertEqualObjects((NSString *)kUTTypeURL, [source activityViewController:[[self class] activityViewController] dataTypeIdentifierForActivityType:nil]);
 }
 
 - (void)testPlaceholderTypeIdentifierIsInferredForFileURL {
@@ -131,19 +131,19 @@
                                     [NSURL fileURLWithPath:[[NSBundle bundleForClass:self.class] pathForResource:@"mountain"
                                                                                                           ofType:@"png"]]];
     
-    XCTAssertEqualObjects((NSString *)kUTTypePNG, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
+    XCTAssertEqualObjects((NSString *)kUTTypePNG, [source activityViewController:[[self class] activityViewController] dataTypeIdentifierForActivityType:nil]);
 }
 
 - (void)testPlaceholderTypeIdentifierIsInferredForString {
     XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithString:@"Foo"];
     
-    XCTAssertEqualObjects((NSString *)kUTTypePlainText, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
+    XCTAssertEqualObjects((NSString *)kUTTypePlainText, [source activityViewController:[[self class] activityViewController] dataTypeIdentifierForActivityType:nil]);
 }
 
 - (void)testPlaceholderTypeIdentifierIsInferredForImage {
     XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithImage:[[UIImage alloc] init]];
     
-    XCTAssertEqualObjects((NSString *)kUTTypeImage, [source activityViewController:nil dataTypeIdentifierForActivityType:nil]);
+    XCTAssertEqualObjects((NSString *)kUTTypeImage, [source activityViewController:[[self class] activityViewController] dataTypeIdentifierForActivityType:nil]);
 }
 
 #pragma mark - Output verification
@@ -154,7 +154,7 @@
     XExtensionItemSource *source = [[XExtensionItemSource alloc] initWithString:text];
     source.additionalAttachments = @[[[NSItemProvider alloc] initWithItem:@"Bar" typeIdentifier:(NSString *)kUTTypeText]];
     
-    XCTAssertEqualObjects(text, [source activityViewController:nil itemForActivityType:UIActivityTypeMail]);
+    XCTAssertEqualObjects(text, [source activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypeMail]);
 }
 
 - (void)testExtensionItemReturnedForSystemActivityThatCanProcessExtensionItemInput {
@@ -166,7 +166,7 @@
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
     expected.attachments = attachments;
     
-    id actual = [source activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter];
+    id actual = [source activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToTwitter];
     
     XCTAssertTrue([actual isKindOfClass:[NSExtensionItem class]]);
 }
@@ -180,7 +180,7 @@
     NSExtensionItem *expected = [[NSExtensionItem alloc] init];
     expected.attachments = attachments;
     
-    NSExtensionItem *actual = [source activityViewController:nil itemForActivityType:@"com.irace.me.SomeExtension"];
+    NSExtensionItem *actual = [source activityViewController:[[self class] activityViewController] itemForActivityType:@"com.irace.me.SomeExtension"];
     
     XCTAssertTrue([actual isKindOfClass:[NSExtensionItem class]]);
 }
@@ -202,7 +202,7 @@
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
     itemSource.title = subject;
     
-    XCTAssertEqualObjects(subject, [itemSource activityViewController:nil subjectForActivityType:UIActivityTypeMail]);
+    XCTAssertEqualObjects(subject, [itemSource activityViewController:[[self class] activityViewController] subjectForActivityType:UIActivityTypeMail]);
 }
 
 - (void)testAttributedContentText {
@@ -222,12 +222,12 @@
     itemSource.attributedContentText = defaultContentText;
     [itemSource setAttributedContentText:twitterContentText forActivityType:UIActivityTypePostToTwitter];
 
-    NSExtensionItem *defaultExtensionItem = [itemSource activityViewController:nil itemForActivityType:nil];
+    NSExtensionItem *defaultExtensionItem = [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToFacebook];
     
     // Wish I could test `NSAttributedString` equality here, but `NSExtensionItem`’s `attributedContentText` setter appears to add an `NSParagraphStyle` attribute
     XCTAssertEqualObjects(defaultContentText.string, defaultExtensionItem.attributedContentText.string);
     
-    NSExtensionItem *twitterExtensionItem = [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter];
+    NSExtensionItem *twitterExtensionItem = [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToTwitter];
     
     // Wish I could test `NSAttributedString` equality here, but `NSExtensionItem`’s `attributedContentText` setter appears to add an `NSParagraphStyle` attribute
     XCTAssertEqualObjects(twitterContentText.string, twitterExtensionItem.attributedContentText.string);
@@ -241,24 +241,24 @@
     itemSource.attributedContentText = defaultContentText;
     [itemSource setAttributedContentText:twitterContentText forActivityType:UIActivityTypePostToTwitter];
     
-    NSExtensionItem *defaultExtensionItem = [itemSource activityViewController:nil itemForActivityType:nil];
-    NSExtensionItem *twitterExtensionItem = [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter];
+    NSExtensionItem *defaultExtensionItem = [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToFacebook];
+    NSExtensionItem *twitterExtensionItem = [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToTwitter];
     
     XCTAssertNotNil(defaultExtensionItem.attributedContentText);
     XCTAssertNotNil(twitterExtensionItem.attributedContentText);
     
     [itemSource setAttributedContentText:nil forActivityType:nil];
     
-    defaultExtensionItem = [itemSource activityViewController:nil itemForActivityType:nil];
-    twitterExtensionItem = [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter];
+    defaultExtensionItem = [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToFacebook];
+    twitterExtensionItem = [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToTwitter];
     
     XCTAssertNil(defaultExtensionItem.attributedContentText);
     XCTAssertNotNil(twitterExtensionItem.attributedContentText);
     
     [itemSource setAttributedContentText:nil forActivityType:UIActivityTypePostToTwitter];
 
-    defaultExtensionItem = [itemSource activityViewController:nil itemForActivityType:nil];
-    twitterExtensionItem = [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter];
+    defaultExtensionItem = [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToFacebook];
+    twitterExtensionItem = [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToTwitter];
     
     XCTAssertNil(defaultExtensionItem.attributedContentText);
     XCTAssertNil(twitterExtensionItem.attributedContentText);
@@ -358,13 +358,13 @@
     defaultExpected.attachments = @[[[NSItemProvider alloc] initWithItem:URL typeIdentifier:(NSString *)kUTTypeURL],
                                     [[NSItemProvider alloc] initWithItem:defaultText typeIdentifier:(NSString *)kUTTypePlainText]];
     
-    XExtensionItemAssertEqualItems(defaultExpected, [itemSource activityViewController:nil itemForActivityType:nil]);
+    XExtensionItemAssertEqualItems(defaultExpected, [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToFacebook]);
     
     NSExtensionItem *twitterExpected = [[NSExtensionItem alloc] init];
     twitterExpected.attachments = @[[[NSItemProvider alloc] initWithItem:URL typeIdentifier:(NSString *)kUTTypeURL],
                                     [[NSItemProvider alloc] initWithItem:twitterText typeIdentifier:(NSString *)kUTTypePlainText]];
     
-    XExtensionItemAssertEqualItems(twitterExpected, [itemSource activityViewController:nil itemForActivityType:UIActivityTypePostToTwitter]);
+    XExtensionItemAssertEqualItems(twitterExpected, [itemSource activityViewController:[[self class] activityViewController] itemForActivityType:UIActivityTypePostToTwitter]);
 }
 
 - (void)testAdditionalAttachmentsForActivityTypeClearedByPassingNil {
@@ -440,14 +440,14 @@
         
     };
     
-    XCTAssertEqualObjects(emailImage, [itemSource activityViewController:nil thumbnailImageForActivityType:UIActivityTypePostToTwitter suggestedSize:CGSizeZero]);
-    XCTAssertEqualObjects(defaultImage, [itemSource activityViewController:nil thumbnailImageForActivityType:UIActivityTypeMail suggestedSize:CGSizeZero]);
+    XCTAssertEqualObjects(emailImage, [itemSource activityViewController:[[self class] activityViewController] thumbnailImageForActivityType:UIActivityTypePostToTwitter suggestedSize:CGSizeZero]);
+    XCTAssertEqualObjects(defaultImage, [itemSource activityViewController:[[self class] activityViewController] thumbnailImageForActivityType:UIActivityTypeMail suggestedSize:CGSizeZero]);
 }
 
 - (void)testActivityItemSourceDelegateDoesNotThrowIfNoThumbnailBlock {
     XExtensionItemSource *itemSource = [[XExtensionItemSource alloc] initWithString:@""];
 
-    XCTAssertNoThrow([itemSource activityViewController:nil thumbnailImageForActivityType:UIActivityTypePostToTwitter suggestedSize:CGSizeZero]);
+    XCTAssertNoThrow([itemSource activityViewController:[[self class] activityViewController] thumbnailImageForActivityType:UIActivityTypePostToTwitter suggestedSize:CGSizeZero]);
 }
 
 #pragma mark - Custom parameters
@@ -503,6 +503,10 @@
 }
 
 #pragma mark - Misc.
+
++ (UIActivityViewController *)activityViewController {
+    return [[UIActivityViewController alloc] initWithActivityItems:@[] applicationActivities:@[]];
+}
 
 - (void)testTypeSafety {
     /*

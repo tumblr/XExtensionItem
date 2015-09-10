@@ -2,6 +2,12 @@
 
 static NSString * const CustomParameterKey = @"CustomParameterKey";
 
+@interface CustomParameters ()
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary NS_DESIGNATED_INITIALIZER;
+
+@end
+
 @implementation CustomParameters
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
