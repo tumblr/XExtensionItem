@@ -20,13 +20,13 @@
         /*
          Look through each extension item’s attachments array and load each attachments’ items.
          */
-        for (NSItemProvider *itemProvider in xExtensionItem.attachments) {
-            for (NSString *typeIdentifier in itemProvider.registeredTypeIdentifiers) {
-                [itemProvider loadItemForTypeIdentifier:typeIdentifier options:nil completionHandler:^(id <NSSecureCoding> attachmentItem, NSError *error) {
-                    NSLog(@"Attachment item: %@", attachmentItem);
-                }];
-            }
-        }
+//        for (NSItemProvider *itemProvider in xExtensionItem.attachments) {
+//            for (NSString *typeIdentifier in itemProvider.registeredTypeIdentifiers) {
+//                [itemProvider loadItemForTypeIdentifier:typeIdentifier options:nil completionHandler:^(id <NSSecureCoding> attachmentItem, NSError *error) {
+//                    NSLog(@"Attachment item: %@", attachmentItem);
+//                }];
+//            }
+//        }
         
         /*
          Pull out some generic parameters.
