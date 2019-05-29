@@ -107,7 +107,7 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
  Specify additional attachments to be used for a specific activity type only. Passing `nil` for the activity type will
  cause the provided attachments to be used for all types.
  
- @param additionalAttachments Attachments.
+ @param attachments           Attachments.
  @param activityType          Activity type to use attachments for.
  */
 - (void)setAdditionalAttachments:(NSArray *)attachments forActivityType:(NSString *)activityType;
@@ -303,7 +303,7 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 /**
  @see `XExtensionItemSource`
  */
-@property (nonatomic, readonly) NSArray/*<NSItemProvider>*/ *attachments;
+@property (nonatomic, readonly) NSArray /* <NSItemProvider *> */ *attachments;
 
 /**
  @see `XExtensionItemSource`
@@ -318,7 +318,7 @@ typedef UIImage *(^XExtensionItemThumbnailProvidingBlock)(CGSize suggestedSize, 
 /**
  @see `XExtensionItemSource`
  */
-@property (nonatomic, readonly) NSArray/*<NSString>*/ *tags;
+@property (nonatomic, readonly) NSArray /* <NSString *> */ *tags;
 
 /**
  @see `XExtensionItemSource`
