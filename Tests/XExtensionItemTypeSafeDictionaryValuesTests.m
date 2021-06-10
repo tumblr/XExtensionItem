@@ -1,5 +1,5 @@
 @import XCTest;
-#import <XExtensionItem/XExtensionItemTypeSafeDictionaryValues.h>
+#import "XExtensionItemTypeSafeDictionaryValues.h"
 
 static NSString * const Key = @"key";
 
