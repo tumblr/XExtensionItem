@@ -15,12 +15,10 @@ let package = Package(
             name: "XExtensionItem",
             path: "Classes",
             publicHeadersPath: "include"
-        ),
-        /*
-        .testTarget(
-            name: "Tests",
-            path: "Tests"
         )
-        */
+//        .testTarget(
+//            name: "Tests",
+//            path: "Tests",
+//        )
     ]
 )
