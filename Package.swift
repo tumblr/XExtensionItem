@@ -5,17 +5,23 @@ import PackageDescription
 
 let package = Package(
     name: "XExtensionItem",
+    platforms: [
+        .iOS(.v15)
+    ],
     products: [
         .library(
             name: "XExtensionItem",
-            targets: ["XExtensionItem", "XExtensionItemCustom"]
+            targets: ["XExtensionItem"]
         ),
+        .library(
+            name: "XExtensionItemCustom",
+            targets: ["XExtensionItemCustom"])
     ],
     targets: [
         .target(
             name: "XExtensionItem",
             path: "XExtensionItem",
-            exclude: ["Custom"],
+            exclude: ["Custom", "Info.plist", "module.modulemap"],
             publicHeadersPath: "include"
         ),
         .target(
