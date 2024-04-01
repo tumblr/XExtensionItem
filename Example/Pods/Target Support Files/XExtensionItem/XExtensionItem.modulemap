@@ -1,5 +1,5 @@
 framework module XExtensionItem {
-  umbrella header "Pods-Extension-XExtensionItem-umbrella.h"
+  umbrella header "XExtensionItem-umbrella.h"
 
   export *
   module * { export * }

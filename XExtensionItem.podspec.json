@@ -11,7 +11,7 @@
     "file": "LICENSE"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "14.0"
   },
   "requires_arc": true,
   "source": {
@@ -25,13 +25,13 @@
   "subspecs": [
     {
       "name": "Core",
-      "source_files": "XExtensionItem/*.{h,m}",
-      "public_header_files": "XExtensionItem/*.h"
+      "source_files": "XExtensionItem/**/*.{h,m}",
+      "public_header_files": "XExtensionItem/include/*.h"
     },
     {
       "name": "Tumblr",
-      "source_files": "XExtensionItem/Custom/Tumblr/*.{h,m}",
-      "public_header_files": "XExtensionItem/Custom/Tumblr/*.h",
+      "source_files": "XExtensionItem/Custom/Tumblr/**/*.{h,m}",
+      "public_header_files": "XExtensionItem/Custom/Tumblr/include/*.h",
       "dependencies": {
         "XExtensionItem/Core": []
       }
