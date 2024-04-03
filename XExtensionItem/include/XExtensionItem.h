@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "XExtensionItemReferrer.h"
 #import "XExtensionItemCustomParameters.h"
+#import "XExtensionItemTypeSafeDictionaryValues.h"
 
 /**
  A data structure that application developers can use to pass well-defined data structures into iOS 8 extensions 
